@@ -1,10 +1,12 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { isLoggedin } from '../auth';
+import { useSelector } from "react-redux";
 
-const userRoutes=()=> {
-    console.log(isLoggedin);
-    return isLoggedin() ? <Outlet/> : <Navigate to ={"/login"}/>
+const UserRoutes=()=> {
+    
+    const { isLoggedIn } = useSelector((state) => state.ezLogin);
+    console.log('isLoggedIn',isLoggedIn);
+    return isLoggedIn ? <Outlet/> : <Navigate to ={"/login"}/>
 }
 
-export default userRoutes;
+export default UserRoutes;

@@ -2,10 +2,11 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { isLoggedin } from '../auth';
+import { useSelector } from "react-redux";
 
 
 function EzNavbar() {
+  const { isLoggedIn } = useSelector((state) => state.ezLogin);
   return (
     <Navbar bg="dark" variant='dark'>
       <Container>
@@ -14,7 +15,7 @@ function EzNavbar() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="/about">About</Nav.Link>
-           { isLoggedin()?<Nav.Link href="/user">user</Nav.Link>:<></>}
+           { isLoggedIn ?<Nav.Link href="/user">user</Nav.Link>:<></>}
             {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">

@@ -1,100 +1,109 @@
-// LoginForm.js
-import React, { useState } from "react";
-import { toast,ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { login } from "../service/services";
-import { doLogin } from "../auth";
-import './Login.css';
-import { actions } from "../redux/AuthActions";
+import React, { useState, useEffect  } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
-// toast.configure();
-const Login = (props) => {
+import { doEzLogin } from "../redux/ezLoginSlice";
+import { clearMessage } from "../redux/message";
 
-  console.log('props',props)
-  //   toast.configure();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+const Login = () => {
+  let navigate = useNavigate();
 
-  const [loginDetails, setLoginDetails] = useState({
+  const [loading, setLoading] = useState(false);
+
+  const { isLoggedIn } = useSelector((state) => state.ezLogin);
+  const { message } = useSelector((state) => state.message);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(clearMessage());
+  }, [dispatch]);
+
+  const initialValues = {
     username: "",
     password: "",
+  };
+
+  const validationSchema = Yup.object().shape({
+    username: Yup.string().required("This field is required!"),
+    password: Yup.string().required("This field is required!"),
   });
 
+  const handleLogin = (formValue) => {
+    const { username, password } = formValue;
+    setLoading(true);
 
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
+    dispatch(doEzLogin({ username, password }))
+      .unwrap()
+      .then(() => {
+        navigate("/user/dashboard");
+        // window.location.reload();
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const onReset=()=>{
-    setUsername('');
-    setPassword('');
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(username);
-    if (username.trim() == "" || password.trim() == "") {
-      toast.error("username or password not entered ", {
-        position: toast.POSITION.TOP_CENTER
-      });
-      return;
-    }
-
-    actions.getTokenAndUserDetails(username,password);
-
-    login(username, password).then((response)=>{
-      console.log("jwttoken ",response);
-      doLogin(response,()=>{
-        console.log('login details saved to local storage')
-      });
-      toast.success('login sucess', {
-        position: toast.POSITION.TOP_CENTER
-      });
-    }).catch(response=>{
-      console.log('response.status',response.status)
-      if(response.status === 401){
-        console.log();
-        toast.error('user not authorized', {
-          position: toast.POSITION.TOP_CENTER
-        });
-      }else{
-        toast.error(response.data.message, {
-          position: toast.POSITION.TOP_CENTER
-        });
-      }
-      
-    })
-
-  };
+  // if (isLoggedIn) {
+  //   return <Navigate to="/profile" />;
+  // }
 
   return (
-    <div className="form-box">
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Username:</label>
-        <input type="text" value={username} onChange={handleUsernameChange} />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input
-          type="password"
-          value={password}
-          onChange={handlePasswordChange}
+    <div className="col-md-12 login-form">
+      <div className="card card-container">
+        <img
+          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+          alt="profile-img"
+          className="profile-img-card"
         />
-      </div>
-      <button type="submit">Login</button>
-      <br></br>
-      <br></br>
-      <ToastContainer
-       />
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleLogin}
+        >
+          <Form>
+            <div className="form-group">
+              <label htmlFor="username">Username</label>
+              <Field name="username" type="text" className="form-control" />
+              <ErrorMessage
+                name="username"
+                component="div"
+                className="alert alert-danger"
+              />
+            </div>
 
-    </form>
- <button onClick={onReset}>Reset</button>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <Field name="password" type="password" className="form-control" />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="alert alert-danger"
+              />
+            </div>
+
+            <div className="form-group">
+              <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
+                {loading && (
+                  <span className="spinner-border spinner-border-sm"></span>
+                )}
+                <span>Login</span>
+              </button>
+            </div>
+          </Form>
+        </Formik>
       </div>
+
+      {message && (
+        <div className="form-group">
+          <div className="alert alert-danger" role="alert">
+            {message}
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 
