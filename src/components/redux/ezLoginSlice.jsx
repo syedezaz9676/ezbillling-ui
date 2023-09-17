@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import authService from "../../services/auth.service";
 import { setMessage } from "./message";
@@ -21,6 +21,23 @@ export const doEzLogin = createAsyncThunk(
       }
     }
   );
+
+  export const doLogout = createSlice({
+    name: 'logout',
+    initialState:{
+      isLoading:false,
+      data:null,
+      isLoggedIn : false
+      },
+    reducers: {
+      // Add your logout action here
+      ezlogout: (state) => {
+        state.isLoggedIn = false;
+        state.UserDetails = null;
+        // Reset other state properties as needed
+      },
+    },
+  });
 const ezLoginSlice = createSlice({
     name:"ezLogin",
     initialState:{
@@ -45,5 +62,6 @@ const ezLoginSlice = createSlice({
         })
     }
 });
-
+export const ezlogout = createAction('ezlogin/logout');
+// export const {ezlogout}  = ezLoginSlice.actions;
 export default ezLoginSlice.reducer;

@@ -14,11 +14,14 @@ function Company() {
       let res = await fetch("http://localhost:8080/savecompanydetails", {
         method: "POST",
          headers: new Headers({
+                'Access-Control-Allow-Origin': '*',
+                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlemF6IiwiZXhwIjoxNjk0NDA0NDM5LCJpYXQiOjE2OTQzNjg0Mzl9.1kQ33hVsk2-YlU3lbK20opiEac3F4PAvohz304stb9s',
                 'Accept': 'text/plain;charset=UTF-',
                 'Content-Type': 'application/json; charset=utf-8',
-                'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
                 'Access-Control-Request-Method': 'GET, POST, DELETE, PUT, OPTIONS',
+                'Access-Control-Allow-Credentials':'true',
+                'withCredentials': 'true',
               }),
         body: JSON.stringify({
           name: name,

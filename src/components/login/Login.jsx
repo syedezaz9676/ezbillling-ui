@@ -37,8 +37,10 @@ const Login = () => {
 
     dispatch(doEzLogin({ username, password }))
       .unwrap()
-      .then(() => {
-        navigate("/user/dashboard");
+      .then((response) => {
+        localStorage.setItem('user',JSON.stringify(response.UserDetails.data));
+        dispatch(clearMessage());
+        navigate("/com");
         // window.location.reload();
       })
       .catch(() => {

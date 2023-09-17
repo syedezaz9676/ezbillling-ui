@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^14.1.1",
     "axios": "^0.27.2",
     "bootstrap": "^5.3.1",
+    "cors": "^2.8.5",
     "fetch-retry": "^1.1.1",
     "formik": "^2.4.3",
     "react": "^18.2.0",
@@ -48,5 +49,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {
+    "http-proxy-middleware": "^2.0.6"
+  },
+  "proxy": "http://localhost:8081"
 }

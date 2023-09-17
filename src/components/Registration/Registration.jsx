@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { register } from "../slices/auth";
 import { clearMessage } from "../slices/message";
 
-const CustomerRegister = () => {
+const Register = () => {
   const [successful, setSuccessful] = useState(false);
 
   const { message } = useSelector((state) => state.message);
@@ -136,4 +136,4 @@ const CustomerRegister = () => {
   );
 };
 
-export default CustomerRegister;
+export default Register;
