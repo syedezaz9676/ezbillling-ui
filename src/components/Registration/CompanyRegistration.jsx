@@ -5,80 +5,117 @@ import { Navigate, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { doCustomerRegistration } from "../redux/ezCustomerRegistrationSlice";
 import { clearMessage } from "../redux/message";
-import { getCompanyDetails,saveCompanyDetails } from "../redux/slices/companydetails/ezCompanyDetailsSlice"; 
+import { getCompanyDetails, saveCompanyDetails } from "../redux/slices/companydetails/ezCompanyDetailsSlice";
+import { hideEdit } from "../redux/slices/ezEnableFiledSlice";
 
-// ... (previous imports)
+
 
 const CompanyRegistration = () => {
+
     let navigate = useNavigate();
     const [successful, setSuccessful] = useState(false);
-
+    const { UserDetails } = useSelector((state) => state.ezLogin);
     const { message } = useSelector((state) => state.message);
-    const { companyDeatils } = useSelector((state) => state.ezCompanyDetails);
-    const [gstPerList, setGstPerList] = useState([""]); // Initialize with an empty string
+    const [myArray, setMyArray] = useState([""]);
+    const { companyDeatils, companyDetailsByID} = useSelector((state) => state.ezCompanyDetails);
+    const {isEdit } = useSelector((state) => state.ezEnableField);
+    const comgstp = companyDetailsByID ? companyDetailsByID.gstPercentage : []
+
+    const editGstPerList = [];
+    if (companyDetailsByID) {
+        for (let i = 0; i < comgstp.length; i++) {
+            const newObj = " "; 
+            editGstPerList.push(newObj);
+        }
+
+    }
+    const [gstPerList, setGstPerList] = useState(isEdit && companyDetailsByID ? editGstPerList : [""]);
     const dispatch = useDispatch();
 
+
+
     const isNameUnique = (value) => {
-        console.log("in isnameunique",companyDeatils)
-        let names=[];
-        companyDeatils.map((companydetail,index)=>(
-            console.log("companydetail.name",companydetail.name),
-            names[index]=companydetail.name
+        console.log("in isnameunique", companyDeatils)
+        let names = [];
+        companyDeatils.map((companydetail, index) => (
+            console.log("companydetail.name", companydetail.name),
+            names[index] = companydetail.name
         ))
-        console.log("names",names)
-        return !names.includes(value);
-      };
+        console.log("names", names)
+        return isEdit? true:!names.includes(value);
+    };
+
+    const userID = UserDetails.user.id;
 
     useEffect(() => {
-        dispatch(getCompanyDetails())
-          .unwrap()
-          .then(() => {
-            // navigate("/user/dashboard");
-            // window.location.reload();
-          })
-          .catch(() => {
-          });
+        dispatch(getCompanyDetails({ userID }))
+            .unwrap()
+            .then(() => {
+                // navigate("/dashboard");
+                // window.location.reload();
+            })
+            .catch(() => {
+            });
     }, [dispatch]);
 
-    //   const { GstCodeDetails } = useSelector((state) => state.ezgetGstCodeDetails);
+    const editInitialValues = {
+        name: (isEdit && companyDetailsByID) ? companyDetailsByID.name : '',
+        gstPer: (isEdit  && companyDetailsByID) ? companyDetailsByID.gstPercentage : []
+    };
 
     const initialValues = {
-        name: "",
+        name: '',
         gstPer: []
     };
 
     const validationSchema = Yup.object().shape({
         name: Yup.string()
-          .min(3, 'The name must be at least 3 characters.')
-          .max(20, 'The name must be at most 20 characters.')
-          .test('is-unique', 'Company name already exists.', isNameUnique)
-          .required('Company Name is required.'),
+            .min(3, 'The name must be at least 3 characters.')
+            .max(20, 'The name must be at most 20 characters.')
+            .test('is-unique', 'Company name already exists.', isNameUnique)
+            .required('Company Name is required.'),
         gstPer: Yup.array()
-          .of(
-            Yup.number()
-              .typeError('GST Percentage must be a number.')
-              .min(0, 'GST Percentage must be greater than or equal to 0.')
-              .max(100, 'GST Percentage must be less than or equal to 100.')
-          )
-          .min(1, 'At least one GST Percentage is required.') // Require at least one item in the array
-          .required('At least one GST Percentage is required.'), // Make sure at least one GST Percentage is entered
-      });
+            .of(
+                Yup.number()
+                    .typeError('GST Percentage must be a number.')
+                    .min(0, 'GST Percentage must be greater than or equal to 0.')
+                    .max(100, 'GST Percentage must be less than or equal to 100.')
+            )
+            .min(1, 'At least one GST Percentage is required.') // Require at least one item in the array
+            .required('At least one GST Percentage is required.'), // Make sure at least one GST Percentage is entered
+    });
 
     const handleRegister = (formValue) => {
         console.log('formValue', formValue);
-        const companyrDetails={
-            "name":formValue.name,
-            "gstPercentage":formValue.gstPer
-        } 
+        
+        const editedCompanyDetails={
+            "id":isEdit ?companyDetailsByID.id:'',
+            "name": formValue.name,
+            "gstPercentage": formValue.gstPer,
+            "dgst": UserDetails.user.id
+        }
+
+        const createcompanyrDetails = {
+            "name": formValue.name,
+            "gstPercentage": formValue.gstPer,
+            "dgst": UserDetails.user.id
+        }
+
+        const companyrDetails =isEdit ? editedCompanyDetails :createcompanyrDetails
+
         console.log('companyrDetails in cr', companyrDetails);
-        dispatch(saveCompanyDetails({companyrDetails}))
-          .unwrap()
-          .then(() => {
-            navigate("/login");
-            // window.location.reload();
-          })
-          .catch(() => {
-          });
+        dispatch(saveCompanyDetails({ companyrDetails }))
+            .unwrap()
+            .then(() => {
+                navigate("/dashboard");
+
+                // window.location.reload();
+            })
+            .catch(() => {
+            });
+
+            dispatch(hideEdit())    
+
     };
 
     const handleAddPlayers = () => {
@@ -93,10 +130,11 @@ const CompanyRegistration = () => {
 
     return (
         <div className="col-md-12 signup-form">
+            {console.log('gstPerList', gstPerList)}
             <div className="card card-container">
-                <h3>Company Registration</h3>
+                <h3>{isEdit ? "Edit Company Details" :"Company Registration"}</h3>
                 <Formik
-                    initialValues={initialValues}
+                    initialValues={isEdit ? editInitialValues : initialValues}
                     validationSchema={validationSchema}
                     onSubmit={handleRegister}
                 >
@@ -125,7 +163,7 @@ const CompanyRegistration = () => {
                                 name="gstPer"
                                 render={(arrayHelpers) => (
                                     <>
-                                        {gstPerList.map((_, index) => (
+                                        {gstPerList && gstPerList.map((_, index) => (
                                             <div key={index}>
                                                 <div className="form-group">
                                                     <label htmlFor={`gstPer[${index}]`}>GST Percentage</label>

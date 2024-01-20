@@ -21,7 +21,7 @@ function EzNavbar() {
     // Clear the authentication token or relevant data from local storage
     // localStorage.removeItem('user'); // Replace 'authToken' with your actual key
   
-    dispatch(ezlogout);
+    dispatch(ezlogout());
   
     // Redirect to the login page or perform any other logout actions
     // For example, you can use react-router-dom for redirection
@@ -34,9 +34,9 @@ function EzNavbar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/about">About</Nav.Link>
-           { isLoggedIn ?<Nav.Link onClick={()=>navigate("/customerreg")}>Add Customer</Nav.Link>:<></>}
-           { isLoggedIn ?<Nav.Link onClick={()=>navigate("/companyregistration")}>Add Company Details</Nav.Link>:<></>}
+            <Nav.Link onClick={()=>navigate("/dashboard")}>Dashboard</Nav.Link>
+           {/* { isLoggedIn ?<Nav.Link onClick={()=>navigate("/customerreg")}>Add Customer</Nav.Link>:<></>}
+           { isLoggedIn ?<Nav.Link onClick={()=>navigate("/companyregistration")}>Add Company Details</Nav.Link>:<></>} */}
             {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
@@ -55,4 +55,4 @@ function EzNavbar() {
   );
 }
 
-export default EzNavbar;
+export default EzNavbar; 

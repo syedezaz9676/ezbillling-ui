@@ -1,0 +1,23 @@
+  .form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .form-p{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .form-group {
+    flex: 1;
+    margin-right: 10px;
+  }
+  .form-length {
+    max-width: 100%;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }

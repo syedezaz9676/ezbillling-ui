@@ -43,7 +43,8 @@ const ezLoginSlice = createSlice({
     initialState:{
     isLoading:false,
     data:null,
-    isLoggedIn : false
+    isLoggedIn : false,
+    UserDetails: null,
     },
     extraReducers: (builder) => {
         builder.addCase(doEzLogin.pending, (state, action)=>{
@@ -62,6 +63,6 @@ const ezLoginSlice = createSlice({
         })
     }
 });
-export const ezlogout = createAction('ezlogin/logout');
-// export const {ezlogout}  = ezLoginSlice.actions;
+// export const ezlogout = createAction('ezlogin/logout');
+export const {ezlogout}  = doLogout.actions;
 export default ezLoginSlice.reducer;

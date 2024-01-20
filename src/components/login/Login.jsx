@@ -40,7 +40,7 @@ const Login = () => {
       .then((response) => {
         localStorage.setItem('user',JSON.stringify(response.UserDetails.data));
         dispatch(clearMessage());
-        navigate("/com");
+        navigate("/dashboard");
         // window.location.reload();
       })
       .catch(() => {
