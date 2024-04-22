@@ -4,7 +4,8 @@ import { createSlice } from "@reduxjs/toolkit";
     name: 'enablefield',
     initialState:{
         isenable:false,
-        isEdit:false
+        isEdit:false,
+        isshowBill:false
       },
     reducers: {
       // Add your logout action here
@@ -24,10 +25,23 @@ import { createSlice } from "@reduxjs/toolkit";
       hideEdit: (state, action) => {
         state.isEdit = false;
         // Reset other state properties as needed
-      }
+      },
+      resetInvoiceNo: (state, action) => {
+        state.ezInvoiceDetails.InvoiceNo = {};
+        // Reset other state properties as needed
+      },
+      showBill: (state, action) => {
+        console.log("in sf",action)
+        state.isshowBill = true;
+        // Reset other state properties as needed
+      },
+      hideBill: (state, action) => {
+        state.isshowBill = false;
+        // Reset other state properties as needed
+      },
     },
   });
 
-export const {ezhideField,ezshowField,showEdit,hideEdit}  = ezEnableFieldSlice.actions;
+export const {ezhideField,ezshowField,showEdit,hideEdit,resetInvoiceNo,showBill,hideBill}  = ezEnableFieldSlice.actions;
 
 export default ezEnableFieldSlice.reducer;

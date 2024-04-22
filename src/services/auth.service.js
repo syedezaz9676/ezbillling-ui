@@ -21,9 +21,9 @@ class AuthService {
 
   customerRegistration(customerDetails){
     return axios
-    .post('http://localhost:8080/savecustomerdetails', {
+    .post('http://localhost:8080/savecustomerdetails', 
      customerDetails
-    })
+    )
     .then(response => {
       return response;
     });

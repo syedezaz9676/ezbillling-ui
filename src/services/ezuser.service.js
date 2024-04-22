@@ -166,6 +166,112 @@ const saveBillDetails = (BillingDetails) => {
     });
 };
 
+const getInvoiceDetails = (InvoiceNo) => {
+  return axios.get('http://localhost:8080/getbillDetailsbyinvoiceno/' + InvoiceNo)
+    .then(response => {
+      console.log(response.data);
+      return response;
+    })
+    .catch(error => {
+      // setError(error);
+      console.log(error);
+    })
+};
+
+const getBillDetails = (InvoiceNo) => {
+  return axios.get('http://localhost:8080/getinvoicebyinvoiceno/' + InvoiceNo)
+    .then(response => {
+      console.log(response.data);
+      return response;
+    })
+    .catch(error => {
+      // setError(error);
+      console.log(error);
+    })
+};
+
+const updateBillDetails = (BillingDetails) => {
+  console.log('formValues', BillingDetails)
+  return axios.post('http://localhost:8080/updatebillingdetails',
+  BillingDetails
+  )
+    .then(response => {
+      console.log('updatebillingdetails resp', response)
+      return response;
+    });
+};
+
+const getGstDetailsOfCustomer = (dates) => {
+  console.log('dates', dates);
+
+  return axios.get('http://localhost:8080/getgstdetails', {params: {
+    startDate: dates.startDate,
+    endDate: dates.endDate
+  }})
+  .then(response => {
+    return response;
+  });
+};
+
+const getGstDetailsForHsnCode = (dates) => {
+  console.log('dates', dates);
+
+  return axios.get('http://localhost:8080/gethsngstdetails', {params: {
+    startDate: dates.startDate,
+    endDate: dates.endDate
+  }})
+  .then(response => {
+    return response;
+  });
+};
+
+const getStockDetailsByID = (id) => {
+  return axios.get('http://localhost:8080/getstockdetailsbyid/' + id)
+    .then(response => {
+      console.log(response.data);
+      return response;
+    })
+    .catch(error => {
+      // setError(error);
+      console.log(error);
+    })
+};
+
+const saveStockDetails = (StockDetails) => {
+  console.log('request', StockDetails)
+  return axios.post('http://localhost:8080/savestockdetails',
+  StockDetails
+  )
+    .then(response => {
+      console.log('saveBilling resp', response)
+      return response;
+    });
+};
+
+const getStockDetailsByDgst = (dgst) => {
+  return axios.get('http://localhost:8080/getstockbypcomanddgst/' + dgst )
+    .then(response => {
+      console.log(response.data);
+      return response;
+    })
+    .catch(error => {
+      // setError(error);
+      console.log(error);
+    })
+};
+
+const getSalesDetails = (dates) => {
+  console.log('dates', dates);
+
+  return axios.get('http://localhost:8080/getsalesdetails', {params: {
+    startDate: dates.startDate,
+    endDate: dates.endDate
+  }})
+  .then(response => {
+    return response;
+  });
+};
+
 const UserService = {
   getGstCodeDetails,
   saveCompanyDetails,
@@ -180,9 +286,16 @@ const UserService = {
   getCustomerDetailsByID,
   getProductDetailsByCompany,
   getCustomerDetailsByDgst,
-  saveBillDetails
+  saveBillDetails,
+  getInvoiceDetails,
+  getBillDetails,
+  updateBillDetails,
+  getGstDetailsOfCustomer,
+  getGstDetailsForHsnCode,
+  getStockDetailsByID,
+  saveStockDetails,
+  getStockDetailsByDgst,
+  getSalesDetails
+
 }
-
-
-
 export default UserService;

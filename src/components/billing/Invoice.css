@@ -1,0 +1,68 @@
+.invoice-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center; /* Center the content horizontally */
+    width: fit-content;
+  }
+  
+  .centered-text {
+    font-size: 18px; /* Adjust font size as needed */
+    /* margin-bottom: 20px; Add some space between "TAX Invoice" and the table */
+  }
+  
+  .tables-container {
+    display: flex;
+    justify-content: center;
+    width: -webkit-fill-available;
+    table td {
+      /* padding: 8px; */
+      border: none;
+      text-align: left; /* Align text to the left */
+    }
+  }
+  .tables-container-items {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    table td{
+      height: auto;
+      white-space: nowrap;
+    }
+  }
+  
+  .table-wrapper {
+    margin-right: 0; /* Remove margin between table wrappers */
+    width: 250px; /* Set fixed width for the table wrapper */
+    border-collapse: collapse;
+    border: 1px solid black;
+    width: 100%; 
+    height: 160px;
+  }
+  
+  table {
+    /* border-collapse: collapse;
+    border: 1px solid black;
+    width: 100%; 
+    height: 250px; */
+  }
+  
+  /* Remove borders from table cells */
+  
+  table th {
+    height: 50px;
+    width: 75px;
+    border-bottom: 1px solid;
+  }
+  .product-details-table{
+    border-collapse: collapse;
+    border: 1px solid black; /* Add border to the table */
+    width: 150px; /* Ensure table takes up 100% width of its container */
+    height: 250px; /* Set fixed height for the table */
+  }
+  .table-wrapper-items{
+    margin-right: 0; /* Remove margin between table wrappers */
+    border-collapse: collapse;
+    border: 1px solid black;
+    width: 80%; 
+  }

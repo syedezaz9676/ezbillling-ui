@@ -19,7 +19,7 @@ export const store = configureStore({
       ezCompanyDetails:ezCompanyDetailsReducer,
       ezProductDetails:ezProductDetailsReducer,
       ezEnableField:ezEnableFieldReducer,
-      ezBillingDetailsReducer
+      ezInvoiceDetails:ezBillingDetailsReducer
 
    }
 });

@@ -86,7 +86,9 @@ const ezCustomerRegistrationSlice = createSlice({
   initialState: {
     data: null,
     isCustomerRegistrationDone: false,
-    customerDetailsByDgst:[]
+    customerDetailsByDgst:[],
+    customerDetailsByID:{}
+    
   },
   extraReducers: (builder) => {
     builder.addCase(doCustomerRegistration.pending, (state, action) => {

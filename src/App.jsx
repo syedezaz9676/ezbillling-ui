@@ -5,6 +5,7 @@ import UserRoutes from "./components/userRoutes/userRoutes";
 import {
   Routes, // instead of "Switch"
   Route,
+  Navigate 
 } from "react-router-dom";
 import Navbar from "./components/navbar/EzNavbar";
 import './App.css';
@@ -28,6 +29,15 @@ import CompanyDetailsTable from "./components/tables/CompanyDetailsTable";
 import ProductDetailsTable from "./components/tables/ProductDetailsTable";
 import Billing from "./components/billing/Billing";
 import MyForm from "./components/billing/MyForm";
+import Invoice from "./components/billing/Invoice";
+import EditInvoice from "./components/billing/editInvoice/EditInvoice";
+import ViewInvoice from "./components/billing/ViewInvoice";
+import GstReportOfCustomers from "./components/reports/GstReportOfCustomers";
+import GstReportForHsnCode from "./components/reports/GstReportForHsnCode";
+import AddStock from "./components/stock/AddStock";
+import AddStockDetails from "./components/stock/AddStockDetails";
+import StockDetailsTable from "./components/tables/StockDetailsTable";
+import SalesReport from "./components/reports/SalesReport";
 
 
 const App = (props) => {
@@ -54,7 +64,6 @@ useEffect(()=>{
 dispatch(hideEdit())
 },[window.location.href])
 
-
   return (
 
     <div>
@@ -78,6 +87,16 @@ dispatch(hideEdit())
           <Route path="/productstable" element={<ProductDetailsTable />}/>
           <Route path="/generatebill" element={<Billing />}/>
           <Route path="/myform" element={<MyForm />}/>
+          <Route path="/invoice" element={<Invoice />}/>
+          <Route path="/editinvoice" element={<EditInvoice />}/>
+          <Route path="/viewinvoice" element={<ViewInvoice/>}/>
+          <Route path="/gstdetailsofcustomer" element={<GstReportOfCustomers/>}/>
+          <Route path="/gstdetailsforhsncode" element={<GstReportForHsnCode/>}/>
+          <Route path="/addstock" element={<AddStock/>}/>
+          <Route path="/addstockdetails" element={<AddStockDetails/>}/>
+          <Route path="/stocktable" element={<StockDetailsTable/>}/>
+          <Route path="/salesreport" element={<SalesReport/>}/>
+          {/* {UserDetails != null && <Navigate to="/login" />} */}
         </Routes>
       </div>
     </div>
