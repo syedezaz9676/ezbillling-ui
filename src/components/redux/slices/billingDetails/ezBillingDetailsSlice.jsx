@@ -201,6 +201,66 @@ export const getSalesDetails = createAsyncThunk(
     }
   }
 );
+
+export const saveUser = createAsyncThunk(
+  "saveUser",
+  async ({ user }, thunkAPI) => {
+    try {
+      const savedUserStatus = await UserService.saveUser(user);
+      return { savedUserStatus };
+    } catch (error) {
+      console.log('eror',error);
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
+export const getUsers = createAsyncThunk(
+  "getUsers",
+  async (thunkAPI) => {
+    try {
+      const Users = await UserService.getUsers();
+      return { Users };
+    } catch (error) {
+      console.log('eror',error);
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
+export const getUser = createAsyncThunk(
+  "getUser",
+  async ({ userName }, thunkAPI) => {
+    try {
+      const User = await UserService.getUser(userName);
+      return { User };
+    } catch (error) {
+      console.log('eror',error);
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
 export const hideGstDetailsOfCustomer = createAsyncThunk(
   "hideGstDetailsOfCustomer",
  
@@ -225,7 +285,8 @@ const ezBillingDetailsSlice = createSlice({
     isenable: false,
     isgetInvoiceDetailsSucess:false,
     GstDetailsOfCustomer:null,
-    GstDetailsforHsncode:null
+    GstDetailsforHsncode:null,
+    Users:[]
   },
   extraReducers: (builder) => {
     builder.addCase(saveBillingDetails.pending, (state, action) => {
@@ -369,6 +430,48 @@ const ezBillingDetailsSlice = createSlice({
       console.log('Error', action.payload);
       state.isError = true;
       state.isgetSalesDetailsPending = false;
+    });
+    builder.addCase(saveUser.pending, (state, action) => {
+      // state.isLoading = true;
+      state.isSaveUserPending = true;
+    });
+    builder.addCase(saveUser.fulfilled, (state, action) => {
+      // state.isLoading = false;
+      state.savedUserStatus = action.payload.savedUserStatus.data;
+      state.isSaveUserPending = false;
+    });
+    builder.addCase(saveUser.rejected, (state, action) => {
+      console.log('Error', action.payload);
+      state.isError = true;
+      state.isSaveUserPending = false;
+    });
+    builder.addCase(getUsers.pending, (state, action) => {
+      // state.isLoading = true;
+      state.isUsersrPending = true;
+    });
+    builder.addCase(getUsers.fulfilled, (state, action) => {
+      // state.isLoading = false;
+      state.Users = action.payload.Users.data;
+      state.isUsersPending = false;
+    });
+    builder.addCase(getUsers.rejected, (state, action) => {
+      console.log('Error', action.payload);
+      state.isError = true;
+      state.isUsersPending = false;
+    });
+    builder.addCase(getUser.pending, (state, action) => {
+      // state.isLoading = true;
+      state.isUserPending = true;
+    });
+    builder.addCase(getUser.fulfilled, (state, action) => {
+      // state.isLoading = false;
+      state.User = action.payload.User.data;
+      state.isUserPending = false;
+    });
+    builder.addCase(getUser.rejected, (state, action) => {
+      console.log('Error', action.payload);
+      state.isError = true;
+      state.isUserPending = false;
     });
     builder.addCase(hideGstDetailsOfCustomer.pending, (state) => {
       console.log("in null")

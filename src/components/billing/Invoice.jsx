@@ -18,6 +18,8 @@ const Invoice = (props) => {
   let totalAmount_d= 0;
   let totalTax_d=0;
   let totalTaxable_d=0;
+  let totalCess=0;
+  let totalCess_d=0;
   // const InvoiceNo = savedInvoiceNo;
   const dispatch = useDispatch();
   const InvoiceNo1=isshowBill?props.viewInvoicebyno.billno:InvoiceNo;
@@ -283,6 +285,57 @@ const ddmmyyDateString = `${day}/${month}/${year}`;
         <div className="table-wrapper-items">
         <table>
           <tr>
+            <th>Cess</th>
+          </tr>
+          {InvoiceItems && InvoiceItems.map((InvoiceItem,i)=>{
+        return[
+         <tr>
+          <td>{InvoiceItem.cess}</td>
+         </tr>
+        ]
+       }
+
+       )}
+        <tr>
+        <td style={{height:26}}></td>
+       </tr>
+       <tr>
+        <td style={{height:27}}></td>
+       </tr>
+       <tr>
+          <td  style={{ borderTop: "1px solid black" }}><b>Totals</b></td>
+         </tr>
+        </table>
+        </div>
+        <div className="table-wrapper-items">
+        <table>
+          <tr>
+            <th>Cess AMT</th>
+          </tr>
+          {InvoiceItems && InvoiceItems.map((InvoiceItem,i)=>{
+            totalCess =totalCess+InvoiceItem.cessAmount
+        return[
+         <tr>
+          <td>{InvoiceItem.cessAmount.toFixed(2)}</td>
+         </tr>
+        ]
+       }
+
+       )}
+        <tr>
+        <td style={{height:26}}></td>
+       </tr>
+       <tr>
+        <td style={{height:27}}></td>
+       </tr>
+       <tr>
+          <td  style={{ borderTop: "1px solid black" }}><b>{totalCess.toFixed(2)}</b></td>
+         </tr>
+        </table>
+        </div>
+        <div className="table-wrapper-items">
+        <table>
+          <tr>
             <th>GST RATE</th>
           </tr>
           {InvoiceItems &&  InvoiceItems.map((InvoiceItem,i)=>{
@@ -299,9 +352,6 @@ const ddmmyyDateString = `${day}/${month}/${year}`;
        </tr>
        <tr>
         <td><b>SGST</b></td>
-       </tr>
-       <tr>
-        <td style={{ borderTop: "1px solid black" }}><b>Totals</b></td>
        </tr>
         </table>
         </div>
@@ -406,8 +456,11 @@ const ddmmyyDateString = `${day}/${month}/${year}`;
               <tr>
                 <td><b>Contact No :</b> {UserDetails.user.contact}</td>
               </tr>
-              <tr>
+              {/* <tr>
                 <td><b>Address :</b> {renderWithLineBreaks(UserDetails.user.address)}</td>
+              </tr> */}
+              <tr>
+                <td><b>Address :</b> {UserDetails.user.address}</td>
               </tr>
               <tr>
                 <td><b>State :</b> {UserDetails.user.state}</td>
@@ -567,6 +620,58 @@ const ddmmyyDateString = `${day}/${month}/${year}`;
         <div className="table-wrapper-items">
         <table>
           <tr>
+            <th>Cess</th>
+          </tr>
+          {InvoiceItems && InvoiceItems.map((InvoiceItem,i)=>{
+            
+        return[
+         <tr>
+          <td>{InvoiceItem.cess}</td>
+         </tr>
+        ]
+       }
+
+       )}
+       <tr>
+        <td style={{height:26}}></td>
+       </tr>
+       <tr>
+        <td style={{height:27}}></td>
+       </tr>
+       <tr>
+          <td  style={{ borderTop: "1px solid black" }}><b>Totals</b></td>
+         </tr>
+        </table>
+        </div>
+        <div className="table-wrapper-items">
+        <table>
+          <tr>
+            <th>Cess AMT</th>
+          </tr>
+          {InvoiceItems && InvoiceItems.map((InvoiceItem,i)=>{
+            totalCess_d =totalCess_d+InvoiceItem.cessAmount
+        return[
+         <tr>
+          <td>{InvoiceItem.cessAmount.toFixed(2)}</td>
+         </tr>
+        ]
+       }
+
+       )}
+       <tr>
+        <td style={{height:26}}></td>
+       </tr>
+       <tr>
+        <td style={{height:27}}></td>
+       </tr>
+       <tr>
+          <td  style={{ borderTop: "1px solid black" }}><b>{totalCess_d.toFixed(2)}</b></td>
+         </tr>
+        </table>
+        </div>
+        <div className="table-wrapper-items">
+        <table>
+          <tr>
             <th>GST RATE</th>
           </tr>
           {InvoiceItems &&  InvoiceItems.map((InvoiceItem,i)=>{
@@ -583,9 +688,6 @@ const ddmmyyDateString = `${day}/${month}/${year}`;
        </tr>
        <tr>
         <td><b>SGST</b></td>
-       </tr>
-       <tr>
-        <td style={{ borderTop: "1px solid black" }}><b>Totals</b></td>
        </tr>
         </table>
         </div>

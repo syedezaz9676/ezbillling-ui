@@ -105,6 +105,7 @@ const userID= UserDetails.user.id;
     is_sp: isEdit?productDetailsByID.is_sp:"",
     rel_prod: isEdit?productDetailsByID.rel_prod:"",
     description:isEdit?productDetailsByID.description:"",
+    cess:isEdit?productDetailsByID.cess:"",
     uqc: isEdit?productDetailsByID.dgst:"",
   };
   console.log('editedInitialValues', editedInitialValues)
@@ -120,6 +121,7 @@ const userID= UserDetails.user.id;
     is_sp: false,
     rel_prod: "",
     description: "",
+    cess:"",
     uqc: "",
   };
 
@@ -127,6 +129,7 @@ const userID= UserDetails.user.id;
     console.log('formvalues', formvalues)
 
     const productDetails ={
+      "id": isEdit?productDetailsByID.id:"",
       "pname": formvalues.name,
       "mrp": formvalues.mrp,
       "rate": formvalues.rate,
@@ -137,6 +140,7 @@ const userID= UserDetails.user.id;
       "no_of_unites": formvalues.noofunites,
       "is_sp": formvalues.is_sp,
       "rel_prod": formvalues.rel_prod,
+      "cess":formvalues.cess,
       "dgst":userID
 
     }
@@ -259,6 +263,15 @@ const userID= UserDetails.user.id;
                     </Field>
                     <ErrorMessage
                       name="gstPer"
+                      component="div"
+                      className="alert alert-danger"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="cess">Cess</label>
+                    <Field name="cess" type="number" className="form-control" defaultValue={0} />
+                    <ErrorMessage
+                      name="cess"
                       component="div"
                       className="alert alert-danger"
                     />

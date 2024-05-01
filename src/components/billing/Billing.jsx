@@ -360,7 +360,7 @@ const Billing = () => {
                             <div className="form-group">
                               {index === 0 ? (
                                 <label htmlFor={`itemList.${index}.disc`}>
-                                  Free Unites
+                                  Discount
                                 </label>
                               ) : (
                                 ""

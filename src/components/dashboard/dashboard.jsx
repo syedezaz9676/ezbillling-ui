@@ -135,6 +135,25 @@ function Dashboard() {
             </Card.Body>
           </Card>
         </div>
+        <div className="col-md-6 col-lg-4">
+          <Card>
+            <Card.Body>
+              <Card.Title>Admin User</Card.Title>
+              <Card.Text>
+              Admin Options
+              </Card.Text>
+             <Button variant="primary"style={{ marginRight: '5px' }}
+              onClick={()=>navigate("/addusers")}
+              >Add User</Button>
+              <Button variant="primary" style={{ marginRight: '5px' }}
+              onClick={()=>navigate("/edituser")}
+              >Edit User</Button>  
+              <Button variant="primary"
+              onClick={()=>navigate("/usertable")}
+              >View</Button>
+            </Card.Body>
+          </Card>
+        </div>
         {/* Add more cards */}
       </div>
     </div>

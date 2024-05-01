@@ -81,6 +81,10 @@ const ProductDetailsTable = () =>{
         text: 'Main Product'
       },
       {
+        dataField: 'cess',
+        text: 'Cess'
+      },
+      {
         dataField: 'hsn_code',
         text: 'Hsn Code',
         filter: textFilter({

@@ -38,6 +38,9 @@ import AddStock from "./components/stock/AddStock";
 import AddStockDetails from "./components/stock/AddStockDetails";
 import StockDetailsTable from "./components/tables/StockDetailsTable";
 import SalesReport from "./components/reports/SalesReport";
+import AddUsers from "./components/admin/AddUsers";
+import EditUser from "./components/admin/EditUser";
+import UsersTable from "./components/tables/UsersTable";
 
 
 const App = (props) => {
@@ -96,6 +99,9 @@ dispatch(hideEdit())
           <Route path="/addstockdetails" element={<AddStockDetails/>}/>
           <Route path="/stocktable" element={<StockDetailsTable/>}/>
           <Route path="/salesreport" element={<SalesReport/>}/>
+          <Route path="/addusers" element={<AddUsers/>}/>
+          <Route path="/edituser" element={<EditUser/>}/>
+          <Route path="/usertable" element={<UsersTable/>}/>
           {/* {UserDetails != null && <Navigate to="/login" />} */}
         </Routes>
       </div>
