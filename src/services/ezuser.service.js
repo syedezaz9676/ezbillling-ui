@@ -272,6 +272,33 @@ const getSalesDetails = (dates) => {
   });
 };
 
+const saveUser = (user) => {
+  console.log('request', user)
+  return axios.post('http://localhost:8080/saveuser',
+  user
+  )
+    .then(response => {
+      console.log('saveBilling resp', response)
+      return response;
+    });
+};
+
+const getUsers = () => {
+  console.log('users')
+  return axios.get('http://localhost:8080/getusers')
+  .then(response => {
+    return response;
+  });
+};
+
+const getUser = (userName) => {
+
+  return axios.get('http://localhost:8080/getuser/'+ userName)
+  .then(response => {
+    return response;
+  });
+};
+
 const UserService = {
   getGstCodeDetails,
   saveCompanyDetails,
@@ -295,7 +322,10 @@ const UserService = {
   getStockDetailsByID,
   saveStockDetails,
   getStockDetailsByDgst,
-  getSalesDetails
+  getSalesDetails,
+  saveUser,
+  getUsers,
+  getUser
 
 }
 export default UserService;
