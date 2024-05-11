@@ -5,7 +5,7 @@ import UserRoutes from "./components/userRoutes/userRoutes";
 import {
   Routes, // instead of "Switch"
   Route,
-  Navigate 
+  Navigate ,useNavigate
 } from "react-router-dom";
 import Navbar from "./components/navbar/EzNavbar";
 import './App.css';
@@ -44,6 +44,7 @@ import UsersTable from "./components/tables/UsersTable";
 
 
 const App = (props) => {
+  let navigate = useNavigate();
   const { isLoggedIn, UserDetails } = useSelector((state) => state.ezLogin);
   const dispatch = useDispatch();
   console.log('getCurrentUser', UserDetails);
@@ -61,6 +62,8 @@ const App = (props) => {
       }
     );
   }
+
+
 }, [UserDetails]);
 
 useEffect(()=>{

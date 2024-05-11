@@ -266,7 +266,7 @@ const ddmmyyDateString = `${day}/${month}/${year}`;
        )}
         </table>
         </div>
-        <div className="table-wrapper-items">
+        {/* <div className="table-wrapper-items">
         <table>
           <tr>
             <th>Disc(%)</th>
@@ -281,7 +281,7 @@ const ddmmyyDateString = `${day}/${month}/${year}`;
 
        )}
         </table>
-        </div>
+        </div> */}
         <div className="table-wrapper-items">
         <table>
           <tr>
@@ -601,7 +601,7 @@ const ddmmyyDateString = `${day}/${month}/${year}`;
        )}
         </table>
         </div>
-        <div className="table-wrapper-items">
+        {/* <div className="table-wrapper-items">
         <table>
           <tr>
             <th>Disc(%)</th>
@@ -616,7 +616,7 @@ const ddmmyyDateString = `${day}/${month}/${year}`;
 
        )}
         </table>
-        </div>
+        </div> */}
         <div className="table-wrapper-items">
         <table>
           <tr>

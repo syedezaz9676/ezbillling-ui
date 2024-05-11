@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { Navigate, useNavigate } from "react-router-dom";
 import { hideEdit,hideBill } from "../redux/slices/ezEnableFiledSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { hideGstDetailsOfCustomer,hideGstDetailsForHsnCode } from "../redux/slices/billingDetails/ezBillingDetailsSlice";
+import { hideGstDetailsOfCustomer,hideGstDetailsForHsnCode,hideInvoiceDetails,hideSalesDetails } from "../redux/slices/billingDetails/ezBillingDetailsSlice";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -13,6 +13,8 @@ function Dashboard() {
     dispatch(hideBill());
     dispatch(hideGstDetailsOfCustomer());
     dispatch(hideGstDetailsForHsnCode());
+    dispatch(hideInvoiceDetails());
+    dispatch(hideSalesDetails());
     // dispatch(resetInvoiceNo());
     },[])
 

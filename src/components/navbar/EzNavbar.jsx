@@ -6,6 +6,7 @@ import { isLoggedin } from '../auth';
 import { ezlogout } from '../redux/ezLoginSlice';
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
 
 
 
@@ -13,8 +14,17 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 function EzNavbar() {
   let navigate = useNavigate();
+
+
   const { isLoggedIn } = useSelector((state) => state.ezLogin);
   const { UserDetails } = useSelector((state) => state.ezLogin);
+
+  useEffect(() => {
+   
+      window.location.href = '/login';
+     
+  
+  }, [UserDetails === null]);
   const dispatch = useDispatch();
 
   const logout=()=>{

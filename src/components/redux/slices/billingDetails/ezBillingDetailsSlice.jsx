@@ -271,6 +271,17 @@ export const hideGstDetailsForHsnCode = createAsyncThunk(
  
 );
 
+export const hideInvoiceDetails = createAsyncThunk(
+  "hideInvoiceDetails",
+ 
+)
+
+export const hideSalesDetails = createAsyncThunk(
+  "hideSalesDetails",
+ 
+)
+
+
 // export const hideGstDetailsOfCustomer = () => {
 //   return {
 //     type: "hideGstDetailsOfCustomer", // Provide a unique action type
@@ -480,6 +491,12 @@ const ezBillingDetailsSlice = createSlice({
     builder.addCase(hideGstDetailsForHsnCode.pending, (state) => {
       console.log("in null")
       state.GstDetailsforHsnCode = null;
+    });
+    builder.addCase(hideInvoiceDetails.pending, (state) => {
+      state.InvoiceItems = null;
+    });
+    builder.addCase(hideSalesDetails.pending, (state) => {
+      state.SalesDetails = null;
     });
   }
 });

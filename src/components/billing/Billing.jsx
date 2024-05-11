@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import Select from 'react-select';
 import { useDispatch, useSelector } from "react-redux";
 import {
   Formik,
@@ -23,7 +24,7 @@ import moment from "moment";
 import {
   saveBillingDetails,
   getInvoiceDetails,
-  updateBillingDetails
+  updateBillingDetails,
 } from "../redux/slices/billingDetails/ezBillingDetailsSlice";
 
 const Billing = () => {
@@ -48,7 +49,7 @@ const Billing = () => {
     (state) => state.ezInvoiceDetails
   );
   const [loading, setLoading] = useState(false);
-  const {billDetails } = useSelector((state) => state.ezInvoiceDetails);
+  const { billDetails } = useSelector((state) => state.ezInvoiceDetails);
   const DatePickerField = ({ field, form, ...props }) => {
     const { setFieldValue } = form;
     const { name, value } = field;
@@ -116,12 +117,10 @@ const Billing = () => {
       .catch(() => {});
   }, [dispatch]);
 
-
   const editInitialValues = {
     name: isEdit && billDetails ? billDetails.name : "",
-    date: isEdit && billDetails ? new Date(billDetails.date): "",
-    itemList: isEdit && billDetails ? billDetails.itemList: [""],
-
+    date: isEdit && billDetails ? new Date(billDetails.date) : "",
+    itemList: isEdit && billDetails ? billDetails.itemList : [""],
   };
 
   const initialValues = {
@@ -161,7 +160,7 @@ const Billing = () => {
         (product) => product.id === item.pname
       );
       const billitem = {
-        bno: isEdit?billDetails.bno:"",
+        bno: isEdit ? billDetails.bno : "",
         cno: formValue.name,
         product_name: item.pname,
         product_gst: product.vatp,
@@ -179,7 +178,7 @@ const Billing = () => {
 
       updatedBillingDetails.push(billitem);
     }
-    if(isEdit){
+    if (isEdit) {
       await dispatch(
         updateBillingDetails({ BillingDetails: updatedBillingDetails })
       )
@@ -187,14 +186,14 @@ const Billing = () => {
         .then(() => {})
         .catch(() => {});
       navigate("/invoice");
-    }else{
-    await dispatch(
-      saveBillingDetails({ BillingDetails: updatedBillingDetails })
-    )
-      .unwrap()
-      .then(() => {})
-      .catch(() => {});
-    navigate("/invoice");
+    } else {
+      await dispatch(
+        saveBillingDetails({ BillingDetails: updatedBillingDetails })
+      )
+        .unwrap()
+        .then(() => {})
+        .catch(() => {});
+      navigate("/invoice");
     }
   };
 
@@ -222,6 +221,12 @@ const Billing = () => {
     );
   };
 
+  const options = [
+    { value: 'apple', label: 'Apple' },
+    { value: 'banana', label: 'Banana' },
+    { value: 'orange', label: 'Orange' },
+  ];
+
   return (
     <div className="form-length">
       {loading ? <Loader /> : null}
@@ -244,6 +249,7 @@ const Billing = () => {
                       as="select"
                       className="form-control"
                       component="select"
+                      isSearchable={true}
                     >
                       <option value="">--Select Customer--</option>
                       {customerNames &&
@@ -253,6 +259,19 @@ const Billing = () => {
                           </option>
                         ))}
                     </Field>
+                    {/* <Field name="name">
+                      {({ field }) => (
+                        <Select
+                          {...field}
+                          // options={options}
+                          options={customerNames && customerNames.map((customerName) => ({
+                            value: customerName.id,
+                            label: customerName.cname,
+                          }))}
+                          isSearchable // Enable search functionality
+                        />
+                      )}
+                    </Field> */}
                     <ErrorMessage
                       name="name"
                       component="div"

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import Select from 'react-select';
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -221,7 +222,11 @@ const userID= UserDetails.user.id;
 
                   <div className="form-group">
                     <label htmlFor="productcompany">Product Company</label>
-                    <Field as="select" name="productcompany" className="form-control"
+                    <Field 
+                    // isSearchable={true}
+                    as='select'
+                    // component={Select} 
+                    name="productcompany" className="form-control"
                       onChange={(e) => {
 
                         const selectedCompany = e.target.value;
@@ -238,6 +243,10 @@ const userID= UserDetails.user.id;
 
                         console.log("Product Company changed to:", e.target.value);
                       }}
+                      // options={companyDeatils && companyDeatils.map((companyDeatil) => ({
+                      //   value: companyDeatil.name,
+                      //   label: companyDeatil.name,
+                      // }))}
                     >
                       <option>--Please Select--</option>
                       {companyDeatils && companyDeatils.map((companyDeatil, index) => (
@@ -245,7 +254,7 @@ const userID= UserDetails.user.id;
                           {companyDeatil.name}
                         </option>
                       ))}
-
+                     
 
 
                     </Field>

@@ -87,7 +87,10 @@ const ezCustomerRegistrationSlice = createSlice({
     data: null,
     isCustomerRegistrationDone: false,
     customerDetailsByDgst:[],
-    customerDetailsByID:{}
+    customerDetailsByID:{},
+    customerNames:[],
+    productDetails:[]
+
     
   },
   extraReducers: (builder) => {
