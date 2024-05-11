@@ -21,7 +21,7 @@ function EzNavbar() {
 
   useEffect(() => {
    
-      window.location.href = '/login';
+      // window.location.href = '/login';
      
   
   }, [UserDetails === null]);

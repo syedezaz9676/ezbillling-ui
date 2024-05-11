@@ -72,7 +72,7 @@ const Invoice = (props) => {
     //     })
       }
   console.log("isgetInvoiceDetailsSucess",isgetInvoiceDetailsSucess)
-}, [isgetInvoiceDetailsSucess,InvoiceItems]);
+}, [InvoiceItems]);
 
 
 

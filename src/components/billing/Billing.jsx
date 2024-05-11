@@ -376,7 +376,7 @@ const Billing = () => {
                                 className="text-danger"
                               />
                             </div>
-                            <div className="form-group">
+                            {/* <div className="form-group">
                               {index === 0 ? (
                                 <label htmlFor={`itemList.${index}.disc`}>
                                   Discount
@@ -395,9 +395,9 @@ const Billing = () => {
                                 component="div"
                                 className="text-danger"
                               />
-                            </div>
+                            </div> */}
                             <div className="form-group">
-                              <div></div>
+                              {/* <div></div> */}
                               <button
                                 className="btn btn-primary btn-block"
                                 type="button"

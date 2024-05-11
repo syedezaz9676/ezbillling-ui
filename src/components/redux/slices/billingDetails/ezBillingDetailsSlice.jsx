@@ -297,7 +297,9 @@ const ezBillingDetailsSlice = createSlice({
     isgetInvoiceDetailsSucess:false,
     GstDetailsOfCustomer:null,
     GstDetailsforHsncode:null,
-    Users:[]
+    Users:[],
+    InvoiceItems:[]
+
   },
   extraReducers: (builder) => {
     builder.addCase(saveBillingDetails.pending, (state, action) => {
@@ -494,6 +496,7 @@ const ezBillingDetailsSlice = createSlice({
     });
     builder.addCase(hideInvoiceDetails.pending, (state) => {
       state.InvoiceItems = null;
+      state.isgetInvoiceDetailsSucess=false;
     });
     builder.addCase(hideSalesDetails.pending, (state) => {
       state.SalesDetails = null;
