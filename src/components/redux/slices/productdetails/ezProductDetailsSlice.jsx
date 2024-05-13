@@ -105,7 +105,8 @@ const ezProductDetailsSlice = createSlice({
   initialState: {
     productDetails: [],
     isSaveProductDetailsPending: false,
-    isenable: false
+    isenable: false,
+    productNames:[]
   },
   extraReducers: (builder) => {
     builder.addCase(saveProductDetails.pending, (state, action) => {

@@ -299,6 +299,13 @@ const getUser = (userName) => {
   });
 };
 
+const getBillsDetails = (userID) => {
+  return axios.get('http://localhost:8080/getbillsamount/'+userID)
+  .then(response => {
+    return response;
+  });
+};
+
 const UserService = {
   getGstCodeDetails,
   saveCompanyDetails,
@@ -325,7 +332,8 @@ const UserService = {
   getSalesDetails,
   saveUser,
   getUsers,
-  getUser
+  getUser,
+  getBillsDetails
 
 }
 export default UserService;

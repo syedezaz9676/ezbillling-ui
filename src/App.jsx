@@ -41,6 +41,7 @@ import SalesReport from "./components/reports/SalesReport";
 import AddUsers from "./components/admin/AddUsers";
 import EditUser from "./components/admin/EditUser";
 import UsersTable from "./components/tables/UsersTable";
+import BillsDetailsTable from "./components/tables/BillsDetailsTable";
 
 
 const App = (props) => {
@@ -105,6 +106,7 @@ dispatch(hideEdit())
           <Route path="/addusers" element={<AddUsers/>}/>
           <Route path="/edituser" element={<EditUser/>}/>
           <Route path="/usertable" element={<UsersTable/>}/>
+          <Route path="/invoices" element={<BillsDetailsTable/>}/>
           {/* {UserDetails != null && <Navigate to="/login" />} */}
         </Routes>
       </div>

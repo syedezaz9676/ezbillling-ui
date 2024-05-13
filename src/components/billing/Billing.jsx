@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import Select from 'react-select';
 import { useDispatch, useSelector } from "react-redux";
 import {
   Formik,
@@ -62,7 +61,18 @@ const Billing = () => {
       />
     );
   };
-
+  function getIdByName(customerNames, name) {
+    const customer = customerNames.find((customer) => customer.cname === name);
+    return customer ? customer.id : null;
+  }
+  function getNameById(customerNames, id) {
+    const customer = customerNames.find((customer) => customer.id === id);
+    return customer ? customer.cname : null;
+  }
+  function getPidByName(productDetails, name) {
+    const product = productDetails.find((productDetail) => productDetail.pname === name);
+    return product ? product.id : null;
+  }
   const Loader = () => (
     <div class="divLoader">
       <svg class="svgLoader" viewBox="0 0 100 100" width="10em" height="10em">
@@ -118,7 +128,8 @@ const Billing = () => {
   }, [dispatch]);
 
   const editInitialValues = {
-    name: isEdit && billDetails ? billDetails.name : "",
+    name:
+      isEdit && billDetails ? getNameById(customerNames, billDetails.name) : "",
     date: isEdit && billDetails ? new Date(billDetails.date) : "",
     itemList: isEdit && billDetails ? billDetails.itemList : [""],
   };
@@ -157,12 +168,12 @@ const Billing = () => {
     for (const item of items) {
       console.log("item", item);
       const product = productDetails.find(
-        (product) => product.id === item.pname
+        (product) => isEdit?product.pname === item.pname:product.pname === item.pname
       );
       const billitem = {
         bno: isEdit ? billDetails.bno : "",
-        cno: formValue.name,
-        product_name: item.pname,
+        cno: getIdByName(customerNames, formValue.name),
+        product_name: isEdit?getPidByName(productDetails,item.pname):product.id,
         product_gst: product.vatp,
         qty: item.noofunites,
         amount: item.rate,
@@ -222,9 +233,9 @@ const Billing = () => {
   };
 
   const options = [
-    { value: 'apple', label: 'Apple' },
-    { value: 'banana', label: 'Banana' },
-    { value: 'orange', label: 'Orange' },
+    { value: "apple", label: "Apple" },
+    { value: "banana", label: "Banana" },
+    { value: "orange", label: "Orange" },
   ];
 
   return (
@@ -244,34 +255,40 @@ const Billing = () => {
                 <div className="form-row">
                   <div>
                     <label htmlFor="name">Customer Name</label>
-                    <Field
+                    {/* <Field
                       name="name"
                       as="select"
                       className="form-control"
                       component="select"
                       isSearchable={true}
-                    >
-                      <option value="">--Select Customer--</option>
-                      {customerNames &&
-                        customerNames.map((customerName, index) => (
-                          <option key={index} value={customerName.id}>
-                            {customerName.cname}
-                          </option>
-                        ))}
-                    </Field>
-                    {/* <Field name="name">
-                      {({ field }) => (
-                        <Select
-                          {...field}
-                          // options={options}
-                          options={customerNames && customerNames.map((customerName) => ({
-                            value: customerName.id,
-                            label: customerName.cname,
-                          }))}
-                          isSearchable // Enable search functionality
-                        />
+                    > */}
+
+                    {/* </Field> */}
+                    <Field name="name">
+                      {({ field, form }) => (
+                        <div>
+                          <input
+                            type="text"
+                            {...field}
+                            list="selectOptions"
+                            className="form-control"
+                            placeholder="Search..."
+                            defaultValue="select"
+                          />
+                          <datalist id="selectOptions">
+                            {customerNames &&
+                              customerNames.map((customerName, index) => (
+                                <option
+                                  key={customerName.id}
+                                  value={customerName.cname}
+                                />
+                                // <option key={index} value={customerName.id}>
+                                // </option>
+                              ))}
+                          </datalist>
+                        </div>
                       )}
-                    </Field> */}
+                    </Field>
                     <ErrorMessage
                       name="name"
                       component="div"
@@ -339,22 +356,30 @@ const Billing = () => {
                               ) : (
                                 ""
                               )}
-                              <Field
-                                name={`itemList.${index}.pname`}
-                                as="select"
-                                className="form-control"
-                                component="select"
-                              >
-                                <option value="">--Select Product--</option>
-                                {productDetails &&
-                                  productDetails.map((productDetail, index) => (
-                                    <option
-                                      key={index}
-                                      value={productDetail.id}
-                                    >
-                                      {productDetail.pname}
-                                    </option>
-                                  ))}
+                              <Field name={`itemList.${index}.pname`}>
+                                {({ field, form }) => (
+                                  <div>
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      {...field}
+                                      list="selectOptions1"
+                                      placeholder="Search..."
+                                    />
+                                    <datalist id="selectOptions1">
+                                      {productDetails &&
+                                        productDetails.map(
+                                          (productDetail, index) => (
+                                            <option
+                                              key={index}
+                                              value={productDetail.pname}
+                                            >
+                                            </option>
+                                          )
+                                        )}
+                                    </datalist>
+                                  </div>
+                                )}
                               </Field>
                             </div>
                             <div className="form-group">
@@ -376,26 +401,6 @@ const Billing = () => {
                                 className="text-danger"
                               />
                             </div>
-                            {/* <div className="form-group">
-                              {index === 0 ? (
-                                <label htmlFor={`itemList.${index}.disc`}>
-                                  Discount
-                                </label>
-                              ) : (
-                                ""
-                              )}
-                              <Field
-                                name={`itemList.${index}.disc`}
-                                type="number"
-                                defaultValue="0"
-                                className="form-control"
-                              />
-                              <ErrorMessage
-                                name={`itemList.${index}.disc`}
-                                component="div"
-                                className="text-danger"
-                              />
-                            </div> */}
                             <div className="form-group">
                               {/* <div></div> */}
                               <button

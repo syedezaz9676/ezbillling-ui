@@ -44,7 +44,7 @@ const HsnCodeReportingTable = () => {
             </TableCell>
             {/* <TableCell align="right">Tax Amount</TableCell> */}
             <TableCell align="right">
-              <Typography variant="h6">Total Amount</Typography>
+              <Typography variant="h6">Total Taxble Amount</Typography>
             </TableCell>
             <TableCell align="right">
               <Typography variant="h6">SGST</Typography>
@@ -66,7 +66,7 @@ const HsnCodeReportingTable = () => {
               <TableCell align="right">{item.product_gst}</TableCell>
               <TableCell align="right">{item.totalQty}</TableCell>
               {/* <TableCell align="right">{item.taxAmount}</TableCell> */}
-              <TableCell align="right">{item.totalAmount.toFixed(2)}</TableCell>
+              <TableCell align="right">{item.taxableAmount.toFixed(2)}</TableCell>
               <TableCell align="right">{item.sgst.toFixed(2)}</TableCell>
               <TableCell align="right">{item.cgst.toFixed(2)}</TableCell>
               <TableCell align="right">{item.igst.toFixed(2)}</TableCell>

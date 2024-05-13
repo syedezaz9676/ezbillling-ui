@@ -19,12 +19,12 @@ const SalesGraph = ({data}) => {
                         {data.map((item, index) => (
                             <TableRow key={index}>
                                 <TableCell>{item.product_company}</TableCell>
-                                <TableCell>{item.totalAmount}</TableCell>
+                                <TableCell>{item.totalAmount.toFixed(2)}</TableCell>
                             </TableRow>
                         ))}
                         <TableRow>
                                 <TableCell><h5>Total</h5></TableCell>
-                                <TableCell><h5>{totalAmount}</h5></TableCell>
+                                <TableCell><h5>{totalAmount.toFixed(2)}</h5></TableCell>
                             </TableRow>
                     </TableBody>
                 </Table>

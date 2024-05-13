@@ -93,9 +93,12 @@ function Dashboard() {
               <Button variant="primary" style={{ marginRight: '5px' }}
               onClick={()=>navigate("/editinvoice")}
               >Edit</Button>  
-              <Button variant="primary"
+              <Button variant="primary" style={{ marginRight: '5px' }}
               onClick={()=>navigate("/viewinvoice")}
               >View</Button>
+              <Button variant="primary"
+              onClick={()=>navigate("/invoices")}
+              >Invoices</Button>
             </Card.Body>
           </Card>
         </div>
