@@ -54,6 +54,13 @@ const BillsDetailsTable = () =>{
         }),
       },
       {
+        dataField: 'bno',
+        text: 'Invoice No',
+        filter: textFilter({
+          placeholder: 'Enter Invoice No',
+        }),
+      },
+      {
         dataField: 'date',
         text: 'Invoice Date',
         filter: textFilter({
