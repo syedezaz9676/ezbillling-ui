@@ -158,7 +158,7 @@ const ddmmyyDateString = `${day}/${month}/${year}`;
           <table>
             <tbody>
               <tr>
-                <td><b>Inoice No: </b>{InvoiceNo1}</td>
+                <td><b>Invoice No: </b>{InvoiceNo1}</td>
               </tr>
               <tr>
                 <td><b>Date :</b>{ddmmyyDateString}</td>
@@ -493,7 +493,7 @@ const ddmmyyDateString = `${day}/${month}/${year}`;
           <table>
             <tbody>
               <tr>
-                <td><b>Inoice No: </b>{InvoiceNo}</td>
+                <td><b>Invoice No: </b>{InvoiceNo1}</td>
               </tr>
               <tr>
                 <td><b>Date :</b>{ddmmyyDateString}</td>
