@@ -129,7 +129,22 @@ const userID= UserDetails.user.id;
   const handleRegister = (formvalues) => {
     console.log('formvalues', formvalues)
 
-    const productDetails ={
+    const saveintProductDetails ={
+      "pname": formvalues.name,
+      "mrp": formvalues.mrp,
+      "rate": formvalues.rate,
+      "pcom": formvalues.productcompany,
+      "vatp": formvalues.gstPer,
+      "Hsn_code": formvalues.hsncode,
+      "unites_per":formvalues.unitesper,
+      "no_of_unites": formvalues.noofunites,
+      "is_sp": formvalues.is_sp,
+      "rel_prod": formvalues.rel_prod,
+      "cess":formvalues.cess,
+      "dgst":userID
+
+    }
+    const editProductDetails ={
       "id": isEdit?productDetailsByID.id:"",
       "pname": formvalues.name,
       "mrp": formvalues.mrp,
@@ -145,7 +160,7 @@ const userID= UserDetails.user.id;
       "dgst":userID
 
     }
-
+    const productDetails=isEdit?editProductDetails:saveintProductDetails;
     setSuccessful(false);
     // dispatch(saveProductDetails({productDetails}))
     //   .unwrap()

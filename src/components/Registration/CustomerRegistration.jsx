@@ -136,6 +136,7 @@ const CustomerRegister = () => {
     console.log('formValue', formValue)
 
     const editedCustomerDetails = {
+      "id":customerDetailsByID.id,
       'cname': formValue.name,
       'ctno': formValue.gstno,
       'cpno': formValue.phone,
