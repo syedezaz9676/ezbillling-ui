@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field, Form, ErrorMessage, FieldArray } from "formik";
 import { Navigate, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { getBillDetails } from "../../redux/slices/billingDetails/ezBillingDetailsSlice";
+import { getBillDetails,getBillsDetails } from "../../redux/slices/billingDetails/ezBillingDetailsSlice";
 // import { doCustomerRegistration, getCustomerDetailsByID } from "../redux/ezCustomerRegistrationSlice";
 // import { clearMessage } from "../redux/message";
 // import { getCompanyDetails, getCompanyDetailsByID, getCompanyNames, clearCompanyDetailsByID, enableEdit } from "../redux/slices/companydetails/ezCompanyDetailsSlice";
@@ -22,18 +22,16 @@ const EditInvoice = () => {
 
     const userID = UserDetails.user.id;
     useEffect(() => {
-        // dispatch(getCompanyNames({userID}))
-        //     .unwrap()
-        //     .then(() => {
-        //         // navigate("/dashboard");
-        //         // window.location.reload();
-        //     })
-        //     .catch(() => {
-        //     });
-
-            // dispatch(clearCompanyDetailsByID());
+        dispatch(getBillsDetails({userID}))
+        .unwrap()
+        .then(() => {
+          // navigate("/user/dashboard");
+          // window.location.reload();
+        })
+        .catch(() => {
+        });
     }, [dispatch]);
-    const {isgetBillDetailsPending } = useSelector((state) => state.ezInvoiceDetails);
+    const {isgetBillDetailsPending,BillsAmountDetails } = useSelector((state) => state.ezInvoiceDetails);
 
     //   const { GstCodeDetails } = useSelector((state) => state.ezgetGstCodeDetails);
 
@@ -42,13 +40,17 @@ const EditInvoice = () => {
         gstPer: []
     };
 
-    // const validationSchema = Yup.object().shape({
-    //     name: Yup.string()
-    //         .min(3, 'The name must be at least 3 characters.')
-    //         .max(20, 'The name must be at most 20 characters.')
-    //         .test('is-unique', 'Company name already exists.', isNameUnique)
-    //         .required('Company Name is required.'),
-    // });
+    const getBnos = (bills) => {
+        return bills.map(bill => bill.bno);
+      };
+
+    const validationSchema = Yup.object().shape({
+        InvoiceNo: Yup.string()
+            .required('Invoice Number is required.')
+            .test('is-valid-invoice', 'No invoice with given invoice no', function (value) {
+                return getBnos(BillsAmountDetails).includes(value);
+            }),
+    });
 
     const handleRegister = (formValue) => {
         console.log('formValue', formValue);
@@ -63,7 +65,7 @@ const EditInvoice = () => {
                 <h3>Edit Invoice</h3>
                 <Formik
                     initialValues={initialValues}
-                    // validationSchema={validationSchema}
+                    validationSchema={validationSchema}
                     onSubmit={handleRegister}
                 >
                     <Form>

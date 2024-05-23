@@ -42,6 +42,8 @@ import AddUsers from "./components/admin/AddUsers";
 import EditUser from "./components/admin/EditUser";
 import UsersTable from "./components/tables/UsersTable";
 import BillsDetailsTable from "./components/tables/BillsDetailsTable";
+import BalanceDetailsTable from "./components/tables/BalanceDetailsTable";
+import ModifyBalanceDetails from "./components/balanceDetails/ModifyBalanceDetails";
 
 
 const App = (props) => {
@@ -107,6 +109,8 @@ dispatch(hideEdit())
           <Route path="/edituser" element={<EditUser/>}/>
           <Route path="/usertable" element={<UsersTable/>}/>
           <Route path="/invoices" element={<BillsDetailsTable/>}/>
+          <Route path="/balacnedetails" element={<BalanceDetailsTable/>}/>
+          <Route path="/modifybalace" element={<ModifyBalanceDetails/>}/>
           {/* {UserDetails != null && <Navigate to="/login" />} */}
         </Routes>
       </div>

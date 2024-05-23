@@ -281,6 +281,64 @@ export const getBillsDetails = createAsyncThunk(
     }
   }
 );
+
+export const getBalanceDetailsByDgst = createAsyncThunk(
+  "getBalanceDetailsByDgst",
+  async ({ userID },thunkAPI) => {
+    try {
+      const BalanceDetailsByDgst = await UserService.getBalanceDetailsByDgst(userID);
+      return { BalanceDetailsByDgst };
+    } catch (error) {
+      console.log('eror',error);
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+export const modifyBalanceDetails = createAsyncThunk(
+  "modifyBalanceDetails",
+  async ({ BalanceDetails }, thunkAPI) => {
+    try {
+      const ModifyBalanceDetailsStatus = await UserService.modifyBalanceDetails(BalanceDetails);
+      return { ModifyBalanceDetailsStatus };
+    } catch (error) {
+      console.log('eror',error);
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+export const getBalanceDetailsById = createAsyncThunk(
+  "getBalanceDetailsById",
+  async ({ id },thunkAPI) => {
+    try {
+      const BalanceDetailsById = await UserService.getBalanceDetailsById(id);
+      return { BalanceDetailsById };
+    } catch (error) {
+      console.log('eror',error);
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
 export const hideGstDetailsOfCustomer = createAsyncThunk(
   "hideGstDetailsOfCustomer",
  
@@ -319,7 +377,9 @@ const ezBillingDetailsSlice = createSlice({
     GstDetailsforHsncode:null,
     Users:[],
     InvoiceItems:[],
-    BillsAmountDetails:[]
+    BillsAmountDetails:[],
+    BalanceDetailsByDgst:[],
+    BalanceDetailsById:{}
 
   },
   extraReducers: (builder) => {
@@ -423,6 +483,20 @@ const ezBillingDetailsSlice = createSlice({
       state.isError = true;
       state.isStockDetailsByIdPending = false;
     });
+    builder.addCase(modifyBalanceDetails.pending, (state, action) => {
+      // state.isLoading = true;
+      state.isModifyBalanceDetailsPending = true;
+    });
+    builder.addCase(modifyBalanceDetails.fulfilled, (state, action) => {
+      // state.isLoading = false;
+      state.ModifyBalanceDetailsStatus = action.payload.ModifyBalanceDetailsStatus.data;
+      state.isModifyBalanceDetailsPending = false;
+    });
+    builder.addCase(modifyBalanceDetails.rejected, (state, action) => {
+      console.log('Error', action.payload);
+      state.isError = true;
+      state.isModifyBalanceDetailsPending = false;
+    });
     builder.addCase(saveStockDetails.pending, (state, action) => {
       // state.isLoading = true;
       state.isSaveStockDetailsPending = true;
@@ -520,6 +594,35 @@ const ezBillingDetailsSlice = createSlice({
       console.log('Error', action.payload);
       state.isError = true;
       state.isBillsAmountDetailsPending = false;
+    });
+    builder.addCase(getBalanceDetailsByDgst.pending, (state, action) => {
+      // state.isLoading = true;
+      state.isBalanceDetailsByDgstPending = true;
+    });
+    builder.addCase(getBalanceDetailsByDgst.fulfilled, (state, action) => {
+      // state.isLoading = false;
+      state.BalanceDetailsByDgst = action.payload.BalanceDetailsByDgst.data;
+      state.isBalanceDetailsByDgstPending = false;
+    });
+    builder.addCase(getBalanceDetailsByDgst.rejected, (state, action) => {
+      console.log('Error', action.payload);
+      state.isError = true;
+      state.isBalanceDetailsByDgstPending = false;
+    });
+    builder.addCase(getBalanceDetailsById.pending, (state, action) => {
+      // state.isLoading = true;
+      state.isBalanceDetailsByIdPending = true;
+    });
+    builder.addCase(getBalanceDetailsById.fulfilled, (state, action) => {
+      // state.isLoading = false;
+      state.BalanceDetailsById = action.payload.BalanceDetailsById.data;
+      state.isBalanceDetailsByIdPending = false;
+      state.isBalanceDetailsByIdSucess = true;
+    });
+    builder.addCase(getBalanceDetailsById.rejected, (state, action) => {
+      console.log('Error', action.payload);
+      state.isError = true;
+      state.isBalanceDetailsByIdPending = false;
     });
     builder.addCase(hideGstDetailsOfCustomer.pending, (state) => {
       console.log("in null")

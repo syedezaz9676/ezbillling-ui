@@ -306,6 +306,32 @@ const getBillsDetails = (userID) => {
   });
 };
 
+const getBalanceDetailsByDgst = (userID) => {
+  return axios.get('http://localhost:8080/getbalancedetails/'+userID)
+  .then(response => {
+    return response;
+  });
+};
+
+const getBalanceDetailsById = (id) => {
+  return axios.get('http://localhost:8080/getbalancedetailsbyid/'+id)
+  .then(response => {
+    return response;
+  });
+};
+
+
+const modifyBalanceDetails = (BalanceDetails) => {
+  console.log('balanceDetails', BalanceDetails)
+  return axios.post('http://localhost:8080/modifybalancedetails',
+  BalanceDetails
+  )
+    .then(response => {
+      console.log('balanceDetails resp', response)
+      return response;
+    });
+};
+
 const UserService = {
   getGstCodeDetails,
   saveCompanyDetails,
@@ -333,7 +359,10 @@ const UserService = {
   saveUser,
   getUsers,
   getUser,
-  getBillsDetails
+  getBillsDetails,
+  getBalanceDetailsByDgst,
+  getBalanceDetailsById,
+  modifyBalanceDetails
 
 }
 export default UserService;

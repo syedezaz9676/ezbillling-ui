@@ -7,6 +7,7 @@ import { ezlogout } from '../redux/ezLoginSlice';
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
+import './navbar-routes.css'
 
 
 
@@ -42,12 +43,17 @@ function EzNavbar() {
     <Navbar bg="dark" variant='dark'>
       <Container>
         {!UserDetails && <Navigate to="/login" />}
-        {isLoggedIn ?<Navbar.Brand onClick={()=>logout()}>Logout</Navbar.Brand> :<Navbar.Brand href="/login">Login</Navbar.Brand>}
+        {isLoggedIn ?<Navbar.Brand className="navbar-brand-clickable" onClick={()=>logout()}  >Logout</Navbar.Brand> :<Navbar.Brand href="/login">Login</Navbar.Brand>}
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link onClick={()=>navigate("/dashboard")}>Dashboard</Nav.Link>
           </Nav>
+          {UserDetails && (
+            <Nav className="ms-auto">
+              <Navbar.Text className="multi-color-text">{UserDetails.user.firmName}</Navbar.Text>
+            </Nav>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>

@@ -159,6 +159,22 @@ function Dashboard() {
             </Card.Body>
           </Card>
         </div>
+        <div className="col-md-6 col-lg-4">
+          <Card>
+            <Card.Body>
+              <Card.Title>Balance Details</Card.Title>
+              <Card.Text>
+              Balance Details
+              </Card.Text>
+             <Button variant="primary"style={{ marginRight: '5px' }}
+              onClick={()=>navigate("/balacnedetails")}
+              >Balance Details</Button>
+              <Button variant="primary" style={{ marginRight: '5px' }}
+              onClick={()=>navigate("/modifybalace")}
+              >Edit Details</Button> 
+            </Card.Body>
+          </Card>
+        </div>
         {/* Add more cards */}
       </div>
     </div>

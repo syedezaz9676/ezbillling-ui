@@ -1,4 +1,22 @@
 .navbar-routes {
     text-align: center;
   }
+  .navbar-brand-clickable {
+    cursor: pointer;
+  }  
+  @keyframes rainbow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
   
+  .multi-color-text {
+    background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 1.25rem; /* Adjust the size as needed */
+    animation: rainbow 3s ease infinite;
+  }

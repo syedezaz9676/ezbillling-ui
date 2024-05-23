@@ -772,7 +772,7 @@ const ddmmyyDateString = `${day}/${month}/${year}`;
         </div>
       
     </div>
-    </div>
+</div>
       
   );
 };
