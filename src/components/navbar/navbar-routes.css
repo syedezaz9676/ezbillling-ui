@@ -20,3 +20,8 @@
     font-size: 1.25rem; /* Adjust the size as needed */
     animation: rainbow 3s ease infinite;
   }
+  @media print {
+    .navbar {
+      display: none !important;
+    }
+  }

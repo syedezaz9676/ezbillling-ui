@@ -106,7 +106,7 @@ const ddmmyyDateString = `${day}/${month}/${year}`;
 
 
   return (
-    <div>
+    <div className="invoice-printable">
     <div className="invoice-container">
       <div className="centered-text">
         <center><b>TAX INVOICE</b></center>
