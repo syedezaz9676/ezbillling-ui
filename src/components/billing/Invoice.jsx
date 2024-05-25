@@ -59,42 +59,9 @@ const Invoice = (props) => {
         .unwrap()
         .then(() => {})
         .catch(() => {});
-      // }
-      // dispatch(getProductDetails({ userID }))
-      //     .unwrap()
-      //     .then(() => {
-      //     })
-      //     .catch(() => {
-      //     })
     }
     console.log("isgetInvoiceDetailsSucess", isgetInvoiceDetailsSucess);
   }, [InvoiceItems]);
-
-  // const summary = [];
-
-  // // Iterate over InvoiceItems
-  // InvoiceItems &&
-  //   InvoiceItems.billingDetails.forEach((item) => {
-  //     const { hsn_code, product_gst, gstamount, amount } = item;
-
-  //     // Check if hsn_code already exists in the summary
-  //     if (!summary[hsn_code]) {
-  //       // If not, initialize the summary for the hsn_code
-  //       summary[hsn_code] = {
-  //         hsn_code,
-  //         product_gst,
-  //         total_gstamount: 0,
-  //         total_amount: 0,
-  //         count: 0,
-  //       };
-  //     }
-
-  //     // Accumulate the totals for gstamount and amount
-  //     summary[hsn_code].total_gstamount += gstamount;
-  //     summary[hsn_code].total_amount += amount;
-  //     summary[hsn_code].count++;
-  //   });
-  // console.log("summarh", summary);
 
   const renderWithLineBreaks = (text) => {
     return text.split("\n").map((line, index) => (
@@ -499,6 +466,7 @@ const Invoice = (props) => {
             </table>
           </div>
         </div>
+        {customerDetailsByID && customerDetailsByID.ctno !="not avaliable" &&
         <div className="tables-container-items">
           <div className="table-wrapper-items">
             <table>
@@ -620,7 +588,7 @@ const Invoice = (props) => {
               </tr>
             </table>
           </div>
-        </div>
+        </div>}
       </div>
       <br></br>
       <br></br>
@@ -1000,6 +968,7 @@ const Invoice = (props) => {
             </table>
           </div>
         </div>
+        {customerDetailsByID && customerDetailsByID.ctno !="not avaliable" &&
         <div className="tables-container-items">
           <div className="table-wrapper-items">
             <table>
@@ -1121,7 +1090,7 @@ const Invoice = (props) => {
               </tr>
             </table>
           </div>
-        </div>
+        </div>}
       </div>
     </div>
   );
