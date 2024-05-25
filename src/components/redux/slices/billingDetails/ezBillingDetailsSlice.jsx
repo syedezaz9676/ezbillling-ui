@@ -339,6 +339,46 @@ export const getBalanceDetailsById = createAsyncThunk(
     }
   }
 );
+
+export const getGstSalesOfGstCustomers = createAsyncThunk(
+  "getGstSalesOfGstCustomers",
+  async ({ dates }, thunkAPI) => {
+    try {
+      const GstSalesOfGstCustomer = await UserService.getGstSalesOfGstCustomers(dates);
+      return { GstSalesOfGstCustomer };
+    } catch (error) {
+      console.log('eror',error);
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
+export const getGstSalesOfCustomers = createAsyncThunk(
+  "getGstSalesOfCustomers",
+  async ({ dates }, thunkAPI) => {
+    try {
+      const GstSalesOfCustomer = await UserService.getGstSalesOfCustomers(dates);
+      return { GstSalesOfCustomer };
+    } catch (error) {
+      console.log('eror',error);
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
 export const hideGstDetailsOfCustomer = createAsyncThunk(
   "hideGstDetailsOfCustomer",
  
@@ -379,7 +419,9 @@ const ezBillingDetailsSlice = createSlice({
     InvoiceItems:{},
     BillsAmountDetails:[],
     BalanceDetailsByDgst:[],
-    BalanceDetailsById:{}
+    BalanceDetailsById:{},
+    GstSalesOfGstCustomer:[],
+    GstSalesOfCustomer:[]
 
   },
   extraReducers: (builder) => {
@@ -623,6 +665,38 @@ const ezBillingDetailsSlice = createSlice({
       console.log('Error', action.payload);
       state.isError = true;
       state.isBalanceDetailsByIdPending = false;
+    });
+    builder.addCase(getGstSalesOfGstCustomers.pending, (state, action) => {
+      // state.isLoading = true;
+      state.isgetGstSalesOfGstCustomersPending = true;
+    });
+    builder.addCase(getGstSalesOfGstCustomers.fulfilled, (state, action) => {
+      // state.isLoading = false;
+      state.GstSalesOfGstCustomer = action.payload.GstSalesOfGstCustomer.data;
+      state.isgetGstSalesOfGstCustomersPending = false;
+      state.isgetGstSalesOfGstCustomersSucess = true;
+    });
+    
+    builder.addCase(getGstSalesOfGstCustomers.rejected, (state, action) => {
+      console.log('Error', action.payload);
+      state.isError = true;
+      state.isgetGstSalesOfGstCustomersPending = false;
+    });
+    builder.addCase(getGstSalesOfCustomers.pending, (state, action) => {
+      // state.isLoading = true;
+      state.isgetGstSalesOfCustomersPending = true;
+    });
+    builder.addCase(getGstSalesOfCustomers.fulfilled, (state, action) => {
+      // state.isLoading = false;
+      state.GstSalesOfCustomer = action.payload.GstSalesOfCustomer.data;
+      state.isgetGstSalesOfCustomersPending = false;
+      state.isgetGstSalesOfCustomersSucess = true;
+    });
+    
+    builder.addCase(getGstSalesOfCustomers.rejected, (state, action) => {
+      console.log('Error', action.payload);
+      state.isError = true;
+      state.isgetGstSalesOfCustomersPending = false;
     });
     builder.addCase(hideGstDetailsOfCustomer.pending, (state) => {
       console.log("in null")

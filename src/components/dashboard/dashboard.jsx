@@ -27,11 +27,11 @@ function Dashboard() {
             <Card.Body>
               <Card.Title>Customer Registration</Card.Title>
               <Card.Text>
-              Click here to Register the Customer
+              Register the Customer
               </Card.Text>
               <Button variant="primary" style={{ marginRight: '5px' }}
                   onClick={()=>navigate("/customerreg")}
-              >Click</Button>
+              >ADD New</Button>
               <Button variant="primary" style={{ marginRight: '5px' }}
                   onClick={()=>navigate("/editcustomerdetails")}
               >Edit</Button>
@@ -46,11 +46,11 @@ function Dashboard() {
             <Card.Body>
               <Card.Title>Company Registration</Card.Title>
               <Card.Text>
-              Click here to Register the Company
+              Register the Company
               </Card.Text>
               <Button variant="primary" style={{ marginRight: '5px' }}
               onClick={()=>navigate("/companyregistration")}
-              >Click</Button>
+              >ADD New</Button>
               <Button variant="primary" style={{ marginRight: '5px' }}
               onClick={()=>navigate("/editcompanydetails")}
               >Edit</Button>
@@ -66,11 +66,11 @@ function Dashboard() {
             <Card.Body>
               <Card.Title>Product Registration</Card.Title>
               <Card.Text>
-              Click here to Register the Product
+              Register the Product
               </Card.Text>
              <Button variant="primary" style={{ marginRight: '5px' }}
               onClick={()=>navigate("/productregistration")}
-              >Click</Button> 
+              >ADD New</Button> 
               <Button variant="primary" style={{ marginRight: '5px' }}
               onClick={()=>navigate("/editproductdetails")}
               >Edit</Button>
@@ -85,11 +85,11 @@ function Dashboard() {
             <Card.Body>
               <Card.Title>Billing</Card.Title>
               <Card.Text>
-              Click here for billing
+              billing
               </Card.Text>
              <Button variant="primary"style={{ marginRight: '5px' }}
               onClick={()=>navigate("/generatebill")}
-              >Click</Button>
+              >ADD New</Button>
               <Button variant="primary" style={{ marginRight: '5px' }}
               onClick={()=>navigate("/editinvoice")}
               >Edit</Button>  
@@ -107,7 +107,7 @@ function Dashboard() {
             <Card.Body>
               <Card.Title>Reports</Card.Title>
               <Card.Text>
-              Click here for Reports
+               Reports
               </Card.Text>
              <Button variant="primary"style={{ marginRight: '5px' }}
               onClick={()=>navigate("/gstdetailsofcustomer")}
@@ -115,9 +115,12 @@ function Dashboard() {
               <Button variant="primary" style={{ marginRight: '5px' }}
               onClick={()=>navigate("/gstdetailsforhsncode")}
               >HSN Details</Button>  
-              <Button variant="primary"
+              <Button variant="primary" style={{ marginRight: '5px' }}
               onClick={()=>navigate("/salesreport")}
               >Sales</Button>
+              <Button variant="primary" style={{ marginTop: '5px' }}
+              onClick={()=>navigate("/gstsalesreport")}
+              >Gst Sales</Button>
             </Card.Body>
           </Card>
         </div>

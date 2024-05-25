@@ -332,6 +332,31 @@ const modifyBalanceDetails = (BalanceDetails) => {
     });
 };
 
+const getGstSalesOfGstCustomers = (dates) => {
+  console.log('dates', dates);
+
+  return axios.get('http://localhost:8080/getgstsalesofgstcusotmers', {params: {
+    startDate: dates.startDate,
+    endDate: dates.endDate
+  }})
+  .then(response => {
+    return response;
+  });
+};
+
+const getGstSalesOfCustomers = (dates) => {
+  console.log('dates', dates);
+
+  return axios.get('http://localhost:8080/getgstsalesofcusotmers', {params: {
+    startDate: dates.startDate,
+    endDate: dates.endDate
+  }})
+  .then(response => {
+    return response;
+  });
+};
+
+
 const UserService = {
   getGstCodeDetails,
   saveCompanyDetails,
@@ -362,7 +387,9 @@ const UserService = {
   getBillsDetails,
   getBalanceDetailsByDgst,
   getBalanceDetailsById,
-  modifyBalanceDetails
+  modifyBalanceDetails,
+  getGstSalesOfGstCustomers,
+  getGstSalesOfCustomers
 
 }
 export default UserService;
