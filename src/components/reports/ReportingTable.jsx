@@ -31,14 +31,14 @@ const ReportingTable = ({ data }) => {
     <Table>
       <TableHead>
         <TableRow>
-          <TableCell>Customer Name</TableCell>
-          <TableCell>GST No</TableCell>
-          <TableCell>Bill No</TableCell>
-          <TableCell>Billing Date</TableCell>
-          <TableCell>GST</TableCell>
-          <TableCell>GST Amount</TableCell>
-          <TableCell>Total Taxable Amount</TableCell>
-          <TableCell>Total Amount</TableCell>
+        <TableCell><b>Customer Name</b></TableCell>
+        <TableCell><b>GST No</b></TableCell>
+        <TableCell><b>Bill No</b></TableCell>
+        <TableCell><b>Billing Date</b></TableCell>
+        <TableCell><b>GST</b></TableCell>
+        <TableCell><b>GST Amount</b></TableCell>
+        <TableCell><b>Total Taxable Amount</b></TableCell>
+        <TableCell><b>Total Amount</b></TableCell>
         </TableRow>
       </TableHead>
       <TableBody>

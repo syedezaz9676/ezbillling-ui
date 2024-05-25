@@ -712,6 +712,8 @@ const ezBillingDetailsSlice = createSlice({
     });
     builder.addCase(hideSalesDetails.pending, (state) => {
       state.SalesDetails = null;
+      state.GstSalesOfGstCustomer = null;
+      state.GstSalesOfCustomer = null;
     });
   }
 });

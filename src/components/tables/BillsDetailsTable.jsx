@@ -56,7 +56,6 @@ const BillsDetailsTable = () => {
     {
       dataField: 'amount',
       text: 'Invoice Total Amount',
-      formatter: formatCurrency, // Custom formatter for currency
       filter: textFilter({
         placeholder: 'Enter Amount to filter',
       }),
