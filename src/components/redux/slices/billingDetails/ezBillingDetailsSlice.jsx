@@ -376,7 +376,7 @@ const ezBillingDetailsSlice = createSlice({
     GstDetailsOfCustomer:null,
     GstDetailsforHsncode:null,
     Users:[],
-    InvoiceItems:[],
+    InvoiceItems:{},
     BillsAmountDetails:[],
     BalanceDetailsByDgst:[],
     BalanceDetailsById:{}

@@ -74,6 +74,10 @@ useEffect(() => {
         dataField: 'state',
         text: 'State',
       },
+      {
+        dataField: 'vehicalNo',
+        text: 'vechical No',
+      },
     ];
 
     return (

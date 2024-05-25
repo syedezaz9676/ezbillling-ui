@@ -44,7 +44,8 @@ const AddUsers = () => {
       firmName: isEdit && User ? User.firmName : "",
       gstNo: isEdit && User ? User.gstNo : "",
       contact:isEdit && User ? User.contact : "",
-      state: isEdit && User ? User.state : ""
+      state: isEdit && User ? User.state : "",
+      vehicalNo: isEdit && User ? User.vehicalNo : ""
   };
 
   const initialValues = {
@@ -56,7 +57,8 @@ const AddUsers = () => {
       firmName: "",
       gstNo: "",
       contact: "",
-      state: ""
+      state: "",
+      vehicalNo:""
   };
   const editRoleList = [];
 
@@ -148,7 +150,8 @@ const handleRemovePlayers = (index) => {
       firmName: formValue.firmName,
       gstNo: formValue.gstNo,
       contact: formValue.contact,
-      state: formValue.state
+      state: formValue.state,
+      vehicalNo:formValue.vehicalNo
     };
 
     const createdCustomerDetails = {
@@ -161,6 +164,7 @@ const handleRemovePlayers = (index) => {
       gstNo: formValue.gstNo,
       contact: formValue.contact,
       state: formValue.state,
+      vehicalNo:formValue.vehicalNo
     };
 
     setSuccessful(false);
@@ -316,6 +320,15 @@ const handleRemovePlayers = (index) => {
                   <Field name="state" type="text" className="form-control" />
                   <ErrorMessage
                     name="state"
+                    component="div"
+                    className="alert alert-danger"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="vehicalNo">Vehical No</label>
+                  <Field name="vehicalNo" type="text" className="form-control" />
+                  <ErrorMessage
+                    name="vehicalNo"
                     component="div"
                     className="alert alert-danger"
                   />

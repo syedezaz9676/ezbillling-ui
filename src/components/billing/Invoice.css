@@ -31,6 +31,15 @@
       white-space: nowrap;
     }
   }
+  .tables-container-items-hsn {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    table td{
+      height: auto;
+      white-space: nowrap;
+    }
+  }
   
   .table-wrapper {
     margin-right: 0; /* Remove margin between table wrappers */
@@ -62,6 +71,12 @@
     height: 250px; /* Set fixed height for the table */
   }
   .table-wrapper-items{
+    margin-right: 0; /* Remove margin between table wrappers */
+    border-collapse: collapse;
+    border: 1px solid black;
+    width: 80%; 
+  }
+  .table-wrapper-items-hsn{
     margin-right: 0; /* Remove margin between table wrappers */
     border-collapse: collapse;
     border: 1px solid black;
