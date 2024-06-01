@@ -31,7 +31,7 @@ function Dashboard() {
               </Card.Text>
               <Button variant="primary" style={{ marginRight: '5px' }}
                   onClick={()=>navigate("/customerreg")}
-              >ADD New</Button>
+              >Add New</Button>
               <Button variant="primary" style={{ marginRight: '5px' }}
                   onClick={()=>navigate("/editcustomerdetails")}
               >Edit</Button>
@@ -50,7 +50,7 @@ function Dashboard() {
               </Card.Text>
               <Button variant="primary" style={{ marginRight: '5px' }}
               onClick={()=>navigate("/companyregistration")}
-              >ADD New</Button>
+              >Add New</Button>
               <Button variant="primary" style={{ marginRight: '5px' }}
               onClick={()=>navigate("/editcompanydetails")}
               >Edit</Button>
@@ -70,7 +70,7 @@ function Dashboard() {
               </Card.Text>
              <Button variant="primary" style={{ marginRight: '5px' }}
               onClick={()=>navigate("/productregistration")}
-              >ADD New</Button> 
+              >Add New</Button> 
               <Button variant="primary" style={{ marginRight: '5px' }}
               onClick={()=>navigate("/editproductdetails")}
               >Edit</Button>
@@ -89,7 +89,7 @@ function Dashboard() {
               </Card.Text>
              <Button variant="primary"style={{ marginRight: '5px' }}
               onClick={()=>navigate("/generatebill")}
-              >ADD New</Button>
+              >Add New</Button>
               <Button variant="primary" style={{ marginRight: '5px' }}
               onClick={()=>navigate("/editinvoice")}
               >Edit</Button>  
@@ -136,10 +136,7 @@ function Dashboard() {
               >Add Stock</Button>
               <Button variant="primary" style={{ marginRight: '5px' }}
               onClick={()=>navigate("/stocktable")}
-              >Stock Position</Button>  
-              {/* <Button variant="primary"
-              onClick={()=>navigate("/viewinvoice")}
-              >View</Button> */}
+              >Stock Position</Button>
             </Card.Body>
           </Card>
         </div>

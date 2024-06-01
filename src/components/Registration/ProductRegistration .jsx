@@ -80,7 +80,7 @@ const userID= UserDetails.user.id;
     //   (val) => val && val.trim() !== "--Please Select---"
     // )
     .min(0, "GST Percentage must be a positive number").required("GST Percentage is required!"),
-    hsncode: Yup.string().required("HSN Code is required!"),
+    hsn_code: Yup.string().required("HSN Code is required!"),
     unitesper: Yup.string().required("Units per is required!"),
     noofunites: Yup.number().min(0, "Number of Units must be a positive number").required("Number of Units is required!"),
     is_sp: Yup.boolean(),
@@ -100,7 +100,7 @@ const userID= UserDetails.user.id;
     rate: isEdit?productDetailsByID.rate:"",
     productcompany: isEdit?productDetailsByID.pcom:"",
     gstPer: isEdit?productDetailsByID.vatp:"",
-    hsncode: isEdit?productDetailsByID.hsn_code:"",
+    hsn_code: isEdit?productDetailsByID.hsn_code:"",
     unitesper: isEdit?productDetailsByID.unites_per:"",
     noofunites:isEdit?productDetailsByID.no_of_unites:"",
     is_sp: isEdit?productDetailsByID.is_sp:"",
@@ -116,7 +116,7 @@ const userID= UserDetails.user.id;
     rate: "",
     productcompany: "",
     gstPer: "",
-    hsncode: "",
+    hsn_code: "",
     unitesper: "",
     noofunites: "",
     is_sp: false,
@@ -124,6 +124,7 @@ const userID= UserDetails.user.id;
     description: "",
     cess:"",
     uqc: "",
+    isEdit:false
   };
 
   const handleRegister = (formvalues) => {
@@ -135,13 +136,14 @@ const userID= UserDetails.user.id;
       "rate": formvalues.rate,
       "pcom": formvalues.productcompany,
       "vatp": formvalues.gstPer,
-      "Hsn_code": formvalues.hsncode,
+      "hsn_code": formvalues.hsn_code,
       "unites_per":formvalues.unitesper,
       "no_of_unites": formvalues.noofunites,
       "is_sp": formvalues.is_sp,
       "rel_prod": formvalues.rel_prod,
       "cess":formvalues.cess,
-      "dgst":userID
+      "dgst":userID,
+      "isEdit":false
 
     }
     const editProductDetails ={
@@ -151,13 +153,14 @@ const userID= UserDetails.user.id;
       "rate": formvalues.rate,
       "pcom": formvalues.productcompany,
       "vatp": formvalues.gstPer,
-      "Hsn_code": formvalues.hsncode,
+      "hsn_code": formvalues.hsn_code,
       "unites_per":formvalues.unitesper,
       "no_of_unites": formvalues.noofunites,
       "is_sp": formvalues.is_sp,
       "rel_prod": formvalues.rel_prod,
       "cess":formvalues.cess,
-      "dgst":userID
+      "dgst":userID,
+      "isEdit":true
 
     }
     const productDetails=isEdit?editProductDetails:saveintProductDetails;
@@ -302,10 +305,10 @@ const userID= UserDetails.user.id;
                   </div>
 
                   <div className="form-group">
-                    <label htmlFor="hsncode">HSN Code</label>
-                    <Field name="hsncode" type="text" className="form-control" />
+                    <label htmlFor="hsn_code">HSN Code</label>
+                    <Field name="hsn_code" type="text" className="form-control" />
                     <ErrorMessage
-                      name="hsncode"
+                      name="hsn_code"
                       component="div"
                       className="alert alert-danger"
                     />
