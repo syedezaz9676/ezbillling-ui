@@ -54,10 +54,7 @@ const CustomerRegister = () => {
     address: isEdit && customerDetailsByID?customerDetailsByID.cadd:'',
     isigst: isEdit && customerDetailsByID?customerDetailsByID.isigst:'',
     supplyplace: isEdit && customerDetailsByID?customerDetailsByID.supplyplace:'',
-    dgst:isEdit && customerDetailsByID?customerDetailsByID.dgst:'',
-
-
-
+    dgst:isEdit && customerDetailsByID?customerDetailsByID.dgst:''
   };
 
   const initialValues = {
@@ -68,9 +65,6 @@ const CustomerRegister = () => {
     isigst: "",
     supplyplace: "",
     dgst:UserDetails.user.id
-
-
-
   };
 
 
@@ -144,7 +138,8 @@ const CustomerRegister = () => {
       'isigst': formValue.isigst,
       'supplyplace': formValue.supplyplace,
       'legal_name': formValue.name,
-      'dgst': UserDetails.user.id
+      'dgst': UserDetails.user.id,
+      'isEdit':true
     }
 
     const createdCustomerDetails = {
@@ -155,7 +150,8 @@ const CustomerRegister = () => {
       'isigst': formValue.isigst,
       'supplyplace': formValue.supplyplace,
       'legal_name': formValue.name,
-      'dgst': UserDetails.user.id
+      'dgst': UserDetails.user.id,
+      'isEdit':false
     }
 
     setSuccessful(false);
