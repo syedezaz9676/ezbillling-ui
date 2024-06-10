@@ -234,7 +234,7 @@ const Invoice = (props) => {
                 InvoiceItems.billingDetails.map((InvoiceItem, i) => {
                   return [
                     <tr>
-                      <td>{InvoiceItem.qty}</td>
+                      <td>{InvoiceItem.qty+" "+InvoiceItem.unites_per}</td>
                     </tr>,
                   ];
                 })}
@@ -737,7 +737,7 @@ const Invoice = (props) => {
                 InvoiceItems.billingDetails.map((InvoiceItem, i) => {
                   return [
                     <tr>
-                      <td>{InvoiceItem.qty}</td>
+                      <td>{InvoiceItem.qty+" "+InvoiceItem.unites_per}</td>
                     </tr>,
                   ];
                 })}
