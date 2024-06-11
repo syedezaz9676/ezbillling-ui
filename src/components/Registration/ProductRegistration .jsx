@@ -122,7 +122,7 @@ const userID= UserDetails.user.id;
     is_sp: false,
     rel_prod: "",
     description: "",
-    cess:"",
+    cess:0,
     uqc: "",
     isEdit:false
   };
