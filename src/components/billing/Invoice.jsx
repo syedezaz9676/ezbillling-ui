@@ -279,7 +279,7 @@ const Invoice = (props) => {
                 InvoiceItems.billingDetails.map((InvoiceItem, i) => {
                   return [
                     <tr>
-                      <td>{InvoiceItem.rate}</td>
+                      <td>{InvoiceItem.rate.toFixed(2)}</td>
                     </tr>,
                   ];
                 })}
@@ -782,7 +782,7 @@ const Invoice = (props) => {
                 InvoiceItems.billingDetails.map((InvoiceItem, i) => {
                   return [
                     <tr>
-                      <td>{InvoiceItem.rate}</td>
+                      <td>{InvoiceItem.rate.toFixed(2)}</td>
                     </tr>,
                   ];
                 })}

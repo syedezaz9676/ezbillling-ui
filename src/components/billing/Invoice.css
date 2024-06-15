@@ -10,7 +10,17 @@
     font-size: 18px; /* Adjust font size as needed */
     /* margin-bottom: 20px; Add some space between "TAX Invoice" and the table */
   }
-  
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  @media print {
+    html, body {
+      width: 210mm;
+      height: 297mm;
+    }
+    /* ... the rest of the rules ... */
+  }
   
   .tables-container {
     display: flex;
