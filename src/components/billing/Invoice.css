@@ -1,94 +1,129 @@
+/* Invoice Container Styling */
 .invoice-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center; /* Center the content horizontally */
-    width: fit-content;
-  }
-  
-  .centered-text {
-    font-size: 18px; /* Adjust font size as needed */
-    /* margin-bottom: 20px; Add some space between "TAX Invoice" and the table */
-  }
-  @page {
-    size: A4;
-    margin: 0;
-  }
-  @media print {
-    html, body {
-      width: 210mm;
-      height: 297mm;
-    }
-    /* ... the rest of the rules ... */
-  }
-  
-  .tables-container {
-    display: flex;
-    justify-content: center;
-    width: -webkit-fill-available;
-    table td {
-      /* padding: 8px; */
-      border: none;
-      text-align: left; /* Align text to the left */
-    }
-  }
-  .tables-container-items {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    table td{
-      height: auto;
-      white-space: nowrap;
-    }
-  }
-  .tables-container-items-hsn {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    table td{
-      height: auto;
-      white-space: nowrap;
-    }
-  }
-  
-  .table-wrapper {
-    margin-right: 0; /* Remove margin between table wrappers */
-    width: 250px; /* Set fixed width for the table wrapper */
-    border-collapse: collapse;
-    border: 1px solid black;
-    width: 100%; 
-    height: 160px;
-  }
-  
-  table {
-    /* border-collapse: collapse;
-    border: 1px solid black;
-    width: 100%; 
-    height: 250px; */
-  }
-  
-  /* Remove borders from table cells */
-  
-  table th {
-    height: 50px;
-    width: 75px;
-    border-bottom: 1px solid;
-  }
-  .product-details-table{
-    border-collapse: collapse;
-    border: 1px solid black; /* Add border to the table */
-    width: 150px; /* Ensure table takes up 100% width of its container */
-    height: 250px; /* Set fixed height for the table */
-  }
-  .table-wrapper-items{
-    margin-right: 0; /* Remove margin between table wrappers */
-    border-collapse: collapse;
-    border: 1px solid black;
-    width: 80%; 
-  }
-  .table-wrapper-items-hsn{
-    margin-right: 0; /* Remove margin between table wrappers */
-    border-collapse: collapse;
-    border: 1px solid black;
-    width: 80%; 
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+
+/* Centered Text Styling */
+.centered-text {
+  font-size: 18px;
+}
+
+/* Tables Container Styling */
+.tables-container,
+.tables-container-items,
+.tables-container-items-hsn {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Table Wrapper Styling */
+.table-wrapper,
+.table-wrapper-items,
+.table-wrapper-items-hsn {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+
+/* General Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  padding: 5px;
+}
+
+/* Center text in td elements by default */
+table td {
+  text-align: center;
+}
+
+/* Left-align text in td elements within tables-container */
+.tables-container table td {
+  text-align: left;
+}
+
+/* Center-align text in td elements within tables-container-items */
+.tables-container-items table td {
+  text-align: center;
+}
+
+/* Tables Container Items Styling */
+.tables-container-items table th {
+  height: 50px;
+  border-bottom: 1px solid;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.tables-container-items table td,
+.tables-container-items-hsn table td {
+  white-space: nowrap;
+}
+
+/* Ensure All Tables Have the Same Width */
+.tables-container table,
+.tables-container-items table,
+.tables-container-items-hsn table {
+  width: 100%;
+}
+
+/* Adjust Column Widths as Necessary */
+table th:nth-child(1),
+table td:nth-child(1) {
+  width: 5%;
+}
+
+table th:nth-child(2),
+table td:nth-child(2) {
+  width: 25%;
+}
+
+table th:nth-child(3),
+table td:nth-child(3) {
+  width: 10%;
+}
+
+table th:nth-child(4),
+table td:nth-child(4) {
+  width: 10%;
+}
+
+table th:nth-child(5),
+table td:nth-child(5) {
+  width: 10%;
+}
+
+table th:nth-child(6),
+table td:nth-child(6) {
+  width: 10%;
+}
+
+table th:nth-child(7),
+table td:nth-child(7) {
+  width: 10%;
+}
+
+table th:nth-child(8),
+table td:nth-child(8) {
+  width: 10%;
+}
+
+table th:nth-child(9),
+table td:nth-child(9) {
+  width: 10%;
+}
+
+/* Normal Borders for Other Table th Elements */
+.tables-container table th,
+.tables-container-items-hsn table th {
+  border: 1px solid black;
+}

@@ -20,7 +20,7 @@ function Dashboard() {
 
     let navigate = useNavigate();
   return (
-    <div className="container">
+    <div>
       <div className="row">
         <div className="col-md-6 col-lg-4">
           <Card>

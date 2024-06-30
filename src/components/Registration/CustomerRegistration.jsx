@@ -59,7 +59,7 @@ const CustomerRegister = () => {
 
   const initialValues = {
     name: "",
-    gstno: "",
+    gstno: "not available",
     phone: "",
     address: "",
     isigst: "",
@@ -193,7 +193,7 @@ const CustomerRegister = () => {
 
                 <div className="form-group">
                   <label htmlFor="gstno">GST Number</label>
-                  <Field name="gstno" type="text" className="form-control" />
+                  <Field name="gstno" type="text" className="form-control" defaultValue="not avaliable"/>
                   <ErrorMessage
                     name="gstno"
                     component="div"

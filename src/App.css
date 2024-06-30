@@ -31,3 +31,7 @@ label {
   -webkit-border-radius: 50%;
   border-radius: 50%;
 }
+.routes{
+  margin-left:50px;
+  margin-right: 50px;
+}

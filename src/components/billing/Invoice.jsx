@@ -25,33 +25,17 @@ const Invoice = (props) => {
   let totalTaxable_d = 0;
   let totalCess = 0;
   let totalCess_d = 0;
-  // const InvoiceNo = savedInvoiceNo;
+  
   const dispatch = useDispatch();
   const InvoiceNo1 = isshowBill ? props.viewInvoicebyno.billno : InvoiceNo;
-  console.log("InvoiceNo1", InvoiceNo1);
   useEffect(() => {
     dispatch(getInvoiceDetails({ InvoiceNo: InvoiceNo1 }))
       .unwrap()
       .then(() => {})
       .catch(() => {});
   }, []);
-  console.log("invoice number", InvoiceNo);
-  console.log("isgetInvoiceDetailsSucess", isgetInvoiceDetailsSucess);
-  console.log("InvoiceItems", InvoiceItems);
-  // const id = InvoiceItems[0].cno;
-
-  // console.log("id",id)
 
   useEffect(() => {
-    console.log("in useeffect");
-
-    // dispatch(getInvoiceDetails({ InvoiceNo }))
-    // .unwrap()
-    // .then(() => {
-    // })
-    // .catch(() => {
-    // })
-
     if (isgetInvoiceDetailsSucess) {
       dispatch(
         getCustomerDetailsByID({ id: InvoiceItems.billingDetails[0].cno })
@@ -60,12 +44,29 @@ const Invoice = (props) => {
         .then(() => {})
         .catch(() => {});
     }
-    console.log("isgetInvoiceDetailsSucess", isgetInvoiceDetailsSucess);
   }, [InvoiceItems]);
+  const spacelength =[1,2.3,4,5,6,7,8,9,10,11,12,13];
+  const createSpace=()=>{
+    if(customerDetailsByID.ctno !=="not avaliable"){
+        if(spacelength.length<(InvoiceItems.billingDetails.length)*3){
+          return 0;
+        }
+          return spacelength.length-(InvoiceItems.billingDetails.length)*3;
+    }else{
+      if(spacelength.length<(InvoiceItems.billingDetails.length)){
+        return 0;
+      }
+      return spacelength.length-(InvoiceItems.billingDetails.length);
+    }
+    
+  }
 
+  
+  spacelength.length = InvoiceItems ? createSpace():0;
+  const space= InvoiceItems?spacelength:[];
   const renderWithLineBreaks = (text) => {
     return text.split("\n").map((line, index) => (
-      <React.Fragment key={index}>
+      <React.Fragment key={index}>c
         {line}
         <br />
       </React.Fragment>
@@ -91,7 +92,7 @@ const Invoice = (props) => {
   const ddmmyyDateString = `${day}/${month}/${year}`;
 
   return (
-    <div className="invoice-printable">
+    <div>
       <div className="invoice-container">
         <div className="centered-text">
           <center>
@@ -136,7 +137,7 @@ const Invoice = (props) => {
               <tbody>
                 <tr>
                   <td>
-                    <b>Customer Name :</b>
+                    <b>Customer Name :</b>{" "}
                     {customerDetailsByID && customerDetailsByID.cname}
                   </td>
                 </tr>
@@ -178,7 +179,7 @@ const Invoice = (props) => {
                 </tr>
                 <tr>
                   <td>
-                    <b>Date :</b>
+                    <b>Date : </b>
                     {ddmmyyDateString}
                   </td>
                 </tr>
@@ -191,7 +192,6 @@ const Invoice = (props) => {
               </tbody>
             </table>
           </div>
-          {/* Repeat this block for other tables */}
         </div>
         <div className="tables-container-items">
           <div className="table-wrapper-items">
@@ -206,6 +206,13 @@ const Invoice = (props) => {
                       <td>{i + 1}</td>
                     </tr>,
                   ];
+                })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
                 })}
             </table>
           </div>
@@ -223,6 +230,13 @@ const Invoice = (props) => {
                     </tr>,
                   ];
                 })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
+                })}
             </table>
           </div>
           <div className="table-wrapper-items">
@@ -237,6 +251,13 @@ const Invoice = (props) => {
                       <td>{InvoiceItem.qty+" "+InvoiceItem.unites_per}</td>
                     </tr>,
                   ];
+                })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
                 })}
             </table>
           </div>
@@ -253,6 +274,13 @@ const Invoice = (props) => {
                     </tr>,
                   ];
                 })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
+                })}
             </table>
           </div>
           <div className="table-wrapper-items">
@@ -265,8 +293,15 @@ const Invoice = (props) => {
                   return [
                     <tr>
                       <td>{InvoiceItem.mrp}</td>
-                    </tr>,
+                    </tr>
                   ];
+                })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
                 })}
             </table>
           </div>
@@ -283,25 +318,15 @@ const Invoice = (props) => {
                     </tr>,
                   ];
                 })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
+                })}
             </table>
           </div>
-
-          {/* <div className="table-wrapper-items">
-        <table>
-          <tr>
-            <th>Disc(%)</th>
-          </tr>
-          {InvoiceItems && InvoiceItems.billingDetails.map((InvoiceItem,i)=>{
-        return[
-         <tr>
-          <td>{InvoiceItem.disc}</td>
-         </tr>
-        ]
-       }
-
-       )}
-        </table>
-        </div> */}
           <div className="table-wrapper-items">
             <table>
               <tr>
@@ -312,14 +337,24 @@ const Invoice = (props) => {
                   return [
                     <tr>
                       <td>{InvoiceItem.cess}</td>
-                    </tr>,
+                    </tr>
                   ];
+                })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
                 })}
               <tr>
                 <td style={{ height: 26 }}></td>
               </tr>
               <tr>
                 <td style={{ height: 27 }}></td>
+              </tr>
+              <tr>
+                <td style={{ height: 20 }}></td>
               </tr>
               <tr>
                 <td style={{ borderTop: "1px solid black" }}>
@@ -342,11 +377,21 @@ const Invoice = (props) => {
                     </tr>,
                   ];
                 })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
+                })}
               <tr>
                 <td style={{ height: 26 }}></td>
               </tr>
               <tr>
                 <td style={{ height: 27 }}></td>
+              </tr>
+              <tr>
+                <td style={{ height: 20 }}></td>
               </tr>
               <tr>
                 <td style={{ borderTop: "1px solid black" }}>
@@ -367,6 +412,13 @@ const Invoice = (props) => {
                       <td>{InvoiceItem.product_gst}</td>
                     </tr>,
                   ];
+                })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
                 })}
               <tr>
                 <td style={{ borderTop: "1px solid black" }}>
@@ -394,6 +446,13 @@ const Invoice = (props) => {
                     </tr>,
                   ];
                 })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
+                })}
               <tr>
                 <td style={{ borderTop: "1px solid black" }}>
                   <b>{(totalTax / 2).toFixed(2)}</b>
@@ -405,7 +464,7 @@ const Invoice = (props) => {
                 </td>
               </tr>
               <tr>
-                <td style={{ borderTop: "1px solid black" }}>
+                <td style={{ borderTop: "1px solid black",height:"10px" }}>
                   <b>{totalTax.toFixed(2)}</b>
                 </td>
               </tr>
@@ -425,11 +484,21 @@ const Invoice = (props) => {
                     </tr>,
                   ];
                 })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
+                })}
               <tr>
                 <td style={{ height: 26 }}></td>
               </tr>
               <tr>
                 <td style={{ height: 27 }}></td>
+              </tr>
+              <tr>
+                <td style={{ height: 20 }}></td>
               </tr>
               <tr>
                 <td style={{ borderTop: "1px solid black" }}>
@@ -452,11 +521,21 @@ const Invoice = (props) => {
                     </tr>,
                   ];
                 })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
+                })}
               <tr>
                 <td style={{ height: 26 }}></td>
               </tr>
               <tr>
                 <td style={{ height: 27 }}></td>
+              </tr>
+              <tr>
+                <td style={{ height: 20 }}></td>
               </tr>
               <tr>
                 <td style={{ borderTop: "1px solid black" }}>
@@ -618,9 +697,6 @@ const Invoice = (props) => {
                     <b>Contact No :</b> {UserDetails.user.contact}
                   </td>
                 </tr>
-                {/* <tr>
-                <td><b>Address :</b> {renderWithLineBreaks(UserDetails.user.address)}</td>
-              </tr> */}
                 <tr>
                   <td>
                     <b>Address :</b> {UserDetails.user.address}
@@ -639,7 +715,7 @@ const Invoice = (props) => {
               <tbody>
                 <tr>
                   <td>
-                    <b>Customer Name :</b>
+                    <b>Customer Name :</b>{" "}
                     {customerDetailsByID && customerDetailsByID.cname}
                   </td>
                 </tr>
@@ -681,7 +757,7 @@ const Invoice = (props) => {
                 </tr>
                 <tr>
                   <td>
-                    <b>Date :</b>
+                    <b>Date : </b>
                     {ddmmyyDateString}
                   </td>
                 </tr>
@@ -710,6 +786,13 @@ const Invoice = (props) => {
                     </tr>,
                   ];
                 })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
+                })}
             </table>
           </div>
 
@@ -726,6 +809,13 @@ const Invoice = (props) => {
                     </tr>,
                   ];
                 })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
+                })}
             </table>
           </div>
           <div className="table-wrapper-items">
@@ -740,6 +830,13 @@ const Invoice = (props) => {
                       <td>{InvoiceItem.qty+" "+InvoiceItem.unites_per}</td>
                     </tr>,
                   ];
+                })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
                 })}
             </table>
           </div>
@@ -756,6 +853,13 @@ const Invoice = (props) => {
                     </tr>,
                   ];
                 })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
+                })}
             </table>
           </div>
           <div className="table-wrapper-items">
@@ -770,6 +874,13 @@ const Invoice = (props) => {
                       <td>{InvoiceItem.mrp}</td>
                     </tr>,
                   ];
+                })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
                 })}
             </table>
           </div>
@@ -786,24 +897,15 @@ const Invoice = (props) => {
                     </tr>,
                   ];
                 })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
+                })}
             </table>
           </div>
-          {/* <div className="table-wrapper-items">
-        <table>
-          <tr>
-            <th>Disc(%)</th>
-          </tr>
-          {InvoiceItems && InvoiceItems.billingDetails.map((InvoiceItem,i)=>{
-        return[
-         <tr>
-          <td>{InvoiceItem.disc}</td>
-         </tr>
-        ]
-       }
-
-       )}
-        </table>
-        </div> */}
           <div className="table-wrapper-items">
             <table>
               <tr>
@@ -817,11 +919,21 @@ const Invoice = (props) => {
                     </tr>,
                   ];
                 })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
+                })}
               <tr>
                 <td style={{ height: 26 }}></td>
               </tr>
               <tr>
                 <td style={{ height: 27 }}></td>
+              </tr>
+              <tr>
+                <td style={{ height: 20 }}></td>
               </tr>
               <tr>
                 <td style={{ borderTop: "1px solid black" }}>
@@ -844,6 +956,13 @@ const Invoice = (props) => {
                     </tr>,
                   ];
                 })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
+                })}
               <tr>
                 <td style={{ height: 26 }}></td>
               </tr>
@@ -851,7 +970,10 @@ const Invoice = (props) => {
                 <td style={{ height: 27 }}></td>
               </tr>
               <tr>
-                <td style={{ borderTop: "1px solid black" }}>
+                <td style={{ height: 20 }}></td>
+              </tr>
+              <tr>
+                <td style={{ borderTop: "1px solid black",marginBottom:"0px"}}>
                   <b>{totalCess_d.toFixed(2)}</b>
                 </td>
               </tr>
@@ -869,6 +991,13 @@ const Invoice = (props) => {
                       <td>{InvoiceItem.product_gst}</td>
                     </tr>,
                   ];
+                })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
                 })}
               <tr>
                 <td style={{ borderTop: "1px solid black" }}>
@@ -895,6 +1024,13 @@ const Invoice = (props) => {
                       <td>{InvoiceItem.gstamount.toFixed(2)}</td>
                     </tr>,
                   ];
+                })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
                 })}
               <tr>
                 <td style={{ borderTop: "1px solid black" }}>
@@ -927,11 +1063,21 @@ const Invoice = (props) => {
                     </tr>,
                   ];
                 })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
+                })}
               <tr>
                 <td style={{ height: 26 }}></td>
               </tr>
               <tr>
                 <td style={{ height: 27 }}></td>
+              </tr>
+              <tr>
+                <td style={{ height: 20 }}></td>
               </tr>
               <tr>
                 <td style={{ borderTop: "1px solid black" }}>
@@ -954,11 +1100,21 @@ const Invoice = (props) => {
                     </tr>,
                   ];
                 })}
+                {space.map((sp)=>{
+                  return[
+                  <tr>
+                  <td><br></br></td>
+                </tr>
+                  ]
+                })}
               <tr>
                 <td style={{ height: 26 }}></td>
               </tr>
               <tr>
                 <td style={{ height: 27 }}></td>
+              </tr>
+              <tr>
+                <td style={{ height: 20 }}></td>
               </tr>
               <tr>
                 <td style={{ borderTop: "1px solid black" }}>
