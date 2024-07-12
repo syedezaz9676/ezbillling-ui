@@ -21,6 +21,11 @@
   justify-content: center;
   width: 100%;
 }
+@media print {
+  .centered-text {
+    font-size: 12px; /* Set your minimum font size for print here */
+  }
+}
 
 /* Table Wrapper Styling */
 .table-wrapper,
