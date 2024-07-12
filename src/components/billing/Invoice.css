@@ -5,11 +5,12 @@
   align-items: center;
   width: 100%;
   justify-content: center;
+  font-size: large;
 }
 
 /* Centered Text Styling */
 .centered-text {
-  font-size: 18px;
+  font-size: calc(11px + 0.5vw);
 }
 
 /* Tables Container Styling */
@@ -62,6 +63,7 @@ table td {
   border-bottom: 1px solid;
   white-space: nowrap;
   text-align: center;
+  font-size: calc(11px + 0.5vw);
 }
 
 .tables-container-items table td,

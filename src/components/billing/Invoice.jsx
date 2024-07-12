@@ -121,7 +121,7 @@ const Invoice = (props) => {
                 <tr>
                   <td>
                     <b>Address :</b>{" "}
-                    {renderWithLineBreaks(UserDetails.user.address)}
+                    {UserDetails.user.address}
                   </td>
                 </tr>
                 <tr>
