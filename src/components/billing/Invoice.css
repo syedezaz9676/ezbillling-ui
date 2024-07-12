@@ -21,7 +21,7 @@
 /* Ensure font size does not go below a certain threshold when printed */
 @media print {
   .centered-text {
-    font-size: var(--min-font-size);
+    font-size: 68px;
   }
 }
 
