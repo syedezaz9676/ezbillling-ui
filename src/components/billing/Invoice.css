@@ -1,6 +1,6 @@
 /* Define a CSS variable for minimum font size */
 :root {
-  --min-font-size: 12px;
+  --min-font-size: 20px;
 }
 
 /* Invoice Container Styling */
@@ -10,7 +10,7 @@
   align-items: center;
   width: 100%;
   justify-content: center;
-  font-size: 24px;
+  font-size: large;
 }
 
 /* Centered Text Styling */
@@ -21,7 +21,7 @@
 /* Ensure font size does not go below a certain threshold when printed */
 @media print {
   .centered-text {
-    font-size: 68px;
+    font-size: var(--min-font-size);
   }
 }
 
@@ -51,7 +51,8 @@ table {
 
 table th,
 table td {
-  padding: 5px;
+  padding: 2px; /* Reduce padding to decrease cell height */
+  height: 30px; /* Set a fixed height for table rows */
 }
 
 /* Center text in td elements by default */
@@ -71,7 +72,7 @@ table td {
 
 /* Tables Container Items Styling */
 .tables-container-items table th {
-  height: 50px;
+  height: 30px; /* Reduce height */
   border-bottom: 1px solid;
   white-space: nowrap;
   text-align: center;
