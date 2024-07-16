@@ -59,7 +59,7 @@ const CustomerRegister = () => {
 
   const initialValues = {
     name: "",
-    gstno: "not available",
+    gstno: "not avaliable",
     phone: "",
     address: "",
     isigst: "",
