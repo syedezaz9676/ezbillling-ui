@@ -139,8 +139,15 @@ const Billing = () => {
     date: new Date(),
   };
 
+  const getname = (customerNames) => {
+    return customerNames.map(bill => bill.cname);
+  };
+
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Company Name is required."),
+    name: Yup.string().required("Customer Name is required.")
+    .test('is-valid-invoice', 'Select valid customer name', function (value) {
+      return getname(customerNames).includes(value);
+  }),
     itemList: Yup.array().of(
       Yup.object().shape({
         pname: Yup.string().required("Product Name is required."),
@@ -255,15 +262,6 @@ const Billing = () => {
                 <div className="form-row">
                   <div>
                     <label htmlFor="name">Customer Name</label>
-                    {/* <Field
-                      name="name"
-                      as="select"
-                      className="form-control"
-                      component="select"
-                      isSearchable={true}
-                    > */}
-
-                    {/* </Field> */}
                     <Field name="name">
                       {({ field, form }) => (
                         <div>
@@ -282,8 +280,6 @@ const Billing = () => {
                                   key={customerName.id}
                                   value={customerName.cname}
                                 />
-                                // <option key={index} value={customerName.id}>
-                                // </option>
                               ))}
                           </datalist>
                         </div>

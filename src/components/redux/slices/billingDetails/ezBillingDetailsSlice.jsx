@@ -379,6 +379,26 @@ export const getGstSalesOfCustomers = createAsyncThunk(
     }
   }
 );
+
+export const getBillsByDate = createAsyncThunk(
+  "getBillsByDate",
+  async ({ details }, thunkAPI) => {
+    try {
+      const BillsByDate = await UserService.getBillsByDate(details);
+      return { BillsByDate };
+    } catch (error) {
+      console.log('eror',error);
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
 export const hideGstDetailsOfCustomer = createAsyncThunk(
   "hideGstDetailsOfCustomer",
  
@@ -421,7 +441,8 @@ const ezBillingDetailsSlice = createSlice({
     BalanceDetailsByDgst:[],
     BalanceDetailsById:{},
     GstSalesOfGstCustomer:[],
-    GstSalesOfCustomer:[]
+    GstSalesOfCustomer:[],
+    BillsByDate:[]
 
   },
   extraReducers: (builder) => {
@@ -697,6 +718,22 @@ const ezBillingDetailsSlice = createSlice({
       console.log('Error', action.payload);
       state.isError = true;
       state.isgetGstSalesOfCustomersPending = false;
+    });
+    builder.addCase(getBillsByDate.pending, (state, action) => {
+      // state.isLoading = true;
+      state.isgetBilllsByDatePending = true;
+    });
+    builder.addCase(getBillsByDate.fulfilled, (state, action) => {
+      // state.isLoading = false;
+      state.BillsByDate = action.payload.BillsByDate.data;
+      state.isgetBilllsByDatePending = false;
+      state.isgetBilllsByDateSucess = true;
+    });
+    
+    builder.addCase(getBillsByDate.rejected, (state, action) => {
+      console.log('Error', action.payload);
+      state.isError = true;
+      state.isgetBilllsByDatePending = false;
     });
     builder.addCase(hideGstDetailsOfCustomer.pending, (state) => {
       console.log("in null")

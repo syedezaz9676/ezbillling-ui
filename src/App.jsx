@@ -45,6 +45,7 @@ import BillsDetailsTable from "./components/tables/BillsDetailsTable";
 import BalanceDetailsTable from "./components/tables/BalanceDetailsTable";
 import ModifyBalanceDetails from "./components/balanceDetails/ModifyBalanceDetails";
 import GstSalesReport from "./components/reports/GstSalesReport";
+import TodayBills from "./components/billing/TodayBills";
 
 
 const App = (props) => {
@@ -113,6 +114,7 @@ dispatch(hideEdit())
           <Route path="/balacnedetails" element={<BalanceDetailsTable/>}/>
           <Route path="/modifybalace" element={<ModifyBalanceDetails/>}/>
           <Route path="/gstsalesreport" element={<GstSalesReport/>}/>
+          <Route path="/todaybills" element={<TodayBills/>}/>
           {/* {UserDetails != null && <Navigate to="/login" />} */}
         </Routes>
       </div>

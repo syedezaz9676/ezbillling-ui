@@ -356,6 +356,18 @@ const getGstSalesOfCustomers = (dates) => {
   });
 };
 
+const getBillsByDate = (details) => {
+  console.log('details', details);
+
+  return axios.get('http://localhost:8080/getbillbydate', {params: {
+    date: details.date,
+    dgst: details.dgst
+  }})
+  .then(response => {
+    return response;
+  });
+};
+
 
 const UserService = {
   getGstCodeDetails,
@@ -389,7 +401,8 @@ const UserService = {
   getBalanceDetailsById,
   modifyBalanceDetails,
   getGstSalesOfGstCustomers,
-  getGstSalesOfCustomers
+  getGstSalesOfCustomers,
+  getBillsByDate
 
 }
 export default UserService;
