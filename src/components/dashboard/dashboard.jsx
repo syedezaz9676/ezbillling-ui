@@ -96,12 +96,15 @@ function Dashboard() {
               <Button variant="primary" style={{ marginRight: '5px' }}
               onClick={()=>navigate("/viewinvoice")}
               >View</Button>
-               <Button variant="primary" style={{ marginTop: '5px' }}
+               <Button variant="primary" style={{ marginRight: '5px' }}
               onClick={()=>navigate("/invoices")}
               >All Invoices</Button>
-              <Button variant="primary" style={{ marginTop: '5px' }}
+              <Button variant="primary" style={{ marginTop: '5px', marginRight: '5px' }}
               onClick={()=>navigate("/todaybills")}
               >Invoices</Button>
+              <Button variant="primary" style={{ marginTop: '5px' }}
+              onClick={()=>navigate("/singlebill")}
+              >Single Invoice</Button>
             </Card.Body>
           </Card>
         </div>

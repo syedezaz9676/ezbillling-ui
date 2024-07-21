@@ -7,10 +7,11 @@ import { getInvoiceDetails,getBillsDetails } from "../redux/slices/billingDetail
 
 import Invoice from "./Invoice";
 import { showBill } from "../redux/slices/ezEnableFiledSlice"; 
+import SingleInvoice from "./SingleInvoice";
 
 // ... (previous imports)
 
-const ViewInvoice = () => {
+const ViewSingleBill = () => {
     let navigate = useNavigate();
     const { UserDetails } = useSelector((state) => state.ezLogin);
     const dispatch = useDispatch();
@@ -58,7 +59,7 @@ const ViewInvoice = () => {
     return (<div>
         { !isshowBill && <div className="col-md-12 signup-form">
             <div className="card card-container">
-                <h3>View Invoice</h3>
+                <h3>View Single Invoice</h3>
                 <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
@@ -104,10 +105,10 @@ const ViewInvoice = () => {
                 </div>
             )}
         </div>}
-        { isshowBill &&  <Invoice viewInvoicebyno= {{billno}}/>}
+        { isshowBill &&  <SingleInvoice viewInvoicebyno= {{billno}}/>}
         </div>
         
     );
 };
 
-export default ViewInvoice;
+export default ViewSingleBill;
