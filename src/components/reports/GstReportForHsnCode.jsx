@@ -46,7 +46,7 @@ const GstReportForHsnCode = () => {
     <div className="form-length">
       {loading && <div className="divLoader">Loading...</div>}
       {!GstDetailsforHsnCode && <div className="card card-container container">
-        <h3>Select Dates to get GST Details of Customer</h3>
+        <h3>Select Dates to get sales details per hsn code </h3>
         <Formik
           initialValues={initialValues}
           onSubmit={handleRegister}
