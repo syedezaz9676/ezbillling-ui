@@ -1,12 +1,13 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-const API_URL = "http://localhost:8080/api/auth/";
+const API_URL = "http://localhost:8080";
+// const API_URL = "https://0b02-171-76-85-220.ngrok-free.app";
 
 class AuthService {
   login(username, password) {
     return axios
-      .post('http://localhost:8080/token', {
+      .post(API_URL+'/token', {
         username,
         password
       })
@@ -21,7 +22,7 @@ class AuthService {
 
   customerRegistration(customerDetails){
     return axios
-    .post('http://localhost:8080/savecustomerdetails', 
+    .post(API_URL+'/savecustomerdetails', 
      customerDetails
     )
     .then(response => {
@@ -31,7 +32,7 @@ class AuthService {
 
   getGstCodeDetails(){
     return axios
-    .get('http://localhost:8080/getgstcodedetails',{headers :authHeader})
+    .get(API_URL+'/getgstcodedetails',{headers :authHeader})
     .then(response => {
       return response;
     });

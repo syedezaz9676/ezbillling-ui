@@ -1,8 +1,12 @@
 import axios from 'axios'
 
+const API_URL = "http://localhost:8080";
+// const API_URL = "https://0b02-171-76-85-220.ngrok-free.app";
+
+
 const getGstCodeDetails = () => {
   console.log('getGstCodeDetails')
-  return axios.get('http://localhost:8080/getgstcodedetails')
+  return axios.get(API_URL+'/getgstcodedetails')
     .then(response => {
       // setData(response.data);
       console.log(response.data);
@@ -16,7 +20,7 @@ const getGstCodeDetails = () => {
 
 const saveCompanyDetails = (companyrDetails) => {
   console.log('companyrDetails', companyrDetails)
-  return axios.post('http://localhost:8080/savecompanydetails',
+  return axios.post(API_URL+'/savecompanydetails',
     companyrDetails
   )
     .then(response => {
@@ -25,7 +29,7 @@ const saveCompanyDetails = (companyrDetails) => {
 };
 
 const getCompanyDetails = (userID) => {
-  return axios.get('http://localhost:8080/getcompanydetails/' + userID)
+  return axios.get(API_URL+'/getcompanydetails/' + userID)
     .then(response => {
       console.log(response.data);
       return response;
@@ -38,7 +42,7 @@ const getCompanyDetails = (userID) => {
 
 const saveProductDetails = (productDetails) => {
   console.log('productDetails', productDetails)
-  return axios.post('http://localhost:8080/saveproductdetails',
+  return axios.post(API_URL+'/saveproductdetails',
     productDetails
   )
     .then(response => {
@@ -48,7 +52,7 @@ const saveProductDetails = (productDetails) => {
 };
 
 const getProductDetails = (userID) => {
-  return axios.get('http://localhost:8080/getproductdetails/' + userID)
+  return axios.get(API_URL+'/getproductdetails/' + userID)
     .then(response => {
       console.log(response.data);
       return response;
@@ -60,7 +64,7 @@ const getProductDetails = (userID) => {
 };
 
 const getProductNames = (userID) => {
-  return axios.get('http://localhost:8080/getproductnames/' + userID)
+  return axios.get(API_URL+'/getproductnames/' + userID)
     .then(response => {
       console.log(response.data);
       return response;
@@ -72,7 +76,7 @@ const getProductNames = (userID) => {
 };
 
 const getProductDetailsByID = (id) => {
-  return axios.get('http://localhost:8080/getproductdetailsbyid/' + id)
+  return axios.get(API_URL+'/getproductdetailsbyid/' + id)
     .then(response => {
       console.log(response.data);
       return response;
@@ -84,7 +88,7 @@ const getProductDetailsByID = (id) => {
 };
 
 const getProductDetailsByCompany = (cName) => {
-  return axios.get('http://localhost:8080/getproductsbycompany/' + cName)
+  return axios.get(API_URL+'/getproductsbycompany/' + cName)
     .then(response => {
       console.log(response.data);
       return response;
@@ -96,7 +100,7 @@ const getProductDetailsByCompany = (cName) => {
 };
 
 const getCompanyNames = (userId) => {
-  return axios.get('http://localhost:8080/getcompanynames/' + userId)
+  return axios.get(API_URL+'/getcompanynames/' + userId)
     .then(response => {
       console.log(response.data);
       return response;
@@ -108,7 +112,7 @@ const getCompanyNames = (userId) => {
 };
 
 const getCustomerNames = (userID) => {
-  return axios.get('http://localhost:8080/getcustomernames/' + userID)
+  return axios.get(API_URL+'/getcustomernames/' + userID)
     .then(response => {
       console.log(response.data);
       return response;
@@ -120,7 +124,7 @@ const getCustomerNames = (userID) => {
 };
 
 const getCompanyDetailsByID = (userId) => {
-  return axios.get('http://localhost:8080/getcompanydetailsbyid/' + userId)
+  return axios.get(API_URL+'/getcompanydetailsbyid/' + userId)
     .then(response => {
       console.log(response.data);
       return response;
@@ -132,7 +136,7 @@ const getCompanyDetailsByID = (userId) => {
 };
 
 const getCustomerDetailsByID = (id) => {
-  return axios.get('http://localhost:8080/getcustomerdetailsbyid/' + id)
+  return axios.get(API_URL+'/getcustomerdetailsbyid/' + id)
     .then(response => {
       console.log(response.data);
       return response;
@@ -144,7 +148,7 @@ const getCustomerDetailsByID = (id) => {
 };
 
 const getCustomerDetailsByDgst = (id) => {
-  return axios.get('http://localhost:8080/getcustomerdetailsbydgst/' + id)
+  return axios.get(API_URL+'/getcustomerdetailsbydgst/' + id)
     .then(response => {
       console.log(response.data);
       return response;
@@ -157,7 +161,7 @@ const getCustomerDetailsByDgst = (id) => {
 
 const saveBillDetails = (BillingDetails) => {
   console.log('formValues', BillingDetails)
-  return axios.post('http://localhost:8080/savebillingdetails',
+  return axios.post(API_URL+'/savebillingdetails',
   BillingDetails
   )
     .then(response => {
@@ -167,7 +171,7 @@ const saveBillDetails = (BillingDetails) => {
 };
 
 const getInvoiceDetails = (InvoiceNo) => {
-  return axios.get('http://localhost:8080/getbillDetailsbyinvoiceno/' + InvoiceNo)
+  return axios.get(API_URL+'/getbillDetailsbyinvoiceno/' + InvoiceNo)
     .then(response => {
       console.log(response.data);
       return response;
@@ -179,7 +183,7 @@ const getInvoiceDetails = (InvoiceNo) => {
 };
 
 const getBillDetails = (InvoiceNo) => {
-  return axios.get('http://localhost:8080/getinvoicebyinvoiceno/' + InvoiceNo)
+  return axios.get(API_URL+'/getinvoicebyinvoiceno/' + InvoiceNo)
     .then(response => {
       console.log(response.data);
       return response;
@@ -192,7 +196,7 @@ const getBillDetails = (InvoiceNo) => {
 
 const updateBillDetails = (BillingDetails) => {
   console.log('formValues', BillingDetails)
-  return axios.post('http://localhost:8080/updatebillingdetails',
+  return axios.post(API_URL+'/updatebillingdetails',
   BillingDetails
   )
     .then(response => {
@@ -204,7 +208,7 @@ const updateBillDetails = (BillingDetails) => {
 const getGstDetailsOfCustomer = (dates) => {
   console.log('dates', dates);
 
-  return axios.get('http://localhost:8080/getgstdetails', {params: {
+  return axios.get(API_URL+'/getgstdetails', {params: {
     startDate: dates.startDate,
     endDate: dates.endDate
   }})
@@ -216,7 +220,7 @@ const getGstDetailsOfCustomer = (dates) => {
 const getGstDetailsForHsnCode = (dates) => {
   console.log('dates', dates);
 
-  return axios.get('http://localhost:8080/gethsngstdetails', {params: {
+  return axios.get(API_URL+'/gethsngstdetails', {params: {
     startDate: dates.startDate,
     endDate: dates.endDate
   }})
@@ -226,7 +230,7 @@ const getGstDetailsForHsnCode = (dates) => {
 };
 
 const getStockDetailsByID = (id) => {
-  return axios.get('http://localhost:8080/getstockdetailsbyid/' + id)
+  return axios.get(API_URL+'/getstockdetailsbyid/' + id)
     .then(response => {
       console.log(response.data);
       return response;
@@ -239,7 +243,7 @@ const getStockDetailsByID = (id) => {
 
 const saveStockDetails = (StockDetails) => {
   console.log('request', StockDetails)
-  return axios.post('http://localhost:8080/savestockdetails',
+  return axios.post(API_URL+'/savestockdetails',
   StockDetails
   )
     .then(response => {
@@ -249,7 +253,7 @@ const saveStockDetails = (StockDetails) => {
 };
 
 const getStockDetailsByDgst = (dgst) => {
-  return axios.get('http://localhost:8080/getstockbypcomanddgst/' + dgst )
+  return axios.get(API_URL+'/getstockbypcomanddgst/' + dgst )
     .then(response => {
       console.log(response.data);
       return response;
@@ -263,7 +267,7 @@ const getStockDetailsByDgst = (dgst) => {
 const getSalesDetails = (dates) => {
   console.log('dates', dates);
 
-  return axios.get('http://localhost:8080/getsalesdetails', {params: {
+  return axios.get(API_URL+'/getsalesdetails', {params: {
     startDate: dates.startDate,
     endDate: dates.endDate
   }})
@@ -274,7 +278,7 @@ const getSalesDetails = (dates) => {
 
 const saveUser = (user) => {
   console.log('request', user)
-  return axios.post('http://localhost:8080/saveuser',
+  return axios.post(API_URL+'/saveuser',
   user
   )
     .then(response => {
@@ -285,7 +289,7 @@ const saveUser = (user) => {
 
 const getUsers = () => {
   console.log('users')
-  return axios.get('http://localhost:8080/getusers')
+  return axios.get(API_URL+'/getusers')
   .then(response => {
     return response;
   });
@@ -293,28 +297,28 @@ const getUsers = () => {
 
 const getUser = (userName) => {
 
-  return axios.get('http://localhost:8080/getuser/'+ userName)
+  return axios.get(API_URL+'/getuser/'+ userName)
   .then(response => {
     return response;
   });
 };
 
 const getBillsDetails = (userID) => {
-  return axios.get('http://localhost:8080/getbillsamount/'+userID)
+  return axios.get(API_URL+'/getbillsamount/'+userID)
   .then(response => {
     return response;
   });
 };
 
 const getBalanceDetailsByDgst = (userID) => {
-  return axios.get('http://localhost:8080/getbalancedetails/'+userID)
+  return axios.get(API_URL+'/getbalancedetails/'+userID)
   .then(response => {
     return response;
   });
 };
 
 const getBalanceDetailsById = (id) => {
-  return axios.get('http://localhost:8080/getbalancedetailsbyid/'+id)
+  return axios.get(API_URL+'/getbalancedetailsbyid/'+id)
   .then(response => {
     return response;
   });
@@ -323,7 +327,7 @@ const getBalanceDetailsById = (id) => {
 
 const modifyBalanceDetails = (BalanceDetails) => {
   console.log('balanceDetails', BalanceDetails)
-  return axios.post('http://localhost:8080/modifybalancedetails',
+  return axios.post(API_URL+'/modifybalancedetails',
   BalanceDetails
   )
     .then(response => {
@@ -335,7 +339,7 @@ const modifyBalanceDetails = (BalanceDetails) => {
 const getGstSalesOfGstCustomers = (dates) => {
   console.log('dates', dates);
 
-  return axios.get('http://localhost:8080/getgstsalesofgstcusotmers', {params: {
+  return axios.get(API_URL+'/getgstsalesofgstcusotmers', {params: {
     startDate: dates.startDate,
     endDate: dates.endDate
   }})
@@ -347,7 +351,7 @@ const getGstSalesOfGstCustomers = (dates) => {
 const getGstSalesOfCustomers = (dates) => {
   console.log('dates', dates);
 
-  return axios.get('http://localhost:8080/getgstsalesofcusotmers', {params: {
+  return axios.get(API_URL+'/getgstsalesofcusotmers', {params: {
     startDate: dates.startDate,
     endDate: dates.endDate
   }})
@@ -359,7 +363,7 @@ const getGstSalesOfCustomers = (dates) => {
 const getBillsByDate = (details) => {
   console.log('details', details);
 
-  return axios.get('http://localhost:8080/getbillbydate', {params: {
+  return axios.get(API_URL+'/getbillbydate', {params: {
     date: details.date,
     dgst: details.dgst
   }})

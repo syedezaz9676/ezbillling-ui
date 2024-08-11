@@ -36,6 +36,7 @@ const ReportingTable = ({ data }) => {
         <TableCell><b>Bill No</b></TableCell>
         <TableCell><b>Billing Date</b></TableCell>
         <TableCell><b>GST</b></TableCell>
+        <TableCell><b>Cess Amount</b></TableCell>
         <TableCell><b>Taxable Amount</b></TableCell>
         <TableCell><b>Total Taxable Amount</b></TableCell>
         <TableCell><b>Total Amount</b></TableCell>
@@ -52,6 +53,11 @@ const ReportingTable = ({ data }) => {
               <TableCell>
                 {bill && bill.sumOfGsts.map((gst, gstIndex) => (
                   <div key={`${index}-${billIndex}-${gstIndex}`}>{gst.gst}%</div>
+                ))}
+              </TableCell>
+              <TableCell>
+                {bill && bill.sumOfGsts.map((gst, gstIndex) => (
+                  <div key={`${index}-${billIndex}-${gstIndex}`}>{gst.sumOfCessAmount.toFixed(2)}</div>
                 ))}
               </TableCell>
               <TableCell>
