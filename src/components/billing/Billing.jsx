@@ -170,6 +170,7 @@ const Billing = () => {
   const handleRegister = async (formValue) => {
     formValue.userID = userID;
     const items = formValue.itemList;
+    
     const updatedBillingDetails = [];
     console.log("item", items);
     for (const item of items) {

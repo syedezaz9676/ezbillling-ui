@@ -372,6 +372,13 @@ const getBillsByDate = (details) => {
   });
 };
 
+const getMontlySales = () => {
+  return axios.get(API_URL+'/sixmonthssale')
+  .then(response => {
+    return response;
+  });
+};
+
 
 const UserService = {
   getGstCodeDetails,
@@ -406,7 +413,8 @@ const UserService = {
   modifyBalanceDetails,
   getGstSalesOfGstCustomers,
   getGstSalesOfCustomers,
-  getBillsByDate
+  getBillsByDate,
+  getMontlySales
 
 }
 export default UserService;
