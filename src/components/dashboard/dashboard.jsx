@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { Navigate, useNavigate } from "react-router-dom";
 import { hideEdit,hideBill } from "../redux/slices/ezEnableFiledSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { hideGstDetailsOfCustomer,hideGstDetailsForHsnCode,hideInvoiceDetails,hideSalesDetails,resetInvoiceNo } from "../redux/slices/billingDetails/ezBillingDetailsSlice";
+import { hideGstDetailsOfCustomer,hideGstDetailsForHsnCode,hideInvoiceDetails,hideSalesDetails,resetInvoiceNo,resetMonthlySales } from "../redux/slices/billingDetails/ezBillingDetailsSlice";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -15,6 +15,7 @@ function Dashboard() {
     dispatch(hideGstDetailsForHsnCode());
     dispatch(hideInvoiceDetails());
     dispatch(hideSalesDetails());
+    // dispatch(resetMonthlySales());
     // dispatch(resetInvoiceNo());
     },[])
 
@@ -124,9 +125,12 @@ function Dashboard() {
               <Button variant="primary" style={{ marginRight: '5px' }}
               onClick={()=>navigate("/salesreport")}
               >Sales</Button>
-              <Button variant="primary" style={{ marginTop: '5px' }}
+              <Button variant="primary" style={{ marginTop: '5px', marginRight: '5px' }}
               onClick={()=>navigate("/gstsalesreport")}
               >Gst Sales</Button>
+              <Button variant="primary"
+              onClick={()=>navigate("/salescompare")}
+              >6 Months</Button>
             </Card.Body>
           </Card>
         </div>

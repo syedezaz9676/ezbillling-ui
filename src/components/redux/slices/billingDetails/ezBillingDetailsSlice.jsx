@@ -399,6 +399,25 @@ export const getBillsByDate = createAsyncThunk(
     }
   }
 );
+export const getMontlySales = createAsyncThunk(
+  "getMontlySales",
+  async ( thunkAPI) => {
+    try {
+      const Montlysales = await UserService.getMontlySales();
+      return { Montlysales };
+    } catch (error) {
+      console.log('eror',error);
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
 export const hideGstDetailsOfCustomer = createAsyncThunk(
   "hideGstDetailsOfCustomer",
  
@@ -416,6 +435,11 @@ export const hideInvoiceDetails = createAsyncThunk(
 
 export const hideSalesDetails = createAsyncThunk(
   "hideSalesDetails",
+ 
+)
+
+export const resetMonthlySales = createAsyncThunk(
+  "resetMonthlySales",
  
 )
 
@@ -442,7 +466,8 @@ const ezBillingDetailsSlice = createSlice({
     BalanceDetailsById:{},
     GstSalesOfGstCustomer:[],
     GstSalesOfCustomer:[],
-    BillsByDate:[]
+    BillsByDate:[],
+    Montlysales:[]
 
   },
   extraReducers: (builder) => {
@@ -672,6 +697,22 @@ const ezBillingDetailsSlice = createSlice({
       state.isError = true;
       state.isBalanceDetailsByDgstPending = false;
     });
+    builder.addCase(getMontlySales.pending, (state, action) => {
+      // state.isLoading = true;
+      state.isgetMontlySalesPending = true;
+    });
+    builder.addCase(getMontlySales.fulfilled, (state, action) => {
+      // state.isLoading = false;
+      state.Montlysales = action.payload.Montlysales.data;
+      state.isgetMontlySalesPending = false;
+      state.isgetMontlySalesSucess = true;
+    });
+    
+    builder.addCase(getMontlySales.rejected, (state, action) => {
+      console.log('Error', action.payload);
+      state.isError = true;
+      state.isgetMontlySalesPending = false;
+    });
     builder.addCase(getBalanceDetailsById.pending, (state, action) => {
       // state.isLoading = true;
       state.isBalanceDetailsByIdPending = true;
@@ -751,6 +792,9 @@ const ezBillingDetailsSlice = createSlice({
       state.SalesDetails = null;
       state.GstSalesOfGstCustomer = null;
       state.GstSalesOfCustomer = null;
+    });
+    builder.addCase(resetMonthlySales.pending, (state) => {
+      state.Montlysales = null;
     });
   }
 });
