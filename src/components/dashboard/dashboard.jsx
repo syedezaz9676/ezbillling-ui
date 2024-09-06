@@ -125,12 +125,15 @@ function Dashboard() {
               <Button variant="primary" style={{ marginRight: '5px' }}
               onClick={()=>navigate("/salesreport")}
               >Sales</Button>
-              <Button variant="primary" style={{ marginTop: '5px', marginRight: '5px' }}
+              <Button variant="primary" style={{ marginTop: '5px',marginRight: '5px'}}
               onClick={()=>navigate("/gstsalesreport")}
               >Gst Sales</Button>
-              <Button variant="primary"
+              <Button variant="primary"style={{ marginTop: '5px', marginRight: '5px' }}
               onClick={()=>navigate("/salescompare")}
-              >6 Months</Button>
+              >Sales Graphs</Button>
+              <Button variant="primary" style={{ marginTop: '5px', marginRight: '5px' }}
+              onClick={()=>navigate("/companysalescompare")}
+              >Company Sales Graph</Button>
             </Card.Body>
           </Card>
         </div>

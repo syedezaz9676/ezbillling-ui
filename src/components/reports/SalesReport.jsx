@@ -45,7 +45,7 @@ const SalesReport = () => {
   return (
     <div className="form-length">
       {loading && <div className="divLoader">Loading...</div>}
-      {!SalesDetails && <div className="card card-container container">
+      {!SalesDetails && <div className="card card-container">
         <h3>Select Dates to get Sales Details of Company</h3>
         <Formik
           initialValues={initialValues}

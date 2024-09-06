@@ -418,6 +418,25 @@ export const getMontlySales = createAsyncThunk(
     }
   }
 );
+export const getMonthlyCompanySales = createAsyncThunk(
+  "getMonthlyCompanySales",
+  async ({ details }, thunkAPI) => {
+    try {
+      const MonthlyCompanySales = await UserService.getMonthlyCompanySales(details);
+      return { MonthlyCompanySales };
+    } catch (error) {
+      console.log('eror',error);
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
 export const hideGstDetailsOfCustomer = createAsyncThunk(
   "hideGstDetailsOfCustomer",
  
@@ -467,7 +486,8 @@ const ezBillingDetailsSlice = createSlice({
     GstSalesOfGstCustomer:[],
     GstSalesOfCustomer:[],
     BillsByDate:[],
-    Montlysales:[]
+    Montlysales:[],
+    MonthlyCompanySales:[]
 
   },
   extraReducers: (builder) => {
@@ -768,13 +788,29 @@ const ezBillingDetailsSlice = createSlice({
       // state.isLoading = false;
       state.BillsByDate = action.payload.BillsByDate.data;
       state.isgetBilllsByDatePending = false;
-      state.isgetBilllsByDateSucess = true;
+      state.isgetBilllsBDateSucess = true;
     });
     
     builder.addCase(getBillsByDate.rejected, (state, action) => {
       console.log('Error', action.payload);
       state.isError = true;
       state.isgetBilllsByDatePending = false;
+    });
+    builder.addCase(getMonthlyCompanySales.pending, (state, action) => {
+      // state.isLoading = true;
+      state.isgetMonthlyCompanySalesPending = true;
+    });
+    builder.addCase(getMonthlyCompanySales.fulfilled, (state, action) => {
+      // state.isLoading = false;
+      state.MonthlyCompanySales = action.payload.MonthlyCompanySales.data;
+      state.isgetMonthlyCompanySalesPending = false;
+      state.isgetMonthlyCompanySalesSucess = true;
+    });
+    
+    builder.addCase(getMonthlyCompanySales.rejected, (state, action) => {
+      console.log('Error', action.payload);
+      state.isError = true;
+      state.isgetMonthlyCompanySalesPending = false;
     });
     builder.addCase(hideGstDetailsOfCustomer.pending, (state) => {
       console.log("in null")
@@ -792,9 +828,11 @@ const ezBillingDetailsSlice = createSlice({
       state.SalesDetails = null;
       state.GstSalesOfGstCustomer = null;
       state.GstSalesOfCustomer = null;
+      state.MonthlyCompanySales=null;
     });
     builder.addCase(resetMonthlySales.pending, (state) => {
       state.Montlysales = null;
+      state.MonthlyCompanySales=null;
     });
   }
 });

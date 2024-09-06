@@ -379,6 +379,17 @@ const getMontlySales = () => {
   });
 };
 
+const getMonthlyCompanySales = (details) => {
+  console.log('details', details);
+
+  return axios.get(API_URL+'/getcompanymonthlysales', {params: {
+    company: details.company,
+    months: details.months
+  }})
+  .then(response => {
+    return response;
+  });
+};
 
 const UserService = {
   getGstCodeDetails,
@@ -414,7 +425,8 @@ const UserService = {
   getGstSalesOfGstCustomers,
   getGstSalesOfCustomers,
   getBillsByDate,
-  getMontlySales
+  getMontlySales,
+  getMonthlyCompanySales
 
 }
 export default UserService;

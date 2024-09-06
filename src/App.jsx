@@ -49,6 +49,7 @@ import TodayBills from "./components/billing/TodayBills";
 import SingleInvoice from "./components/billing/SingleInvoice";
 import ViewSingleBill from "./components/billing/ViewSingleBill";
 import SalesComparision from "./components/reports/SalesComparision";
+import MontlyCompanySales from "./components/billing/MontlyCompanySales";
 
 
 const App = (props) => {
@@ -120,6 +121,7 @@ dispatch(hideEdit())
           <Route path="/todaybills" element={<TodayBills/>}/>
           <Route path="/singlebill" element={<ViewSingleBill/>}/>
           <Route path="/salescompare" element={<SalesComparision/>}/>
+          <Route path="/companysalescompare" element={<MontlyCompanySales/>}/>
           {/* {UserDetails != null && <Navigate to="/login" />} */}
         </Routes>
       </div>
