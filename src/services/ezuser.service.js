@@ -210,7 +210,8 @@ const getGstDetailsOfCustomer = (dates) => {
 
   return axios.get(API_URL+'/getgstdetails', {params: {
     startDate: dates.startDate,
-    endDate: dates.endDate
+    endDate: dates.endDate,
+    dgst: dates.dgst
   }})
   .then(response => {
     return response;

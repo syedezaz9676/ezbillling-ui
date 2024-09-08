@@ -54,7 +54,8 @@ const CustomerRegister = () => {
     address: isEdit && customerDetailsByID?customerDetailsByID.cadd:'',
     isigst: isEdit && customerDetailsByID?customerDetailsByID.isigst:'',
     supplyplace: isEdit && customerDetailsByID?customerDetailsByID.supplyplace:'',
-    dgst:isEdit && customerDetailsByID?customerDetailsByID.dgst:''
+    dgst:isEdit && customerDetailsByID?customerDetailsByID.dgst:'',
+    legal_name:isEdit && customerDetailsByID?customerDetailsByID.legal_name:''
   };
 
   const initialValues = {
@@ -64,7 +65,8 @@ const CustomerRegister = () => {
     address: "",
     isigst: "",
     supplyplace: "",
-    dgst:UserDetails.user.id
+    dgst:UserDetails.user.id,
+    legal_name:""
   };
 
 
@@ -124,6 +126,13 @@ const CustomerRegister = () => {
         (val) => val && val.trim() !== "--Please Select---"
       )
       .required("This Supply Place is required!"),
+      legal_name: Yup.string()
+      .test(
+        "is-not-empty",
+        "Please select valid Legal name",
+        (val) => val && val.trim() !== "--Please Enter---"
+      )
+      .required("This Legal Name is required!"),
   });
 
   const handleRegister = (formValue) => {
@@ -139,7 +148,8 @@ const CustomerRegister = () => {
       'supplyplace': formValue.supplyplace,
       'legal_name': formValue.name,
       'dgst': UserDetails.user.id,
-      'isEdit':true
+      'isEdit':true,
+      "legal_name":formValue.legal_name
     }
 
     const createdCustomerDetails = {
@@ -151,7 +161,8 @@ const CustomerRegister = () => {
       'supplyplace': formValue.supplyplace,
       'legal_name': formValue.name,
       'dgst': UserDetails.user.id,
-      'isEdit':false
+      'isEdit':false,
+      "legal_name":formValue.legal_name
     }
 
     setSuccessful(false);
@@ -253,7 +264,15 @@ const CustomerRegister = () => {
                     className="alert alert-danger"
                   />
                 </div>
-
+                <div className="form-group">
+                  <label htmlFor="legal_name">Legal Name</label>
+                  <Field name="legal_name" type="text" className="form-control" />
+                  <ErrorMessage
+                    name="legal_name"
+                    component="div"
+                    className="alert alert-danger"
+                  />
+                </div>
                 <div className="form-group">
                   <button type="submit" className="btn btn-primary btn-block">Save Details</button>
                 </div>
