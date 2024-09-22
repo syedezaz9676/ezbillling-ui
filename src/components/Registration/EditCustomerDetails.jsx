@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Formik, Field, Form, ErrorMessage, FieldArray } from "formik";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { clearMessage } from "../redux/message";
 import { showEdit } from "../redux/slices/ezEnableFiledSlice";
 import {
   getCustomerDetailsByID,
   getCustomerNames,
+  deActivateCustomer,
 } from "../redux/ezCustomerRegistrationSlice";
 import CustomerRegister from "./CustomerRegistration";
-
-// ... (previous imports)
 
 const EditCustomerDetails = () => {
   const { UserDetails } = useSelector((state) => state.ezLogin);
@@ -21,50 +19,58 @@ const EditCustomerDetails = () => {
   const { isEdit } = useSelector((state) => state.ezEnableField);
 
   const userID = UserDetails.user.id;
-  useEffect(() => {
-    dispatch(getCustomerNames({ userID }))
-      .unwrap()
-      .then(() => {
-        // navigate("/dashboard");
-        // window.location.reload();
-      })
-      .catch(() => {});
 
-    // dispatch(clearCompanyDetailsByID());
-  }, [dispatch]);
+  useEffect(() => {
+    dispatch(getCustomerNames({ userID })).catch(() => {});
+  }, [dispatch, userID]);
+
   const { customerNames, isgetCustomerDetailsByIDPendng } = useSelector(
     (state) => state.ezCustomerRegistration
   );
-  function getIdByName(customerNames, name) {
-    const customer = customerNames.find((customer) => customer.cname === name);
-    return customer ? customer.id : null;
-  }
-  function getNameById(customerNames, id) {
-    const customer = customerNames.find((customer) => customer.id === id);
-    return customer ? customer.cname : null;
-  }
-  //   const { GstCodeDetails } = useSelector((state) => state.ezgetGstCodeDetails);
+
+  const getIdByName = useMemo(
+    () => (name) => {
+      const customer = customerNames.find((customer) => customer.cname === name);
+      return customer ? customer.id : null;
+    },
+    [customerNames]
+  );
 
   const initialValues = {
     name: "",
     gstPer: [],
   };
-  const getname = (customerNames) => {
-    return customerNames.map((bill) => bill.cname);
-  };
+
+  const getname = useMemo(
+    () => customerNames.map((bill) => bill.cname),
+    [customerNames]
+  );
+
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .required("Customer Name is required.")
-      .test("is-valid-invoice", "Select valid customer name", function (value) {
-        return getname(customerNames).includes(value);
-      }),
+      .test("is-valid-invoice", "Select valid customer name", (value) =>
+        getname.includes(value)
+      ),
   });
 
   const handleRegister = (formValue) => {
-    console.log("formValue", formValue);
-    const id = getIdByName(customerNames, formValue.name);
+    const id = getIdByName(formValue.name);
     dispatch(getCustomerDetailsByID({ id }));
     dispatch(showEdit());
+  };
+
+  const handleDeActivate = (name, resetForm) => {
+    // Confirmation pop-up before proceeding
+    if (window.confirm(`Are you sure you want to deactivate ${name}?`)) {
+      const id = getIdByName(name);
+      dispatch(deActivateCustomer({ id }))
+        .unwrap()
+        .then(() => {
+          resetForm();
+        })
+        .catch(() => {});
+    }
   };
 
   return (
@@ -78,14 +84,13 @@ const EditCustomerDetails = () => {
               validationSchema={validationSchema}
               onSubmit={handleRegister}
             >
-              <Form>
-                {/* ... (other form fields) */}
-                <div>
+              {({ resetForm, values }) => (
+                <Form>
                   <div className="form-group">
                     <div>
                       <label htmlFor="name">Search Customer Name</label>
                       <Field name="name">
-                        {({ field, form }) => (
+                        {({ field }) => (
                           <div>
                             <input
                               type="text"
@@ -97,7 +102,7 @@ const EditCustomerDetails = () => {
                             />
                             <datalist id="selectOptions">
                               {customerNames &&
-                                customerNames.map((customerName, index) => (
+                                customerNames.map((customerName) => (
                                   <option
                                     key={customerName.id}
                                     value={customerName.cname}
@@ -113,27 +118,25 @@ const EditCustomerDetails = () => {
                         className="alert alert-danger"
                       />
                     </div>
-                    <button type="submit" className="btn btn-primary btn-block">
+                    <button
+                      type="submit"
+                      className="btn btn-primary btn-block"
+                      style={{ marginRight: "10px" }}
+                    >
                       Edit Details
                     </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger btn-block"
+                      onClick={() => handleDeActivate(values.name, resetForm)}
+                    >
+                      Deactivate Customer
+                    </button>
                   </div>
-                </div>
-              </Form>
+                </Form>
+              )}
             </Formik>
           </div>
-          {message && (
-            <div className="form-group">
-              <div
-                className={
-                  successful ? "alert alert-success" : "alert alert-danger"
-                }
-                role="alert"
-              >
-                {message}
-              </div>
-            </div>
-          )}
-
           {message && (
             <div className="form-group">
               <div

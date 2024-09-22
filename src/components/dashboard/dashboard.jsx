@@ -166,9 +166,12 @@ function Dashboard() {
               <Button variant="primary" style={{ marginRight: '5px' }}
               onClick={()=>navigate("/edituser")}
               >Edit User</Button>  
-              <Button variant="primary"
+              <Button variant="primary" style={{  marginTop: '5px', marginRight: '5px' }}
               onClick={()=>navigate("/usertable")}
               >View</Button>
+              <Button variant="primary"
+              onClick={()=>navigate("/addhsncodedetails")}
+              >Add HsnDetails</Button>
             </Card.Body>
           </Card>
         </div>

@@ -142,7 +142,10 @@ const Billing = () => {
   const getname = (customerNames) => {
     return customerNames.map(bill => bill.cname);
   };
-
+  
+  const getProductNamesfromList = (productDetails) => {
+    return productDetails.map((productDetail) => productDetail.pname);
+  };
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Customer Name is required.")
     .test('is-valid-invoice', 'Select valid customer name', function (value) {
@@ -150,7 +153,10 @@ const Billing = () => {
   }),
     itemList: Yup.array().of(
       Yup.object().shape({
-        pname: Yup.string().required("Product Name is required."),
+        pname: Yup.string().required("Product Name is required.")
+        .test('is-valid-product', 'Select valid product name', function (value) {
+          return getProductNamesfromList(productDetails).includes(value);
+      }),
         rate: Yup.number()
           .typeError("Rate must be a number.")
           .positive("Rate must be a positive number.")
@@ -378,6 +384,11 @@ const Billing = () => {
                                   </div>
                                 )}
                               </Field>
+                              <ErrorMessage
+                                name={`itemList.${index}.pname`}
+                                component="div"
+                                className="text-danger"
+                              />
                             </div>
                             <div className="form-group">
                               {index === 0 ? (

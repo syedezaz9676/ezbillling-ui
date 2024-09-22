@@ -81,6 +81,24 @@ export const getCustomerDetailsByDgst = createAsyncThunk(
     }
   }
 )
+export const deActivateCustomer = createAsyncThunk(
+  "deActivateCustomer",
+  async ({ id }, thunkAPI) => {
+    try {
+      const deActivateCustomerStatus = await UserService.deActivateCustomer(id);
+      return { deActivateCustomerStatus };
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
 const ezCustomerRegistrationSlice = createSlice({
   name: "ezCustomerRegistration",
   initialState: {
@@ -136,6 +154,18 @@ const ezCustomerRegistrationSlice = createSlice({
       ;
     });
     builder.addCase(getCustomerDetailsByDgst.rejected, (state, action) => {
+      console.log('Error', action.payload);
+      state.isError = true;
+    })
+    builder.addCase(deActivateCustomer.pending, (state, action) => {
+      state.isDeActivateCustomerPendng = true;
+    });
+    builder.addCase(deActivateCustomer.fulfilled, (state, action) => {
+      state.isDeActivateCustomerPendng = false;
+      state.deActivateCustomerStatus = action.payload.deActivateCustomerStatus.data
+      ;
+    });
+    builder.addCase(deActivateCustomer.rejected, (state, action) => {
       console.log('Error', action.payload);
       state.isError = true;
     })

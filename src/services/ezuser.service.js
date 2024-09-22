@@ -1,25 +1,20 @@
 import axios from 'axios'
 
 const API_URL = "http://localhost:8080";
-// const API_URL = "https://0b02-171-76-85-220.ngrok-free.app";
 
 
 const getGstCodeDetails = () => {
   console.log('getGstCodeDetails')
   return axios.get(API_URL+'/getgstcodedetails')
     .then(response => {
-      // setData(response.data);
-      console.log(response.data);
       return response;
     })
     .catch(error => {
-      // setError(error);
       console.log(error);
     })
 };
 
 const saveCompanyDetails = (companyrDetails) => {
-  console.log('companyrDetails', companyrDetails)
   return axios.post(API_URL+'/savecompanydetails',
     companyrDetails
   )
@@ -31,22 +26,18 @@ const saveCompanyDetails = (companyrDetails) => {
 const getCompanyDetails = (userID) => {
   return axios.get(API_URL+'/getcompanydetails/' + userID)
     .then(response => {
-      console.log(response.data);
       return response;
     })
     .catch(error => {
-      // setError(error);
       console.log(error);
     })
 };
 
 const saveProductDetails = (productDetails) => {
-  console.log('productDetails', productDetails)
   return axios.post(API_URL+'/saveproductdetails',
     productDetails
   )
     .then(response => {
-      console.log('productDetails res', response)
       return response;
     });
 };
@@ -54,11 +45,9 @@ const saveProductDetails = (productDetails) => {
 const getProductDetails = (userID) => {
   return axios.get(API_URL+'/getproductdetails/' + userID)
     .then(response => {
-      console.log(response.data);
       return response;
     })
     .catch(error => {
-      // setError(error);
       console.log(error);
     })
 };
@@ -66,11 +55,9 @@ const getProductDetails = (userID) => {
 const getProductNames = (userID) => {
   return axios.get(API_URL+'/getproductnames/' + userID)
     .then(response => {
-      console.log(response.data);
       return response;
     })
     .catch(error => {
-      // setError(error);
       console.log(error);
     })
 };
@@ -78,11 +65,9 @@ const getProductNames = (userID) => {
 const getProductDetailsByID = (id) => {
   return axios.get(API_URL+'/getproductdetailsbyid/' + id)
     .then(response => {
-      console.log(response.data);
       return response;
     })
     .catch(error => {
-      // setError(error);
       console.log(error);
     })
 };
@@ -90,11 +75,9 @@ const getProductDetailsByID = (id) => {
 const getProductDetailsByCompany = (cName) => {
   return axios.get(API_URL+'/getproductsbycompany/' + cName)
     .then(response => {
-      console.log(response.data);
       return response;
     })
     .catch(error => {
-      // setError(error);
       console.log(error);
     })
 };
@@ -102,11 +85,9 @@ const getProductDetailsByCompany = (cName) => {
 const getCompanyNames = (userId) => {
   return axios.get(API_URL+'/getcompanynames/' + userId)
     .then(response => {
-      console.log(response.data);
       return response;
     })
     .catch(error => {
-      // setError(error);
       console.log(error);
     })
 };
@@ -114,11 +95,9 @@ const getCompanyNames = (userId) => {
 const getCustomerNames = (userID) => {
   return axios.get(API_URL+'/getcustomernames/' + userID)
     .then(response => {
-      console.log(response.data);
       return response;
     })
     .catch(error => {
-      // setError(error);
       console.log(error);
     })
 };
@@ -126,11 +105,9 @@ const getCustomerNames = (userID) => {
 const getCompanyDetailsByID = (userId) => {
   return axios.get(API_URL+'/getcompanydetailsbyid/' + userId)
     .then(response => {
-      console.log(response.data);
       return response;
     })
     .catch(error => {
-      // setError(error);
       console.log(error);
     })
 };
@@ -138,11 +115,9 @@ const getCompanyDetailsByID = (userId) => {
 const getCustomerDetailsByID = (id) => {
   return axios.get(API_URL+'/getcustomerdetailsbyid/' + id)
     .then(response => {
-      console.log(response.data);
       return response;
     })
     .catch(error => {
-      // setError(error);
       console.log(error);
     })
 };
@@ -150,22 +125,18 @@ const getCustomerDetailsByID = (id) => {
 const getCustomerDetailsByDgst = (id) => {
   return axios.get(API_URL+'/getcustomerdetailsbydgst/' + id)
     .then(response => {
-      console.log(response.data);
       return response;
     })
     .catch(error => {
-      // setError(error);
       console.log(error);
     })
 };
 
 const saveBillDetails = (BillingDetails) => {
-  console.log('formValues', BillingDetails)
   return axios.post(API_URL+'/savebillingdetails',
   BillingDetails
   )
     .then(response => {
-      console.log('saveBilling resp', response)
       return response;
     });
 };
@@ -173,11 +144,9 @@ const saveBillDetails = (BillingDetails) => {
 const getInvoiceDetails = (InvoiceNo) => {
   return axios.get(API_URL+'/getbillDetailsbyinvoiceno/' + InvoiceNo)
     .then(response => {
-      console.log(response.data);
       return response;
     })
     .catch(error => {
-      // setError(error);
       console.log(error);
     })
 };
@@ -189,24 +158,20 @@ const getBillDetails = (InvoiceNo) => {
       return response;
     })
     .catch(error => {
-      // setError(error);
       console.log(error);
     })
 };
 
 const updateBillDetails = (BillingDetails) => {
-  console.log('formValues', BillingDetails)
   return axios.post(API_URL+'/updatebillingdetails',
   BillingDetails
   )
     .then(response => {
-      console.log('updatebillingdetails resp', response)
       return response;
     });
 };
 
 const getGstDetailsOfCustomer = (dates) => {
-  console.log('dates', dates);
 
   return axios.get(API_URL+'/getgstdetails', {params: {
     startDate: dates.startDate,
@@ -219,7 +184,6 @@ const getGstDetailsOfCustomer = (dates) => {
 };
 
 const getGstDetailsForHsnCode = (dates) => {
-  console.log('dates', dates);
 
   return axios.get(API_URL+'/gethsngstdetails', {params: {
     startDate: dates.startDate,
@@ -233,11 +197,9 @@ const getGstDetailsForHsnCode = (dates) => {
 const getStockDetailsByID = (id) => {
   return axios.get(API_URL+'/getstockdetailsbyid/' + id)
     .then(response => {
-      console.log(response.data);
       return response;
     })
     .catch(error => {
-      // setError(error);
       console.log(error);
     })
 };
@@ -256,18 +218,14 @@ const saveStockDetails = (StockDetails) => {
 const getStockDetailsByDgst = (dgst) => {
   return axios.get(API_URL+'/getstockbypcomanddgst/' + dgst )
     .then(response => {
-      console.log(response.data);
       return response;
     })
     .catch(error => {
-      // setError(error);
       console.log(error);
     })
 };
 
 const getSalesDetails = (dates) => {
-  console.log('dates', dates);
-
   return axios.get(API_URL+'/getsalesdetails', {params: {
     startDate: dates.startDate,
     endDate: dates.endDate
@@ -278,12 +236,10 @@ const getSalesDetails = (dates) => {
 };
 
 const saveUser = (user) => {
-  console.log('request', user)
   return axios.post(API_URL+'/saveuser',
   user
   )
     .then(response => {
-      console.log('saveBilling resp', response)
       return response;
     });
 };
@@ -327,7 +283,6 @@ const getBalanceDetailsById = (id) => {
 
 
 const modifyBalanceDetails = (BalanceDetails) => {
-  console.log('balanceDetails', BalanceDetails)
   return axios.post(API_URL+'/modifybalancedetails',
   BalanceDetails
   )
@@ -338,8 +293,6 @@ const modifyBalanceDetails = (BalanceDetails) => {
 };
 
 const getGstSalesOfGstCustomers = (dates) => {
-  console.log('dates', dates);
-
   return axios.get(API_URL+'/getgstsalesofgstcusotmers', {params: {
     startDate: dates.startDate,
     endDate: dates.endDate
@@ -350,8 +303,6 @@ const getGstSalesOfGstCustomers = (dates) => {
 };
 
 const getGstSalesOfCustomers = (dates) => {
-  console.log('dates', dates);
-
   return axios.get(API_URL+'/getgstsalesofcusotmers', {params: {
     startDate: dates.startDate,
     endDate: dates.endDate
@@ -362,8 +313,6 @@ const getGstSalesOfCustomers = (dates) => {
 };
 
 const getBillsByDate = (details) => {
-  console.log('details', details);
-
   return axios.get(API_URL+'/getbillbydate', {params: {
     date: details.date,
     dgst: details.dgst
@@ -392,6 +341,42 @@ const getMonthlyCompanySales = (details) => {
   });
 };
 
+const gstHsncodeDetails = () => {
+  return axios.get(API_URL+'/gethsncodes')
+  .then(response => {
+    return response;
+  });
+};
+
+const saveHsnCodeDetails = (HsnCodeDetails) => {
+  return axios.post(API_URL+'/addhsndetails',
+    HsnCodeDetails
+  )
+    .then(response => {
+      return response;
+    });
+};
+
+const deActivateCustomer = (id) => {
+  return axios.post(API_URL+'/deactivatecustomer/'+id)
+    .then(response => {
+      return response;
+    });
+};
+
+const deActivateProduct = (id) => {
+  return axios.post(API_URL+'/deactivateproduct/'+id)
+    .then(response => {
+      return response;
+    });
+};
+
+const deActivateCompany = (id) => {
+  return axios.post(API_URL+'/deactivatecompany/'+id)
+    .then(response => {
+      return response;
+    });
+};
 const UserService = {
   getGstCodeDetails,
   saveCompanyDetails,
@@ -427,7 +412,12 @@ const UserService = {
   getGstSalesOfCustomers,
   getBillsByDate,
   getMontlySales,
-  getMonthlyCompanySales
+  getMonthlyCompanySales,
+  gstHsncodeDetails,
+  saveHsnCodeDetails,
+  deActivateCustomer,
+  deActivateProduct,
+  deActivateCompany
 
 }
 export default UserService;

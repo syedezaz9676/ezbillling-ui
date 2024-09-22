@@ -80,6 +80,25 @@ export const getCompanyDetailsByID = createAsyncThunk(
   }
 );
 
+export const deActivateCompany = createAsyncThunk(
+  "deActivateCompany",
+  async ({ id }, thunkAPI) => {
+    try {
+      const deActivateCompanyStatus = await UserService.deActivateCompany(id);
+      return { deActivateCompanyStatus };
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
 const editCompanyDetailsSlice = createSlice({
   name: 'editCompanyDetails',
   
@@ -164,6 +183,20 @@ const ezCompanyDetailsSlice = createSlice({
       console.log('Error', action.payload);
       state.isError = true;
       state.isgetCompanyDetailsByIDPending = false;
+    })
+    builder.addCase(deActivateCompany.pending, (state, action) => {
+      // state.isLoading = true;
+      state.isDeActivateCompanyPending = true;
+    });
+    builder.addCase(deActivateCompany.fulfilled, (state, action) => {
+      // state.isLoading = false;
+      state.deActivateCompanyStatus = action.payload.deActivateCompanyStatus.data;
+      state.isDeActivateCompanyPending = false; 
+    });
+    builder.addCase(deActivateCompany.rejected, (state, action) => {
+      console.log('Error', action.payload);
+      state.isError = true;
+      state.isDeActivateCompanyPending = false;
     })
   }
 });
