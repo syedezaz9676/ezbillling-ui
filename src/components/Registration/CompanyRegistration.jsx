@@ -71,7 +71,7 @@ const CompanyRegistration = () => {
     const validationSchema = Yup.object().shape({
         name: Yup.string()
             .min(3, 'The name must be at least 3 characters.')
-            .max(20, 'The name must be at most 20 characters.')
+            .max(50, 'The name must be at most 20 characters.')
             .test('is-unique', 'Company name already exists.', isNameUnique)
             .required('Company Name is required.'),
         gstPer: Yup.array()
