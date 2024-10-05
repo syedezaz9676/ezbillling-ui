@@ -263,7 +263,7 @@ const Billing = () => {
           onSubmit={handleRegister}
           innerRef={formikRef}
         >
-          {({ handleSubmit, setFieldValue, values }) => (
+          {({ handleSubmit, setFieldValue, values,isSubmitting }) => (
             <Form>
               <div>
                 <div className="form-row">
@@ -427,8 +427,8 @@ const Billing = () => {
                     </>
                   )}
                 />
-                <button type="submit" className="btn btn-primary btn-block">
-                  Save Details
+                <button type="submit" className="btn btn-primary btn-block" disabled={isSubmitting}>
+                  {isSubmitting ? 'Submitting...' : 'Save Details'}
                 </button>
               </div>
             </Form>
