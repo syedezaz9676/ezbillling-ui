@@ -70,15 +70,27 @@ const CustomerRegister = () => {
   };
 
 
-  const isNameUnique = (value) => {
-    console.log("in isnameunique", customerNames)
-    let names = [];
-    customerNames.map((customerName, index) => (
-        console.log("customerName.name", customerName.cname),
-        names[index] = customerName.cname
-    ))
-    console.log("names", names)
-    return isEdit? true:!names.includes(value);
+//   const isNameUnique = (value) => {
+//     console.log("in isnameunique", customerNames)
+//     let names = [];
+//     customerNames.map((customerName, index) => (
+//         console.log("customerName.name", customerName.cname),
+//         names[index] = customerName.cname
+//     ))
+//     console.log("names", names)
+//     return isEdit? true:!names.includes(value);
+// };
+
+const isNameUnique = (value) => {
+  // If editing, remove the currently selected product from the list
+  const filteredProductDetails = isEdit
+    ? customerNames.filter((customerName) => customerName.cname !== customerDetailsByID.cname)
+    : customerNames;
+
+  // Check if the value exists in the remaining product names
+  return !filteredProductDetails.some(
+    (customerName) => customerName.cname === value
+  );
 };
   const validationSchema = Yup.object().shape({
     name: Yup.string()

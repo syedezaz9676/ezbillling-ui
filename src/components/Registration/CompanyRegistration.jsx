@@ -34,16 +34,28 @@ const CompanyRegistration = () => {
 
 
 
+    // const isNameUnique = (value) => {
+    //     console.log("in isnameunique", companyDeatils)
+    //     let names = [];
+    //     companyDeatils.map((companydetail, index) => (
+    //         console.log("companydetail.name", companydetail.name),
+    //         names[index] = companydetail.name
+    //     ))
+    //     console.log("names", names)
+    //     return isEdit? true:!names.includes(value);
+    // };
+
     const isNameUnique = (value) => {
-        console.log("in isnameunique", companyDeatils)
-        let names = [];
-        companyDeatils.map((companydetail, index) => (
-            console.log("companydetail.name", companydetail.name),
-            names[index] = companydetail.name
-        ))
-        console.log("names", names)
-        return isEdit? true:!names.includes(value);
-    };
+        // If editing, remove the currently selected product from the list
+        const filteredProductDetails = isEdit
+          ? companyDeatils.filter((companydetail) => companydetail.name !== companyDetailsByID.name)
+          : companyDeatils;
+      
+        // Check if the value exists in the remaining product names
+        return !filteredProductDetails.some(
+          (companydetail) => companydetail.name === value
+        );
+      };
 
     const userID = UserDetails.user.id;
 

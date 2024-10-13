@@ -56,13 +56,17 @@ const ProductRegistration = () => {
   }, [dispatch]);
 
   const isNameUnique = (value) => {
-    let names = [];
-    productDetails.map(
-      (productDetail, index) => (names[index] = productDetail.pname)
+    // If editing, remove the currently selected product from the list
+    const filteredProductDetails = isEdit
+      ? productDetails.filter((productDetail) => productDetail.pname !== productDetailsByID.pname)
+      : productDetails;
+  
+    // Check if the value exists in the remaining product names
+    return !filteredProductDetails.some(
+      (productDetail) => productDetail.pname === value
     );
-    console.log("names", names);
-    return isEdit ? true : !names.includes(value);
   };
+  
 
   const getHsncode = (hsnCodes) => {
     return hsnCodes.map((hsnCodeDetails) => hsnCodeDetails.hsnCode);

@@ -1,200 +1,130 @@
-import React, { useState, useEffect  } from "react";
+import React, { useEffect } from "react";
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import { Navigate, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { hideEdit,hideBill } from "../redux/slices/ezEnableFiledSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { hideGstDetailsOfCustomer,hideGstDetailsForHsnCode,hideInvoiceDetails,hideSalesDetails,resetInvoiceNo,resetMonthlySales } from "../redux/slices/billingDetails/ezBillingDetailsSlice";
+import { hideGstDetailsOfCustomer,hideGstDetailsForHsnCode,hideInvoiceDetails,hideSalesDetails,resetInvoiceNo,resetMonthlySales } from "../redux/slices/billingDetails/ezBillingDetailsSlice";// Adjust the import based on your folder structure
 
-function Dashboard() {
-  const dispatch = useDispatch();
-  useEffect(()=>{
-    dispatch(hideEdit());
-    dispatch(hideBill());
-    dispatch(hideGstDetailsOfCustomer());
-    dispatch(hideGstDetailsForHsnCode());
-    dispatch(hideInvoiceDetails());
-    dispatch(hideSalesDetails());
-    // dispatch(resetMonthlySales());
-    // dispatch(resetInvoiceNo());
-    },[])
+// Sample card data for dynamic rendering
+const cardData = [
+    {
+        title: "Customer",
+        buttons: [
+            { label: "Add New Customer", path: "/customerreg" },
+            { label: "Edit Customer Details", path: "/editcustomerdetails" },
+            { label: "View All Customer's Details", path: "/customertable" },
+        ]
+    },
+    {
+        title: "Company",
+        buttons: [
+            { label: "Add New Company", path: "/companyregistration" },
+            { label: "Edit Company Details", path: "/editcompanydetails" },
+            { label: "View all Company's Details", path: "/companytable" },
+        ]
+    },
+    {
+        title: "Product",
+        buttons: [
+            { label: "Add New Product", path: "/productregistration" },
+            { label: "Edit Product Details", path: "/editproductdetails" },
+            { label: "View All Product's", path: "/productstable" },
+        ]
+    },
+    {
+        title: "Invoice",
+        text: "Manage Invoice",
+        buttons: [
+            { label: "Generate Invoice", path: "/generatebill" },
+            { label: "Edit Invoice", path: "/editinvoice" },
+            { label: "View Invoice", path: "/viewinvoice" },
+            { label: "View All Invoices", path: "/invoices" },
+            { label: "Invoices By Date", path: "/todaybills" },
+            { label: "Print Single Invoice", path: "/singlebill" },
+        ]
+    },
+    {
+        title: "Reports",
+        text: "Generate Reports",
+        buttons: [
+            { label: "GST Details", path: "/gstdetailsofcustomer" },
+            { label: "HSN Details", path: "/gstdetailsforhsncode" },
+            { label: "Sales", path: "/salesreport" },
+            { label: "GST Sales", path: "/gstsalesreport" },
+            { label: "Sales Graph", path: "/salescompare" },
+            { label: "Company Sales Graph", path: "/companysalescompare" },
+        ]
+    },
+    {
+        title: "Stock Management",
+        text: "Manage Stock",
+        buttons: [
+            { label: "Add New Stock", path: "/addstock" },
+            { label: "Check Stock Position", path: "/stocktable" },
+        ]
+    },
+    {
+        title: "Admin User",
+        text: "Manage Admin Users & Hsn Details",
+        buttons: [
+            { label: "Add User", path: "/addusers" },
+            { label: "Edit User", path: "/edituser" },
+            { label: "View User Details", path: "/usertable" },
+            { label: "Add HSN Details", path: "/addhsncodedetails" },
+        ]
+    },
+    {
+        title: "Balance Details",
+        text: "View Balance Information",
+        buttons: [
+            { label: "View Balance Details", path: "/balacnedetails" },
+            { label: "Edit Balance Details", path: "/modifybalace" },
+        ]
+    },
+];
 
-    let navigate = useNavigate();
-  return (
-    <div>
-      <div className="row">
-        <div className="col-md-6 col-lg-4">
-          <Card>
-            <Card.Body>
-              <Card.Title>Customer Registration</Card.Title>
-              <Card.Text>
-              Register the Customer
-              </Card.Text>
-              <Button variant="primary" style={{ marginRight: '5px' }}
-                  onClick={()=>navigate("/customerreg")}
-              >Add New</Button>
-              <Button variant="primary" style={{ marginRight: '5px' }}
-                  onClick={()=>navigate("/editcustomerdetails")}
-              >Edit</Button>
-               <Button variant="primary"
-              onClick={()=>navigate("/customertable")}
-              >View</Button>
-            </Card.Body>
-          </Card>
+const Dashboard = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        dispatch(hideEdit());
+        dispatch(hideBill());
+        dispatch(hideGstDetailsOfCustomer());
+        dispatch(hideGstDetailsForHsnCode());
+        dispatch(hideInvoiceDetails());
+        dispatch(hideSalesDetails());
+    }, [dispatch]);
+
+    return (
+        <div className="container mt-4">
+            <div className="row">
+                {cardData.map((card, index) => (
+                    <div key={index} className="col-md-6 col-lg-4 mb-4">
+                        <Card className="border-primary shadow-sm">
+                            <Card.Body>
+                                <Card.Title className="text-primary">{card.title}</Card.Title>
+                                <Card.Text className="text-muted">{card.text}</Card.Text>
+                                <div className="d-flex flex-column">
+                                    {card.buttons.map((btn, btnIndex) => (
+                                        <Button
+                                            key={btnIndex}
+                                            variant="outline-primary"
+                                            className="mb-2"
+                                            onClick={() => navigate(btn.path)}
+                                        >
+                                            {btn.label}
+                                        </Button>
+                                    ))}
+                                </div>
+                            </Card.Body>
+                        </Card>
+                    </div>
+                ))}
+            </div>
         </div>
-        <div className="col-md-6 col-lg-4">
-          <Card>
-            <Card.Body>
-              <Card.Title>Company Registration</Card.Title>
-              <Card.Text>
-              Register the Company
-              </Card.Text>
-              <Button variant="primary" style={{ marginRight: '5px' }}
-              onClick={()=>navigate("/companyregistration")}
-              >Add New</Button>
-              <Button variant="primary" style={{ marginRight: '5px' }}
-              onClick={()=>navigate("/editcompanydetails")}
-              >Edit</Button>
-              <Button variant="primary"
-              onClick={()=>navigate("/companytable")}
-              >View</Button>
-             
-            </Card.Body>
-          </Card>
-        </div>
-        <div className="col-md-6 col-lg-4">
-          <Card>
-            <Card.Body>
-              <Card.Title>Product Registration</Card.Title>
-              <Card.Text>
-              Register the Product
-              </Card.Text>
-             <Button variant="primary" style={{ marginRight: '5px' }}
-              onClick={()=>navigate("/productregistration")}
-              >Add New</Button> 
-              <Button variant="primary" style={{ marginRight: '5px' }}
-              onClick={()=>navigate("/editproductdetails")}
-              >Edit</Button>
-               <Button variant="primary"
-              onClick={()=>navigate("/productstable")}
-              >View</Button>
-            </Card.Body>
-          </Card>
-        </div>
-        <div className="col-md-6 col-lg-4">
-          <Card>
-            <Card.Body>
-              <Card.Title>Billing</Card.Title>
-              <Card.Text>
-              billing
-              </Card.Text>
-             <Button variant="primary"style={{ marginRight: '5px' }}
-              onClick={()=>navigate("/generatebill")}
-              >Add New</Button>
-              <Button variant="primary" style={{ marginRight: '5px' }}
-              onClick={()=>navigate("/editinvoice")}
-              >Edit</Button>  
-              <Button variant="primary" style={{ marginRight: '5px' }}
-              onClick={()=>navigate("/viewinvoice")}
-              >View</Button>
-               <Button variant="primary" style={{ marginRight: '5px' }}
-              onClick={()=>navigate("/invoices")}
-              >All Invoices</Button>
-              <Button variant="primary" style={{ marginTop: '5px', marginRight: '5px' }}
-              onClick={()=>navigate("/todaybills")}
-              >Invoices</Button>
-              <Button variant="primary" style={{ marginTop: '5px' }}
-              onClick={()=>navigate("/singlebill")}
-              >Single Invoice</Button>
-            </Card.Body>
-          </Card>
-        </div>
-        <div className="col-md-6 col-lg-4">
-          <Card>
-            <Card.Body>
-              <Card.Title>Reports</Card.Title>
-              <Card.Text>
-               Reports
-              </Card.Text>
-             <Button variant="primary"style={{ marginRight: '5px' }}
-              onClick={()=>navigate("/gstdetailsofcustomer")}
-              >Gst Details</Button>
-              <Button variant="primary" style={{ marginRight: '5px' }}
-              onClick={()=>navigate("/gstdetailsforhsncode")}
-              >HSN Details</Button>  
-              <Button variant="primary" style={{ marginRight: '5px' }}
-              onClick={()=>navigate("/salesreport")}
-              >Sales</Button>
-              <Button variant="primary" style={{ marginTop: '5px',marginRight: '5px'}}
-              onClick={()=>navigate("/gstsalesreport")}
-              >Gst Sales</Button>
-              <Button variant="primary"style={{ marginTop: '5px', marginRight: '5px' }}
-              onClick={()=>navigate("/salescompare")}
-              >Sales Graphs</Button>
-              <Button variant="primary" style={{ marginTop: '5px', marginRight: '5px' }}
-              onClick={()=>navigate("/companysalescompare")}
-              >Company Sales Graph</Button>
-            </Card.Body>
-          </Card>
-        </div>
-        <div className="col-md-6 col-lg-4">
-          <Card>
-            <Card.Body>
-              <Card.Title>Stock</Card.Title>
-              <Card.Text>
-              Add new Stock
-              </Card.Text>
-             <Button variant="primary"style={{ marginRight: '5px' }}
-              onClick={()=>navigate("/addstock")}
-              >Add Stock</Button>
-              <Button variant="primary" style={{ marginRight: '5px' }}
-              onClick={()=>navigate("/stocktable")}
-              >Stock Position</Button>
-            </Card.Body>
-          </Card>
-        </div>
-        <div className="col-md-6 col-lg-4">
-          <Card>
-            <Card.Body>
-              <Card.Title>Admin User</Card.Title>
-              <Card.Text>
-              Admin Options
-              </Card.Text>
-             <Button variant="primary"style={{ marginRight: '5px' }}
-              onClick={()=>navigate("/addusers")}
-              >Add User</Button>
-              <Button variant="primary" style={{ marginRight: '5px' }}
-              onClick={()=>navigate("/edituser")}
-              >Edit User</Button>  
-              <Button variant="primary" style={{  marginTop: '5px', marginRight: '5px' }}
-              onClick={()=>navigate("/usertable")}
-              >View</Button>
-              <Button variant="primary"
-              onClick={()=>navigate("/addhsncodedetails")}
-              >Add HsnDetails</Button>
-            </Card.Body>
-          </Card>
-        </div>
-        <div className="col-md-6 col-lg-4">
-          <Card>
-            <Card.Body>
-              <Card.Title>Balance Details</Card.Title>
-              <Card.Text>
-              Balance Details
-              </Card.Text>
-             <Button variant="primary"style={{ marginRight: '5px' }}
-              onClick={()=>navigate("/balacnedetails")}
-              >Balance Details</Button>
-              <Button variant="primary" style={{ marginRight: '5px' }}
-              onClick={()=>navigate("/modifybalace")}
-              >Edit Details</Button> 
-            </Card.Body>
-          </Card>
-        </div>
-        {/* Add more cards */}
-      </div>
-    </div>
-  );
+    );
 }
 
 export default Dashboard;
