@@ -31,7 +31,7 @@ const EditInvoice = () => {
         .catch(() => {
         });
     }, [dispatch]);
-    const {isgetBillDetailsPending,BillsAmountDetails } = useSelector((state) => state.ezInvoiceDetails);
+    const {isgetBillDetailsPending,BillsAmountDetails,isBillsAmountDetailsPending } = useSelector((state) => state.ezInvoiceDetails);
 
     //   const { GstCodeDetails } = useSelector((state) => state.ezgetGstCodeDetails);
 
@@ -60,6 +60,7 @@ const EditInvoice = () => {
     };
 
     return (<div>
+        {isBillsAmountDetailsPending && <div><center>Please wait....</center></div>}
         { !isEdit && <div className="col-md-12 signup-form">
             <div className="card card-container">
                 <h3>Edit Invoice</h3>
@@ -73,21 +74,12 @@ const EditInvoice = () => {
                         <div>
                             <div className="form-group">
                                 <label htmlFor="InvoiceNo">Enter Invocie No</label>
-                                <Field name="InvoiceNo" type="text" className="form-control" />
+                                <Field name="InvoiceNo" type="text" className="form-control" disabled={isBillsAmountDetailsPending}/>
                                 <ErrorMessage
                                     name="InvoiceNo"
                                     component="div"
                                     className="alert alert-danger"
                                 />
-
-                                {/* <Field as="select" name="name" className="form-control"
-                                ><option>--Please Select--</option>
-                                    {companyNames && companyNames.map((companyName, index) => (
-                                        <option key={index} value={companyName.id}>
-                                            {companyName.name}
-                                        </option>
-                                    ))}
-                                </Field> */}
                                 <button type="submit" className="btn btn-primary btn-block">
                                 Edit Details
                             </button>

@@ -54,6 +54,8 @@ const cardData = [
             { label: "GST Sales", path: "/gstsalesreport" },
             { label: "Sales Graph", path: "/salescompare" },
             { label: "Company Sales Graph", path: "/companysalescompare" },
+            { label: "Product Sales Report", path: "/productsaleqty" },
+            { label: "Compare Product Monlty Sale", path: "/productmonthlysalesgraph" },
         ]
     },
     {

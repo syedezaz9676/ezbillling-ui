@@ -51,6 +51,8 @@ import ViewSingleBill from "./components/billing/ViewSingleBill";
 import SalesComparision from "./components/reports/SalesComparision";
 import MontlyCompanySales from "./components/billing/MontlyCompanySales";
 import AddNewHsnCodeDetails from "./components/Registration/AddNewHsnCodeDetails";
+import ProductSaleQty from "./components/tables/ProductSaleQty";
+import ProductMonthlySalesGraph from "./components/reports/ProductMonthlySalesGraph";
 
 
 const App = (props) => {
@@ -124,6 +126,8 @@ dispatch(hideEdit())
           <Route path="/salescompare" element={<SalesComparision/>}/>
           <Route path="/companysalescompare" element={<MontlyCompanySales/>}/>
           <Route path="/addhsncodedetails" element={<AddNewHsnCodeDetails/>}/>
+          <Route path="/productsaleqty" element={<ProductSaleQty/>}/>
+          <Route path="/productmonthlysalesgraph" element={<ProductMonthlySalesGraph/>}/>
           {/* {UserDetails != null && <Navigate to="/login" />} */}
         </Routes>
       </div>

@@ -437,6 +437,46 @@ export const getMonthlyCompanySales = createAsyncThunk(
     }
   }
 );
+
+export const getProductSales = createAsyncThunk(
+  "getProductSales",
+  async ({ details }, thunkAPI) => {
+    try {
+      const productSaleQty = await UserService.getProductSales(details);
+      return { productSaleQty };
+    } catch (error) {
+      console.log('eror',error);
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
+
+export const getProductSalesMonthly = createAsyncThunk(
+  "getProductSalesMonthly",
+  async ({ details }, thunkAPI) => {
+    try {
+      const productSaleQtyMonthly = await UserService.getProductSalesMontly(details);
+      return { productSaleQtyMonthly };
+    } catch (error) {
+      console.log('eror',error);
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
 export const hideGstDetailsOfCustomer = createAsyncThunk(
   "hideGstDetailsOfCustomer",
  
@@ -812,6 +852,39 @@ const ezBillingDetailsSlice = createSlice({
       state.isError = true;
       state.isgetMonthlyCompanySalesPending = false;
     });
+    builder.addCase(getProductSales.pending, (state, action) => {
+      // state.isLoading = true;
+      state.isgetProductSaleQtyPending = true;
+    });
+    builder.addCase(getProductSales.fulfilled, (state, action) => {
+      // state.isLoading = false;
+      state.productSaleQty = action.payload.productSaleQty.data;
+      state.isgetProductSaleQtyPending = false;
+      state.isgetProductSaleQtySucess = true;
+    });
+    
+    builder.addCase(getProductSales.rejected, (state, action) => {
+      console.log('Error', action.payload);
+      state.isError = true;
+      state.isgetMonthlyCompanySalesPending = false;
+    });
+
+    builder.addCase(getProductSalesMonthly.pending, (state, action) => {
+      // state.isLoading = true;
+      state.isgetProductSaleQtyMonthlyPending = true;
+    });
+    builder.addCase(getProductSalesMonthly.fulfilled, (state, action) => {
+      // state.isLoading = false;
+      state.productSaleQtyMonthly = action.payload.productSaleQtyMonthly.data;
+      state.isgetProductSaleQtyMonthlyPending = false;
+      state.isgetProductSaleQtyMonthlySucess = true;
+    });
+    
+    builder.addCase(getProductSalesMonthly.rejected, (state, action) => {
+      console.log('Error', action.payload);
+      state.isError = true;
+      state.isgetProductSaleQtyMonthlyPending = false;
+    });
     builder.addCase(hideGstDetailsOfCustomer.pending, (state) => {
       console.log("in null")
       state.GstDetailsOfCustomer = null;
@@ -829,10 +902,13 @@ const ezBillingDetailsSlice = createSlice({
       state.GstSalesOfGstCustomer = null;
       state.GstSalesOfCustomer = null;
       state.MonthlyCompanySales=null;
+      state.productSaleQty=null;
+      state.productSaleQtyMonthly=null;
     });
     builder.addCase(resetMonthlySales.pending, (state) => {
       state.Montlysales = null;
       state.MonthlyCompanySales=null;
+      
     });
   }
 });

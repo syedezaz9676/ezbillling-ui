@@ -377,6 +377,30 @@ const deActivateCompany = (id) => {
       return response;
     });
 };
+
+const getProductSales = (details) => {
+
+  return axios.get(API_URL+'/getproductsalesqty', {params: {
+    startDate: details.startDate,
+    endDate: details.endDate,
+    productCompany: details.productCompany    
+  }})
+  .then(response => {
+    return response;
+  });
+};
+
+const getProductSalesMontly = (details) => {
+
+  return axios.get(API_URL+'/getproductsalesqtymonthly', {params: {
+    productName: details.productName,
+    noOfMonths: details.noOfMonths,
+    productCompany: details.productCompany    
+  }})
+  .then(response => {
+    return response;
+  });
+};
 const UserService = {
   getGstCodeDetails,
   saveCompanyDetails,
@@ -417,7 +441,8 @@ const UserService = {
   saveHsnCodeDetails,
   deActivateCustomer,
   deActivateProduct,
-  deActivateCompany
-
+  deActivateCompany,
+  getProductSales,
+  getProductSalesMontly
 }
 export default UserService;
