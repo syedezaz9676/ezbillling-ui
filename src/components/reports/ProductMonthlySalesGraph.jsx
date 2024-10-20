@@ -76,14 +76,23 @@ const ProductMonthlySalesGraph = () => {
   };
   
   const handleProductChange = (e) => {
-    const selectedProductName = e.target.value || ""; // Ensure no undefined value
+    const selectedProductName = e.target.value || "";
+    
+    // Update field value in Formik and allow manual deletion
+    formikRef.current.setFieldValue("product", selectedProductName);
+    
+    // Find the selected product from the company list (if it exists)
     const selectedProduct = productDetailsByCompany.find(
       (product) => product.pname === selectedProductName
     );
+    
+    // If a product is found, set the productKey; otherwise, clear it
     if (selectedProduct) {
-      formikRef.current.setFieldValue("product", selectedProduct.pname);
       formikRef.current.setFieldValue("productKey", selectedProduct._id);
       setSelectedProductName(selectedProduct.pname);
+    } else {
+      formikRef.current.setFieldValue("productKey", "");
+      setSelectedProductName(""); // Clear selected product if not found
     }
   };
 
