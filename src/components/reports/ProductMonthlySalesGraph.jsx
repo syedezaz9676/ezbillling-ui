@@ -17,8 +17,9 @@ const ProductMonthlySalesGraph = () => {
   const { isEdit } = useSelector((state) => state.ezEnableField);
   const { companyNames } = useSelector((state) => state.ezCompanyDetails);
   const { productDetailsByCompany } = useSelector((state) => state.ezProductDetails);
-  const { productSaleQtyMonthly } = useSelector((state) => state.ezInvoiceDetails);
+  const { productSaleQtyMonthly,isgetProductSaleQtyMonthlySucess } = useSelector((state) => state.ezInvoiceDetails);
   const [selectedProductName, setSelectedProductName] = useState("");
+  const [selectedMonths, setSelectedMonths] = useState("");
 
   const userID = UserDetails.user.id;
 
@@ -52,7 +53,9 @@ const ProductMonthlySalesGraph = () => {
   });
 
   const handleGetGraph = (formValue) => {
+    
     const { noOfMonths, product, name, productKey } = formValue;
+    setSelectedMonths(noOfMonths);
     const details = {
       productCompany: name,
       productName: productKey,
@@ -64,6 +67,7 @@ const ProductMonthlySalesGraph = () => {
   };
 
   const handleCompanyChange = (e) => {
+    
     const selectedCompanyName = e.target.value || ""; // Ensure no undefined value
     formikRef.current.setFieldValue("product", "");  // Clear product field on company change
     formikRef.current.setFieldValue("name", selectedCompanyName);
@@ -172,7 +176,7 @@ const ProductMonthlySalesGraph = () => {
         <ProductMonthlySalesAmountAndQtyGraph />
       </div>
     ) : (
-      <div>No sales for the selected product</div>
+      <div>{isgetProductSaleQtyMonthlySucess ? <center>No sales for {selectedProductName} in {selectedMonths} {selectedMonths < 2?"Month":"Month's"}</center>:""}</div>
     )}
     </div>
   );

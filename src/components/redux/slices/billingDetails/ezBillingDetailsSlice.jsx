@@ -904,6 +904,7 @@ const ezBillingDetailsSlice = createSlice({
       state.MonthlyCompanySales=null;
       state.productSaleQty=null;
       state.productSaleQtyMonthly=null;
+      state.isgetProductSaleQtyMonthlySucess=false;
     });
     builder.addCase(resetMonthlySales.pending, (state) => {
       state.Montlysales = null;
