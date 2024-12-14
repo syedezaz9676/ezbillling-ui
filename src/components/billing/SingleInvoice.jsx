@@ -414,16 +414,26 @@ const SingleInvoice = (props) => {
                 </tr>
                   ]
                 })}
+                {customerDetailsByID.isigst === "No" &&
               <tr>
                 <td style={{ borderTop: "1px solid black" }}>
                   <b>CGST</b>
                 </td>
-              </tr>
+              </tr>}
+              {customerDetailsByID.isigst === "No" &&
               <tr>
                 <td>
                   <b>SGST</b>
                 </td>
-              </tr>
+              </tr>}
+              {customerDetailsByID.isigst === "yes" &&
+              <>
+              <tr><td></td></tr>
+              <tr>
+                <td style={{ borderTop: "1px solid black" }}>
+                  <b>IGST</b>
+                </td>
+              </tr></>}
             </table>
           </div>
           <div className="table-wrapper-items">
@@ -447,16 +457,26 @@ const SingleInvoice = (props) => {
                 </tr>
                   ]
                 })}
+                {customerDetailsByID.isigst === "No" &&
               <tr>
                 <td style={{ borderTop: "1px solid black" }}>
                   <b>{(totalTax / 2).toFixed(2)}</b>
                 </td>
-              </tr>
+              </tr>}
+              {customerDetailsByID.isigst === "No" &&
               <tr>
                 <td>
                   <b>{(totalTax / 2).toFixed(2)}</b>
                 </td>
-              </tr>
+              </tr>}
+              {customerDetailsByID.isigst === "yes" &&
+              <div>
+              <tr><td></td></tr>
+              <tr>
+                <td style={{ borderTop: "1px solid black" }}>
+                  <b>{(totalTax).toFixed(2)}</b>
+                </td>
+              </tr></div>}
               <tr>
                 <td style={{ borderTop: "1px solid black",height:"10px" }}>
                   <b>{totalTax.toFixed(2)}</b>
@@ -576,6 +596,7 @@ const SingleInvoice = (props) => {
                 })}
             </table>
           </div>
+          {customerDetailsByID.isigst==="No"&&
           <div className="table-wrapper-items">
             <table>
               <tr>
@@ -590,7 +611,8 @@ const SingleInvoice = (props) => {
                   ];
                 })}
             </table>
-          </div>
+          </div>}
+          {customerDetailsByID.isigst==="No"&&
           <div className="table-wrapper-items">
             <table>
               <tr>
@@ -607,7 +629,8 @@ const SingleInvoice = (props) => {
                   ];
                 })}
             </table>
-          </div>
+          </div>}
+          {customerDetailsByID.isigst==="No"&&
           <div className="table-wrapper-items">
             <table>
               <tr>
@@ -622,7 +645,8 @@ const SingleInvoice = (props) => {
                   ];
                 })}
             </table>
-          </div>
+          </div>}
+          {customerDetailsByID.isigst==="No"&&
           <div className="table-wrapper-items">
             <table>
               <tr>
@@ -639,7 +663,41 @@ const SingleInvoice = (props) => {
                   ];
                 })}
             </table>
-          </div>
+          </div>}
+          {customerDetailsByID.isigst==="yes"&&
+          <div className="table-wrapper-items">
+            <table>
+              <tr>
+                <th>IGST(%)</th>
+              </tr>
+              {InvoiceItems &&
+                InvoiceItems.wayBillDetails.map((wayBillDetailsItems, i) => {
+                  return [
+                    <tr>
+                      <td>{wayBillDetailsItems.product_gst}</td>
+                    </tr>,
+                  ];
+                })}
+            </table>
+          </div>}
+          {customerDetailsByID.isigst==="yes"&&
+          <div className="table-wrapper-items">
+            <table>
+              <tr>
+                <th>IGST</th>
+              </tr>
+              {InvoiceItems &&
+                InvoiceItems.wayBillDetails.map((wayBillDetailsItems, i) => {
+                  return [
+                    <tr>
+                      <td>
+                        {(wayBillDetailsItems.gstAmountSum).toFixed(2)}
+                      </td>
+                    </tr>,
+                  ];
+                })}
+            </table>
+          </div>}
           <div className="table-wrapper-items">
             <table>
               <tr>
