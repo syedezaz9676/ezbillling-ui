@@ -145,7 +145,7 @@ const Invoice = (props) => {
                 <tr>
                   <td>
                     <b>GSTIN/UIN :</b>{" "}
-                    {customerDetailsByID && customerDetailsByID.ctno}f
+                    {customerDetailsByID && customerDetailsByID.ctno}
                   </td>
                 </tr>
                 <tr>
