@@ -250,7 +250,7 @@ const isNameUnique = (value) => {
                   <label htmlFor="isigst">Enable IGST</label>
                   <Field as="select" name="isigst" className="form-control">
                   {isEdit?<option  value={customerDetailsByID?customerDetailsByID.isigst:''}>{customerDetailsByID.isigst}</option>:<option>--Please Select---</option>}
-                    <option value="no">No</option>
+                    <option value="No">No</option>
                     <option value="yes">Yes</option>
                   </Field>
                   <ErrorMessage

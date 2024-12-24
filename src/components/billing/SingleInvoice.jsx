@@ -414,13 +414,13 @@ const SingleInvoice = (props) => {
                 </tr>
                   ]
                 })}
-                {customerDetailsByID.isigst === "No" &&
+                {customerDetailsByID.isigst === "No" || customerDetailsByID.isigst === "no" &&
               <tr>
                 <td style={{ borderTop: "1px solid black" }}>
                   <b>CGST</b>
                 </td>
               </tr>}
-              {customerDetailsByID.isigst === "No" &&
+              {customerDetailsByID.isigst === "No"||customerDetailsByID.isigst === "no" &&
               <tr>
                 <td>
                   <b>SGST</b>
@@ -457,13 +457,13 @@ const SingleInvoice = (props) => {
                 </tr>
                   ]
                 })}
-                {customerDetailsByID.isigst === "No" &&
+                {customerDetailsByID.isigst === "No" || customerDetailsByID.isigst === "no" &&
               <tr>
                 <td style={{ borderTop: "1px solid black" }}>
                   <b>{(totalTax / 2).toFixed(2)}</b>
                 </td>
               </tr>}
-              {customerDetailsByID.isigst === "No" &&
+              {customerDetailsByID.isigst === "No" || customerDetailsByID.isigst === "no" &&
               <tr>
                 <td>
                   <b>{(totalTax / 2).toFixed(2)}</b>

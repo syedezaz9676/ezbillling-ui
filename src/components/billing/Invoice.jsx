@@ -421,12 +421,12 @@ const Invoice = (props) => {
                 </tr>
                   ]
                 })}
-              {customerDetailsByID.isigst==="No"&&<tr>
+              {customerDetailsByID.isigst==="No"|| customerDetailsByID.isigst==="no"&&<tr>
                 <td style={{ borderTop: "1px solid black" }}>
                   <b>CGST</b>
                 </td>
               </tr>}
-              {customerDetailsByID.isigst==="No"&&<tr>
+              {customerDetailsByID.isigst==="No" || customerDetailsByID.isigst==="no"&&<tr>
                 <td>
                   <b>SGST</b>
                 </td>
@@ -461,12 +461,12 @@ const Invoice = (props) => {
                 </tr>
                   ]
                 })}
-              {customerDetailsByID.isigst==="No"&&<tr>
+              {customerDetailsByID.isigst==="No" || customerDetailsByID.isigst==="no" &&<tr>
                 <td style={{ borderTop: "1px solid black" }}>
                   <b>{(totalTax / 2).toFixed(2)}</b>
                 </td>
               </tr>}
-              {customerDetailsByID.isigst==="No"&&<tr>
+              {customerDetailsByID.isigst==="No" || customerDetailsByID.isigst==="no" &&<tr>
                 <td>
                   <b>{(totalTax / 2).toFixed(2)}</b>
                 </td>
@@ -600,7 +600,7 @@ const Invoice = (props) => {
                 })}
             </table>
           </div>
-          {customerDetailsByID.isigst === "No" &&
+          {customerDetailsByID.isigst === "No" || customerDetailsByID.isigst === "no" &&
           <div className="table-wrapper-items">
             <table>
               <tr>
@@ -616,7 +616,7 @@ const Invoice = (props) => {
                 })}
             </table>
           </div>}
-          {customerDetailsByID.isigst === "No" &&
+          {customerDetailsByID.isigst === "No" || customerDetailsByID.isigst === "no" &&
           <div className="table-wrapper-items">
             <table>
               <tr>
@@ -634,7 +634,7 @@ const Invoice = (props) => {
                 })}
             </table>
           </div>}
-          {customerDetailsByID.isigst === "No" &&
+          {customerDetailsByID.isigst === "No" || customerDetailsByID.isigst === "no" &&
           <div className="table-wrapper-items">
             <table>
               <tr>
@@ -650,7 +650,7 @@ const Invoice = (props) => {
                 })}
             </table>
           </div>}
-          {customerDetailsByID.isigst === "No" &&
+          {customerDetailsByID.isigst === "No"|| customerDetailsByID.isigst === "no" &&
           <div className="table-wrapper-items">
             <table>
               <tr>
@@ -1054,12 +1054,12 @@ const Invoice = (props) => {
                 </tr>
                   ]
                 })}
-              {customerDetailsByID.isigst==="No"&&<tr>
+              {customerDetailsByID.isigst==="No" || customerDetailsByID.isigst==="no" &&<tr>
                 <td style={{ borderTop: "1px solid black" }}>
                   <b>CGST</b>
                 </td>
               </tr>}
-              {customerDetailsByID.isigst==="No"&&<tr>
+              {customerDetailsByID.isigst==="No" || customerDetailsByID.isigst==="no" &&<tr>
                 <td>
                   <b>SGST</b>
                 </td>
@@ -1094,12 +1094,12 @@ const Invoice = (props) => {
                 </tr>
                   ]
                 })}
-              {customerDetailsByID.isigst==="No"&&<tr>
+              {customerDetailsByID.isigst==="No" || customerDetailsByID.isigst==="no" &&<tr>
                 <td style={{ borderTop: "1px solid black" }}>
                   <b>{(totalTax / 2).toFixed(2)}</b>
                 </td>
               </tr>}
-              {customerDetailsByID.isigst==="No"&&<tr>
+              {customerDetailsByID.isigst==="No" || customerDetailsByID.isigst==="no" &&<tr>
                 <td>
                   <b>{(totalTax / 2).toFixed(2)}</b>
                 </td>
@@ -1233,7 +1233,7 @@ const Invoice = (props) => {
                 })}
             </table>
           </div>
-          {customerDetailsByID.isigst === "No" &&
+          {customerDetailsByID.isigst === "No" || customerDetailsByID.isigst === "no" &&
           <div className="table-wrapper-items">
             <table>
               <tr>
@@ -1249,7 +1249,7 @@ const Invoice = (props) => {
                 })}
             </table>
           </div>}
-          {customerDetailsByID.isigst === "No" &&
+          {customerDetailsByID.isigst === "No" || customerDetailsByID.isigst === "no" &&
           <div className="table-wrapper-items">
             <table>
               <tr>
@@ -1267,7 +1267,7 @@ const Invoice = (props) => {
                 })}
             </table>
           </div>}
-          {customerDetailsByID.isigst === "No" &&
+          {customerDetailsByID.isigst === "No" || customerDetailsByID.isigst === "no" &&
           <div className="table-wrapper-items">
             <table>
               <tr>
@@ -1283,7 +1283,7 @@ const Invoice = (props) => {
                 })}
             </table>
           </div>}
-          {customerDetailsByID.isigst === "No" &&
+          {customerDetailsByID.isigst === "No" || customerDetailsByID.isigst === "no" &&
           <div className="table-wrapper-items">
             <table>
               <tr>
