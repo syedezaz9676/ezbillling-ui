@@ -53,6 +53,7 @@ import MontlyCompanySales from "./components/billing/MontlyCompanySales";
 import AddNewHsnCodeDetails from "./components/Registration/AddNewHsnCodeDetails";
 import ProductSaleQty from "./components/tables/ProductSaleQty";
 import ProductMonthlySalesGraph from "./components/reports/ProductMonthlySalesGraph";
+import PlaceOrder from "./components/order/PlaceOrder";
 
 
 const App = (props) => {
@@ -67,6 +68,7 @@ const App = (props) => {
       config => {
         config.headers.Authorization = 'Bearer ' + UserDetails.token;
         config.headers.ContentType = 'application/json';
+        config.headers['ngrok-skip-browser-warning'] = 'true'; 
         return config;
       },
       error => {
@@ -81,6 +83,7 @@ const App = (props) => {
 useEffect(()=>{
 dispatch(hideEdit())
 },[window.location.href])
+
 
   return (
 
@@ -128,6 +131,7 @@ dispatch(hideEdit())
           <Route path="/addhsncodedetails" element={<AddNewHsnCodeDetails/>}/>
           <Route path="/productsaleqty" element={<ProductSaleQty/>}/>
           <Route path="/productmonthlysalesgraph" element={<ProductMonthlySalesGraph/>}/>
+          <Route path="/placeorder" element={<PlaceOrder/>}/>
           {/* {UserDetails != null && <Navigate to="/login" />} */}
         </Routes>
       </div>

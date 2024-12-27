@@ -592,7 +592,7 @@ const Invoice = (props) => {
                       <td>
                         {(
                           wayBillDetailsItems.amountSum -
-                          wayBillDetailsItems.gstAmountSum
+                          wayBillDetailsItems.gstAmountSum- wayBillDetailsItems.cessAmountSum
                         ).toFixed(2)}
                       </td>
                     </tr>,
@@ -1225,7 +1225,7 @@ const Invoice = (props) => {
                       <td>
                         {(
                           wayBillDetailsItems.amountSum -
-                          wayBillDetailsItems.gstAmountSum
+                          wayBillDetailsItems.gstAmountSum- wayBillDetailsItems.cessAmountSum
                         ).toFixed(2)}
                       </td>
                     </tr>,

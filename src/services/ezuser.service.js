@@ -1,6 +1,15 @@
 import axios from 'axios'
+import urlData from "../common/ngrok_url.json"
 
-const API_URL = "http://localhost:8080";
+const BASE_API_URL = "http://localhost:8080"; 
+
+// Check if the current URL contains "ngrok"
+const isNgrokUrl = window.location.href.includes("ngrok");
+
+// Determine the API URL based on the presence of "ngrok"
+const API_URL = isNgrokUrl 
+    ? urlData.url
+    : BASE_API_URL;
 
 
 const getGstCodeDetails = () => {
@@ -401,6 +410,16 @@ const getProductSalesMontly = (details) => {
     return response;
   });
 };
+
+const saveOrderDetails = (OrderDetails) => {
+  return axios.post(API_URL+'/saveorderdetails',
+    OrderDetails
+  )
+    .then(response => {
+      return response;
+    });
+};
+
 const UserService = {
   getGstCodeDetails,
   saveCompanyDetails,
@@ -443,6 +462,7 @@ const UserService = {
   deActivateProduct,
   deActivateCompany,
   getProductSales,
-  getProductSalesMontly
+  getProductSalesMontly,
+  saveOrderDetails
 }
 export default UserService;

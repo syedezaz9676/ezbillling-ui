@@ -1,8 +1,20 @@
 import axios from "axios";
 import authHeader from "./auth-header";
+import urlData from "../common/ngrok_url.json"
 
-const API_URL = "http://localhost:8080";
-// const API_URL = "https://0b02-171-76-85-220.ngrok-free.app";
+
+// Define the base API URL
+const BASE_API_URL = "http://localhost:8080"; 
+
+// Check if the current URL contains "ngrok"
+const isNgrokUrl = window.location.href.includes("ngrok");
+
+// Determine the API URL based on the presence of "ngrok"
+const API_URL = isNgrokUrl 
+    ? urlData.url
+    : BASE_API_URL;
+
+    
 
 class AuthService {
   login(username, password) {

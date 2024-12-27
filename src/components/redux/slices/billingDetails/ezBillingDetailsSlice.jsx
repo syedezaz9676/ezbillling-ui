@@ -477,6 +477,26 @@ export const getProductSalesMonthly = createAsyncThunk(
     }
   }
 )
+
+export const saveOrderDetails = createAsyncThunk(
+  "saveOrderDetails",
+  async ({ OrderDetails }, thunkAPI) => {
+    try {
+      const OrderDetailsSaveStatus = await UserService.saveOrderDetails(OrderDetails);
+      return { OrderDetailsSaveStatus };
+    } catch (error) {
+      console.log('eror',error);
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+)
 export const hideGstDetailsOfCustomer = createAsyncThunk(
   "hideGstDetailsOfCustomer",
  
@@ -878,6 +898,23 @@ const ezBillingDetailsSlice = createSlice({
       state.productSaleQtyMonthly = action.payload.productSaleQtyMonthly.data;
       state.isgetProductSaleQtyMonthlyPending = false;
       state.isgetProductSaleQtyMonthlySucess = true;
+    });
+
+    builder.addCase(saveOrderDetails.rejected, (state, action) => {
+      console.log('Error', action.payload);
+      state.isError = true;
+      state.issaveOrderDetailsPending = false;
+    });
+
+    builder.addCase(saveOrderDetails.pending, (state, action) => {
+      // state.isLoading = true;
+      state.issaveOrderDetailsPending = true;
+    });
+    builder.addCase(saveOrderDetails.fulfilled, (state, action) => {
+      // state.isLoading = false;
+      state.OrderDetails = action.payload.OrderDetails.data;
+      state.issaveOrderDetailsPending = false;
+      state.issaveOrderDetailsSuccess = true;
     });
     
     builder.addCase(getProductSalesMonthly.rejected, (state, action) => {

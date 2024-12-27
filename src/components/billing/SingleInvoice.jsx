@@ -588,7 +588,7 @@ const SingleInvoice = (props) => {
                       <td>
                         {(
                           wayBillDetailsItems.amountSum -
-                          wayBillDetailsItems.gstAmountSum
+                          wayBillDetailsItems.gstAmountSum- wayBillDetailsItems.cessAmountSum
                         ).toFixed(2)}
                       </td>
                     </tr>,

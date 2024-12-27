@@ -64,6 +64,7 @@ const cardData = [
         buttons: [
             { label: "Add New Stock", path: "/addstock" },
             { label: "Check Stock Position", path: "/stocktable" },
+            // { label: "Place Order", path: "/placeorder" },
         ]
     },
     {
