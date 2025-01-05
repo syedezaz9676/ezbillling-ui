@@ -18,7 +18,7 @@ import { clearMessage } from "../redux/message";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { hideEdit } from "../redux/slices/ezEnableFiledSlice";
-// import "./Billing.css";
+import "./PlaceOrder.css";
 import moment from "moment";
 import {
   saveBillingDetails,
@@ -174,7 +174,6 @@ const PlaceOrder = () => {
   });
 
   const handleRegister = async (formValue) => {
-    console.log("placeorder")
     formValue.userID = userID;
     const items = formValue.itemList;
     
@@ -197,9 +196,11 @@ const PlaceOrder = () => {
         saveOrderDetails({ OrderDetails: updatedBillingDetails })
       )
         .unwrap()
-        .then(() => {})
+        .then(() => {
+          formikRef.current.resetForm(); 
+        })
         .catch(() => {});
-      // navigate("/in");
+      navigate("/placeorder");
     
   };
 
@@ -234,6 +235,7 @@ const PlaceOrder = () => {
   ];
 
   return (
+    <div className="place-order-container">
     <div className="form-length">
       {loading ? <Loader /> : null}
       <div className="card card-container">
@@ -428,6 +430,7 @@ const PlaceOrder = () => {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 };

@@ -54,6 +54,7 @@ import AddNewHsnCodeDetails from "./components/Registration/AddNewHsnCodeDetails
 import ProductSaleQty from "./components/tables/ProductSaleQty";
 import ProductMonthlySalesGraph from "./components/reports/ProductMonthlySalesGraph";
 import PlaceOrder from "./components/order/PlaceOrder";
+import OrderDetails from "./components/order/OrderDetails";
 
 
 const App = (props) => {
@@ -132,6 +133,7 @@ dispatch(hideEdit())
           <Route path="/productsaleqty" element={<ProductSaleQty/>}/>
           <Route path="/productmonthlysalesgraph" element={<ProductMonthlySalesGraph/>}/>
           <Route path="/placeorder" element={<PlaceOrder/>}/>
+          <Route path="/orderdetails" element={<OrderDetails/>}/>
           {/* {UserDetails != null && <Navigate to="/login" />} */}
         </Routes>
       </div>

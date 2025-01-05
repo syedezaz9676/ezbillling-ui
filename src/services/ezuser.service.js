@@ -420,6 +420,16 @@ const saveOrderDetails = (OrderDetails) => {
     });
 };
 
+const getOrderDetails = (dates) => {
+  return axios.get(API_URL+'/getorderdetails', {params: {
+    startDate: dates.startDate,
+    endDate: dates.endDate
+  }})
+  .then(response => {
+    return response;
+  });
+};
+
 const UserService = {
   getGstCodeDetails,
   saveCompanyDetails,
@@ -463,6 +473,7 @@ const UserService = {
   deActivateCompany,
   getProductSales,
   getProductSalesMontly,
-  saveOrderDetails
+  saveOrderDetails,
+  getOrderDetails
 }
 export default UserService;
