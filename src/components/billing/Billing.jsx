@@ -48,7 +48,7 @@ const Billing = () => {
     (state) => state.ezInvoiceDetails
   );
   const [loading, setLoading] = useState(false);
-  const { billDetails } = useSelector((state) => state.ezInvoiceDetails);
+  const { billDetails,isOrderBill } = useSelector((state) => state.ezInvoiceDetails);
   const DatePickerField = ({ field, form, ...props }) => {
     const { setFieldValue } = form;
     const { name, value } = field;
@@ -72,6 +72,11 @@ const Billing = () => {
   function getPidByName(productDetails, name) {
     const product = productDetails.find((productDetail) => productDetail.pname === name);
     return product ? product.id : null;
+  }
+
+  function getPNameById(productDetails, id) {
+    const product = productDetails.find((productDetail) => productDetail.id === id);
+    return product ? product.pname : null;
   }
   const Loader = () => (
     <div class="divLoader">
@@ -104,7 +109,7 @@ const Billing = () => {
     }
   }
   const [itemList, setItemList] = useState(
-    isEdit && billDetails ? billDetails.itemList : [""]
+    isEdit||isOrderBill && billDetails ? billDetails.itemList : [""]
   );
   const dispatch = useDispatch();
 
@@ -126,7 +131,13 @@ const Billing = () => {
       .then(() => {})
       .catch(() => {});
   }, [dispatch]);
-
+  
+  const orderbillItems ={
+    name:
+      isOrderBill && billDetails ? getNameById(customerNames, billDetails.name) : "",
+    date: isOrderBill && billDetails ? new Date(billDetails.date) : "",
+    itemList: isOrderBill && billDetails ? billDetails.itemList : [""],
+  }
   const editInitialValues = {
     name:
       isEdit && billDetails ? getNameById(customerNames, billDetails.name) : "",
@@ -187,7 +198,7 @@ const Billing = () => {
       const billitem = {
         bno: isEdit ? billDetails.bno : "",
         cno: getIdByName(customerNames, formValue.name),
-        product_name: isEdit?getPidByName(productDetails,item.pname):product.id,
+        product_name: isEdit|| isOrderBill ?getPidByName(productDetails,item.pname):product.id,
         product_gst: product.vatp,
         qty: item.noofunites,
         amount: item.rate,
@@ -246,19 +257,13 @@ const Billing = () => {
     );
   };
 
-  const options = [
-    { value: "apple", label: "Apple" },
-    { value: "banana", label: "Banana" },
-    { value: "orange", label: "Orange" },
-  ];
-
   return (
     <div className="form-length">
       {loading ? <Loader /> : null}
       <div className="card card-container">
         <h3>{isEdit ? "Edit Invoice Details" : "Generate Invoice"}</h3>
         <Formik
-          initialValues={isEdit ? editInitialValues : initialValues}
+          initialValues={isEdit ? editInitialValues :isOrderBill ? orderbillItems : initialValues}
           validationSchema={validationSchema}
           onSubmit={handleRegister}
           innerRef={formikRef}

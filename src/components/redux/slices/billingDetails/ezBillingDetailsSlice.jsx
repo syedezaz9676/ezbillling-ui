@@ -497,6 +497,27 @@ export const saveOrderDetails = createAsyncThunk(
     }
   }
 )
+
+export const getOrderDetails = createAsyncThunk(
+  "getOrderDetails",
+  async ({ dates }, thunkAPI) => {
+    try {
+      const OrderDetailsByDate = await UserService.getOrderDetails(dates);
+      return { OrderDetailsByDate };
+    } catch (error) {
+      console.log('eror',error);
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
 export const hideGstDetailsOfCustomer = createAsyncThunk(
   "hideGstDetailsOfCustomer",
  
@@ -522,6 +543,16 @@ export const resetMonthlySales = createAsyncThunk(
  
 )
 
+// export const updateOrderBillDetails = createSlice({
+//   name: 'updateOrderBillDetails', 
+//   reducers: {
+    
+//     updateBillDetails: (state, action) => {
+//       state.count += action.payload; 
+//     }
+//   },
+// });
+
 
 // export const hideGstDetailsOfCustomer = () => {
 //   return {
@@ -531,6 +562,7 @@ export const resetMonthlySales = createAsyncThunk(
 const ezBillingDetailsSlice = createSlice({
   name: "billingDetails",
   initialState: {
+    OrderDetailsByDate:[],
     productDetails: [],
     StockDetailsByDgstAndPCom:[],
     isSaveBillingDetailsPending: false,
@@ -547,7 +579,18 @@ const ezBillingDetailsSlice = createSlice({
     GstSalesOfCustomer:[],
     BillsByDate:[],
     Montlysales:[],
-    MonthlyCompanySales:[]
+    MonthlyCompanySales:[],
+    isOrderBill:false
+
+  },
+  reducers: {
+    
+    updateOrderBillDetails: (state, action) => {
+      state.billDetails = action.payload.selectedOrderDetails; 
+    },
+    isOrderBill: (state, action) => {
+      state.isOrderBill = action.payload.isOrderBillFlag; 
+    },
 
   },
   extraReducers: (builder) => {
@@ -917,6 +960,23 @@ const ezBillingDetailsSlice = createSlice({
       state.issaveOrderDetailsSuccess = true;
     });
     
+    builder.addCase(getOrderDetails.rejected, (state, action) => {
+      console.log('Error', action.payload);
+      state.isError = true;
+      state.isgetOrderDetailsPending = false;
+    });
+
+    builder.addCase(getOrderDetails.pending, (state, action) => {
+      // state.isLoading = true;
+      state.isgetOrderDetailsPending = true;
+    });
+    builder.addCase(getOrderDetails.fulfilled, (state, action) => {
+      // state.isLoading = false;
+      state.OrderDetailsByDate = action.payload.OrderDetailsByDate.data;
+      state.isgetOrderDetailsPending = false;
+      state.isgetOrderDetailsSuccess = true;
+    });
+
     builder.addCase(getProductSalesMonthly.rejected, (state, action) => {
       console.log('Error', action.payload);
       state.isError = true;
@@ -950,5 +1010,6 @@ const ezBillingDetailsSlice = createSlice({
     });
   }
 });
+export const { updateOrderBillDetails, isOrderBill } = ezBillingDetailsSlice.actions; 
 
 export default ezBillingDetailsSlice.reducer;

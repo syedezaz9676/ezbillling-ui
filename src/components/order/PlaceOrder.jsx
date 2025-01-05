@@ -174,7 +174,6 @@ const PlaceOrder = () => {
   });
 
   const handleRegister = async (formValue) => {
-    console.log("placeorder")
     formValue.userID = userID;
     const items = formValue.itemList;
     
@@ -197,9 +196,11 @@ const PlaceOrder = () => {
         saveOrderDetails({ OrderDetails: updatedBillingDetails })
       )
         .unwrap()
-        .then(() => {})
+        .then(() => {
+          formikRef.current.resetForm(); 
+        })
         .catch(() => {});
-      // navigate("/in");
+      navigate("/placeorder");
     
   };
 
