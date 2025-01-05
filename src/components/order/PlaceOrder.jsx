@@ -200,7 +200,7 @@ const PlaceOrder = () => {
           formikRef.current.resetForm(); 
         })
         .catch(() => {});
-      navigate("/placeorder");
+      navigate("/dashboard");
     
   };
 
