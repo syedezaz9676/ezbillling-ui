@@ -85,6 +85,14 @@ const BalanceDetailsTable = () =>{
           placeholder: 'Enter last Update Amount to filter',
         }),
       }
+      ,
+      {
+        dataField: 'modifiedBy',
+        text: 'Update By',
+        filter: textFilter({
+          placeholder: 'Enter Name',
+        }),
+      }
       
     ];
 

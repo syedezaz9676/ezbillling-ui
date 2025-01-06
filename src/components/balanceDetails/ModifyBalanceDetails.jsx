@@ -75,6 +75,7 @@ const ModifyBalanceDetails = () => {
           creditBalance: formValue.creditBalance,
           debitBalance: formValue.debitBalance,
           totalBalance: formValue.totalBalance,
+          modifiedBy:userID
         };
 
         dispatch(modifyBalanceDetails({ BalanceDetails }))

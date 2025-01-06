@@ -79,8 +79,9 @@ function OrderList() {
             >
               Order ID: {item.orderId} 
             </span>
-            <p>Name: {getNameById(customerNames, item.name)}</p>
+            <p>Customer: <b>{getNameById(customerNames, item.name)}</b></p>
             <p>Date: {item.date}</p>
+            <p>Ordre Taken By: {item.orderTakenBy}</p>
             <h5>Order List:</h5>
             <ul>
               {item.itemList.map((item, index) => (
