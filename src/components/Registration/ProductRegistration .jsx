@@ -53,20 +53,30 @@ const ProductRegistration = () => {
       .catch(() => {});
 
     dispatch(clearMessage());
+
+     if(isEdit){
+      companyDeatils.map((companyDeatil) =>
+                          companyDeatil.name === productDetailsByID.pcom
+                            ? setGstpercentages(companyDeatil.gstPercentage)
+                            : null
+                        );
+                      }
+    
   }, [dispatch]);
 
   const isNameUnique = (value) => {
     // If editing, remove the currently selected product from the list
     const filteredProductDetails = isEdit
-      ? productDetails.filter((productDetail) => productDetail.pname !== productDetailsByID.pname)
+      ? productDetails.filter(
+          (productDetail) => productDetail.pname !== productDetailsByID.pname
+        )
       : productDetails;
-  
+
     // Check if the value exists in the remaining product names
     return !filteredProductDetails.some(
       (productDetail) => productDetail.pname === value
     );
   };
-  
 
   const getHsncode = (hsnCodes) => {
     return hsnCodes.map((hsnCodeDetails) => hsnCodeDetails.hsnCode);
@@ -303,23 +313,26 @@ const ProductRegistration = () => {
                   <div className="form-group">
                     <label htmlFor="gstPer">GST Percentage</label>
                     <Field as="select" name="gstPer" className="form-control">
-                      {isEdit ? (
-                        <option
-                          value={
-                            productDetailsByID ? productDetailsByID.vatp : ""
-                          }
-                        >
-                          {productDetailsByID.vatp}
-                        </option>
-                      ) : (
-                        <option>--Please Select---</option>
-                      )}
-                      {gstpercentages &&
-                        gstpercentages.map((gstpercentage, index) => (
-                          <option key={index} value={gstpercentage}>
-                            {gstpercentage}
+                      {isEdit &&
+                        productDetailsByID &&
+                        productDetailsByID.vatp !== undefined && (
+                          <option value={productDetailsByID.vatp}>
+                            {productDetailsByID.vatp}
                           </option>
-                        ))}
+                        )}
+                      {!isEdit && <option>--Please Select---</option>}
+                      {gstpercentages &&
+                        gstpercentages
+                          .filter(
+                            (gstpercentage) =>
+                              !isEdit ||
+                              gstpercentage !== productDetailsByID.vatp // Avoid duplicate option in edit mode
+                          )
+                          .map((gstpercentage, index) => (
+                            <option key={index} value={gstpercentage}>
+                              {gstpercentage}
+                            </option>
+                          ))}
                     </Field>
                     <ErrorMessage
                       name="gstPer"
