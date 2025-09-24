@@ -20,12 +20,9 @@ function EzNavbar() {
   const { isLoggedIn } = useSelector((state) => state.ezLogin);
   const { UserDetails } = useSelector((state) => state.ezLogin);
 
-  useEffect(() => {
-   
-      // window.location.href = '/login';
-     
-  
-  }, [UserDetails === null]);
+  // useEffect(()=>{
+  //   console.log("in nav useeffect")
+  //   },[UserDetails === null])
   const dispatch = useDispatch();
 
   const logout=()=>{
