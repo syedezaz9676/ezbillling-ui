@@ -3,20 +3,17 @@ import axios from "axios";
 import authService from "../../services/auth.service";
 import UserService from "../../services/ezuser.service";
 import { setMessage } from "./message";
+import { getErrorMessage, getSuccessMessage } from "../../common/ErrorHandler";
 
 export const doCustomerRegistration = createAsyncThunk(
   "ezCustomerRegistration",
   async ({ customerDetails }, thunkAPI) => {
     try {
       const customerRegistrationStatus = await authService.customerRegistration(customerDetails);
+      thunkAPI.dispatch(setMessage(getSuccessMessage('save')));
       return { customerRegistrationStatus };
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = getErrorMessage(error);
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }
@@ -30,12 +27,7 @@ export const getCustomerNames = createAsyncThunk(
       const customerNames = await UserService.getCustomerNames(userID);
       return { customerNames };
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = getErrorMessage(error);
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }
@@ -50,12 +42,7 @@ export const getCustomerDetailsByID = createAsyncThunk(
       const customerDetailsByID = await UserService.getCustomerDetailsByID(id);
       return { customerDetailsByID };
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = getErrorMessage(error);
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }
@@ -70,12 +57,7 @@ export const getCustomerDetailsByDgst = createAsyncThunk(
       const customerDetailsByDgst = await UserService.getCustomerDetailsByDgst(id);
       return { customerDetailsByDgst };
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = getErrorMessage(error);
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }
@@ -86,14 +68,10 @@ export const deActivateCustomer = createAsyncThunk(
   async ({ id }, thunkAPI) => {
     try {
       const deActivateCustomerStatus = await UserService.deActivateCustomer(id);
+      thunkAPI.dispatch(setMessage(getSuccessMessage('delete')));
       return { deActivateCustomerStatus };
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = getErrorMessage(error);
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }

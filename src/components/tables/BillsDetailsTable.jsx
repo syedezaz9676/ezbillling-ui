@@ -11,11 +11,13 @@ const BillsDetailsTable = () => {
   const { BillsAmountDetails } = useSelector((state) => state.ezInvoiceDetails);
   const userID = UserDetails.user.id;
 
+  // Extract data from response
+  const tableData = BillsAmountDetails?.content || BillsAmountDetails || [];
+
   const [loading, setLoading] = useState(true); // State to manage loading indicator
 
-  useEffect(() => {
-    setLoading(true); // Set loading to true before API call
-    // Fetch bills details for the current user
+  const fetchBillsDetails = () => {
+    setLoading(true);
     dispatch(getBillsDetails({ userID }))
       .unwrap()
       .then(() => {
@@ -26,9 +28,13 @@ const BillsDetailsTable = () => {
         console.error('Error fetching bills details:', error);
       })
       .finally(() => {
-        setLoading(false); // Set loading to false after API call completes
+        setLoading(false);
       });
-  }, [dispatch, userID]);
+  };
+
+  useEffect(() => {
+    fetchBillsDetails();
+  }, [userID, dispatch]);
 
   // Column definitions for the table
   const columns = [
@@ -62,11 +68,11 @@ const BillsDetailsTable = () => {
     }
   ];
 
+
   // Options for pagination
   const options = {
-    sizePerPage: 10,
-    hideSizePerPage: true,
-    hidePageListOnlyOnePage: true
+    hideSizePerPage: false,
+    hidePageListOnlyOnePage: true,
   };
 
   // Custom formatter function for formatting currency
@@ -83,14 +89,16 @@ const BillsDetailsTable = () => {
       {loading ? (
         <center><p>Please wait...</p></center> // Replace with your loading indicator (e.g., spinner)
       ) : (
-        <BootstrapTable
-          keyField="id"
-          data={BillsAmountDetails}
-          columns={columns}
-          pagination={paginationFactory(options)}
-          filter={filterFactory()}
-          filterPosition="bottom"
-        />
+        <div className="table-responsive">
+          <BootstrapTable
+            keyField="id"
+            data={tableData}
+            columns={columns}
+            pagination={paginationFactory(options)}
+            filter={filterFactory()}
+            filterPosition="bottom"
+          />
+        </div>
       )}
     </div>
   );

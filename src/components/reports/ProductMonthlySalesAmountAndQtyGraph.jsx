@@ -2,27 +2,37 @@
 
 import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { Bar, Line } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend, Filler } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import './GraphStyles.css';
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
+  LineElement,
+  PointElement,
   Title,
   Tooltip,
   Legend,
+  Filler,
   ChartDataLabels
 );
 
-const ChartComponent = ({ chartData, chartOptions }) => (
-  <Bar
-    data={chartData}
-    options={chartOptions}
-    style={{ width: '100%', height: '100%' }}
-  />
-);
+// Modern gradient palettes
+const amountGradient = ['#6366f1', '#8b5cf6', '#a78bfa', '#c4b5fd'];
+const qtyGradient = ['#10b981', '#34d399', '#6ee7b7', '#a7f3d0'];
+
+const ChartComponent = ({ chartData, chartOptions, type = 'bar' }) => {
+  const Component = type === 'line' ? Line : Bar;
+  return (
+    <Component
+      data={chartData}
+      options={chartOptions}
+    />
+  );
+};
 
 const ProductMonthlySalesAmountAndQtyGraph = () => {
   const dispatch = useDispatch();
@@ -40,7 +50,7 @@ const ProductMonthlySalesAmountAndQtyGraph = () => {
   };
 
   // Generate chart data function
-  const generateChartData = (label, dataKey) => {
+  const generateChartData = (label, dataKey, colors, isLine = false) => {
     if (!productSaleQtyMonthly || !productSaleQtyMonthly.length) {
       return { labels: [], datasets: [] };
     }
@@ -48,62 +58,239 @@ const ProductMonthlySalesAmountAndQtyGraph = () => {
     // Sort the data by month
     const sortedData = sortByMonth(productSaleQtyMonthly);
 
-    const uniqueProductLabels = sortedData.map((data) => data.id);
-    const colors = uniqueProductLabels.map((_, index) =>
-      `hsl(${index * 360 / uniqueProductLabels.length}, 70%, 80%)`
-    );
-
+    const uniqueLabels = sortedData.map((data) => data.id);
+    
+    if (isLine) {
+      return {
+        labels: uniqueLabels,
+        datasets: [
+          {
+            label: label,
+            data: sortedData.map((data) => data[dataKey]),
+            borderColor: colors[0],
+            backgroundColor: (context) => {
+              const ctx = context.chart.ctx;
+              const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+              gradient.addColorStop(0, colors[0] + '40');
+              gradient.addColorStop(1, colors[0] + '00');
+              return gradient;
+            },
+            borderWidth: 3,
+            pointBackgroundColor: colors[0],
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            pointRadius: 6,
+            pointHoverRadius: 8,
+            fill: true,
+            tension: 0.4,
+          },
+        ],
+      };
+    }
+    
     return {
-      labels: uniqueProductLabels,
+      labels: uniqueLabels,
       datasets: [
         {
           label: label,
           data: sortedData.map((data) => data[dataKey]),
-          borderColor: "#B6FFFA",
+          backgroundColor: sortedData.map((_, index) => {
+            const color = colors[index % colors.length];
+            return (context) => {
+              const ctx = context.chart.ctx;
+              const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+              gradient.addColorStop(0, color + 'dd');
+              gradient.addColorStop(1, color + '66');
+              return gradient;
+            };
+          }),
+          borderColor: colors[0],
           borderWidth: 1,
-          backgroundColor: colors,
+          borderRadius: 6,
+          borderSkipped: false,
         },
       ],
     };
   };
 
-  const salesData = useMemo(() => generateChartData("Total Amount", "totalAmount"), [productSaleQtyMonthly]);
-  const qtyData = useMemo(() => generateChartData("Total Quantity", "totalQty"), [productSaleQtyMonthly]);
+  const salesData = useMemo(() => generateChartData("Total Amount (₹)", "totalAmount", amountGradient), [productSaleQtyMonthly]);
+  const qtyData = useMemo(() => generateChartData("Total Quantity", "totalQty", qtyGradient, true), [productSaleQtyMonthly]);
 
-  const chartOptions = useMemo(() => ({
+  const barChartOptions = useMemo(() => ({
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
+      legend: {
+        display: true,
+        position: 'top',
+        labels: {
+          color: '#374151',
+          font: {
+            family: "'Inter', sans-serif",
+            size: 12,
+            weight: 600,
+          },
+          padding: 20,
+          usePointStyle: true,
+        },
+      },
+      title: {
+        display: true,
+        text: 'Monthly Sales - Amount',
+        color: '#111827',
+        font: {
+          family: "'Inter', sans-serif",
+          size: 16,
+          weight: 700,
+        },
+        padding: { bottom: 15 },
+      },
+      tooltip: {
+        backgroundColor: 'rgba(17, 24, 39, 0.95)',
+        titleColor: '#fff',
+        bodyColor: '#e5e7eb',
+        borderColor: 'rgba(99, 102, 241, 0.5)',
+        borderWidth: 1,
+        cornerRadius: 8,
+        padding: 12,
+        callbacks: {
+          label: function(context) {
+            return `Amount: ₹${context.parsed.y.toLocaleString('en-IN')}`;
+          }
+        }
+      },
       datalabels: {
-        color: '#000',
+        color: '#374151',
         anchor: 'end',
         align: 'top',
-        offset: 4,
-        formatter: (value) => `${value}`,
-        font: { weight: 'bold' },
+        offset: 6,
+        formatter: (value) => `₹${(value/1000).toFixed(1)}k`,
+        font: { weight: 'bold', size: 10 },
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        borderRadius: 4,
+        padding: 3,
       },
     },
     scales: {
       x: {
-        beginAtZero: true,
+        grid: { display: false },
         ticks: {
-          autoSkip: false,
-          maxRotation: 90,
-          minRotation: 45,
+          color: '#6b7280',
+          font: { family: "'Inter', sans-serif", size: 11, weight: 500 },
         },
+        border: { display: false },
       },
-      y: { beginAtZero: true },
+      y: {
+        beginAtZero: true,
+        grid: { color: 'rgba(107, 114, 128, 0.1)', drawBorder: false },
+        ticks: {
+          color: '#6b7280',
+          font: { family: "'Inter', sans-serif", size: 11, weight: 500 },
+          callback: (value) => '₹' + (value/1000).toFixed(0) + 'k'
+        },
+        border: { display: false },
+      },
     },
   }), []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error?.message || "An error occurred"}</div>;
+  const lineChartOptions = useMemo(() => ({
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top',
+        labels: {
+          color: '#374151',
+          font: {
+            family: "'Inter', sans-serif",
+            size: 12,
+            weight: 600,
+          },
+          padding: 20,
+          usePointStyle: true,
+        },
+      },
+      title: {
+        display: true,
+        text: 'Monthly Sales - Quantity',
+        color: '#111827',
+        font: {
+          family: "'Inter', sans-serif",
+          size: 16,
+          weight: 700,
+        },
+        padding: { bottom: 15 },
+      },
+      tooltip: {
+        backgroundColor: 'rgba(17, 24, 39, 0.95)',
+        titleColor: '#fff',
+        bodyColor: '#e5e7eb',
+        borderColor: 'rgba(16, 185, 129, 0.5)',
+        borderWidth: 1,
+        cornerRadius: 8,
+        padding: 12,
+        callbacks: {
+          label: function(context) {
+            return `Quantity: ${context.parsed.y.toLocaleString('en-IN')} units`;
+          }
+        }
+      },
+      datalabels: {
+        display: false,
+      },
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        ticks: {
+          color: '#6b7280',
+          font: { family: "'Inter', sans-serif", size: 11, weight: 500 },
+        },
+        border: { display: false },
+      },
+      y: {
+        beginAtZero: true,
+        grid: { color: 'rgba(107, 114, 128, 0.1)', drawBorder: false },
+        ticks: {
+          color: '#6b7280',
+          font: { family: "'Inter', sans-serif", size: 11, weight: 500 },
+        },
+        border: { display: false },
+      },
+    },
+    elements: {
+      line: {
+        borderWidth: 3,
+      },
+      point: {
+        radius: 6,
+        hoverRadius: 8,
+      },
+    },
+  }), []);
+
+  if (loading) return (
+    <div className="graph-loading">
+      <div className="loading-spinner"></div>
+      <p>Loading monthly sales data...</p>
+    </div>
+  );
+  
+  if (error) return (
+    <div className="graph-error">
+      <span className="error-icon">⚠️</span>
+      <p>Error: {error?.message || "An error occurred"}</p>
+    </div>
+  );
 
   return (
-    <div style={{ overflowX: 'auto', whiteSpace: 'nowrap' }}>
-      <div style={{ width: `${salesData.labels.length * 100}px`, height: '450px' }}>
-        <ChartComponent chartData={salesData} chartOptions={chartOptions} />
-        <ChartComponent chartData={qtyData} chartOptions={chartOptions} />
+    <div className="graphs-wrapper">
+      <div className="graph-container-modern">
+        <ChartComponent chartData={salesData} chartOptions={barChartOptions} type="bar" />
+      </div>
+      <div className="graph-container-modern">
+        <ChartComponent chartData={qtyData} chartOptions={lineChartOptions} type="line" />
       </div>
     </div>
   );

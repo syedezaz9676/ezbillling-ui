@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, Filler } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import './GraphStyles.css';
 
 ChartJS.register(
   CategoryScale,
@@ -11,8 +12,21 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
+  Filler,
   ChartDataLabels
 );
+
+// Modern gradient palette
+const gradientColors = [
+  ['#10b981', '#06b6d4'],
+  ['#f59e0b', '#ef4444'],
+  ['#6366f1', '#8b5cf6'],
+  ['#ec4899', '#8b5cf6'],
+  ['#14b8a6', '#06b6d4'],
+  ['#f97316', '#dc2626'],
+  ['#8b5cf6', '#d946ef'],
+  ['#06b6d4', '#3b82f6'],
+];
 
 const ProductSalesAmountGraph = () => {
     const dispatch = useDispatch();
@@ -25,19 +39,27 @@ const ProductSalesAmountGraph = () => {
         };
 
         const uniqueProductLabels = Array.from(new Set(productSaleQty.map((data) => data.productName)));
-        const colors = uniqueProductLabels.map((_, index) => 
-            `hsl(${index * 360 / uniqueProductLabels.length}, 70%, 80%)`
-        );
 
         return {
             labels: uniqueProductLabels,
             datasets: [
                 {
-                    label: "Total Amount",
+                    label: "Total Sales Amount",
                     data: productSaleQty.map((data) => data.totalAmount),
-                    borderColor: "#B6FFFA",
+                    backgroundColor: uniqueProductLabels.map((_, index) => {
+                        const colors = gradientColors[index % gradientColors.length];
+                        return (context) => {
+                            const ctx = context.chart.ctx;
+                            const gradient = ctx.createLinearGradient(0, 0, 0, 350);
+                            gradient.addColorStop(0, colors[0] + 'dd');
+                            gradient.addColorStop(1, colors[1] + '66');
+                            return gradient;
+                        };
+                    }),
+                    borderColor: gradientColors.map(c => c[0]),
                     borderWidth: 1,
-                    backgroundColor: colors,
+                    borderRadius: 6,
+                    borderSkipped: false,
                 },
             ],
         };
@@ -47,49 +69,132 @@ const ProductSalesAmountGraph = () => {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
+            legend: {
+                display: true,
+                position: 'top',
+                labels: {
+                    color: '#374151',
+                    font: {
+                        family: "'Inter', sans-serif",
+                        size: 12,
+                        weight: 600,
+                    },
+                    padding: 20,
+                    usePointStyle: true,
+                    pointStyle: 'circle',
+                },
+            },
+            title: {
+                display: true,
+                text: 'Product Sales - Amount Analysis',
+                color: '#111827',
+                font: {
+                    family: "'Inter', sans-serif",
+                    size: 18,
+                    weight: 700,
+                },
+                padding: {
+                    bottom: 20,
+                },
+            },
+            tooltip: {
+                backgroundColor: 'rgba(17, 24, 39, 0.95)',
+                titleColor: '#fff',
+                bodyColor: '#e5e7eb',
+                borderColor: 'rgba(16, 185, 129, 0.5)',
+                borderWidth: 1,
+                cornerRadius: 8,
+                padding: 12,
+                displayColors: true,
+                callbacks: {
+                    label: function(context) {
+                        return `Amount: ₹${context.parsed.y.toLocaleString('en-IN')}`;
+                    }
+                }
+            },
             datalabels: {
-                color: '#000',
+                color: '#374151',
                 anchor: 'end',
                 align: 'top',
-                offset: 4,
-                formatter: (value) => `${value}`,
+                offset: 6,
+                formatter: (value) => `₹${(value/1000).toFixed(1)}k`,
                 font: {
                     weight: 'bold',
+                    size: 10,
                 },
+                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                borderRadius: 4,
+                padding: 3,
             },
         },
         scales: {
             x: {
                 beginAtZero: true,
-                ticks: {
-                    autoSkip: false,  // Ensures all labels are displayed
-                    maxRotation: 90,  // Rotates the labels for readability
-                    minRotation: 45,  // Min rotation to avoid overlap
+                grid: {
+                    display: false,
                 },
+                ticks: {
+                    color: '#6b7280',
+                    font: {
+                        family: "'Inter', sans-serif",
+                        size: 10,
+                        weight: 500,
+                    },
+                    maxRotation: 45,
+                    minRotation: 45,
+                },
+                border: {
+                    display: false,
+                }
             },
             y: {
                 beginAtZero: true,
+                grid: {
+                    color: 'rgba(107, 114, 128, 0.1)',
+                    drawBorder: false,
+                },
+                ticks: {
+                    color: '#6b7280',
+                    font: {
+                        family: "'Inter', sans-serif",
+                        size: 11,
+                        weight: 500,
+                    },
+                    callback: function(value) {
+                        return '₹' + (value/1000).toFixed(0) + 'k';
+                    }
+                },
+                border: {
+                    display: false,
+                }
             },
         },
     }), []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="graph-loading">
+                <div className="loading-spinner"></div>
+                <p>Loading product sales data...</p>
+            </div>
+        );
     }
 
     if (error) {
-        return <div>Error: {error?.message || "An error occurred"}</div>;
+        return (
+            <div className="graph-error">
+                <span className="error-icon">⚠️</span>
+                <p>Error: {error?.message || "An error occurred"}</p>
+            </div>
+        );
     }
 
     return (
-        <div style={{ overflowX: 'auto', whiteSpace: 'nowrap' }}>
-            <div style={{ width: `${salesData.labels.length * 100}px`, height: '450px' }}>
-                <Bar
-                    data={salesData}
-                    options={chartOptions}
-                    style={{ width: '100%', height: '100%' }}
-                />
-            </div>
+        <div className="graph-container-modern">
+            <Bar
+                data={salesData}
+                options={chartOptions}
+            />
         </div>
     );
 };

@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import UserService from "../../../services/ezuser.service";
-import { setMessage } from "../message"; 
+import { setMessage } from "../message";
+import { getErrorMessage } from "../../../common/ErrorHandler"; 
 
 export const doGetGstCodeDetails = createAsyncThunk(
     "getGstCodeDetails",
@@ -9,12 +10,7 @@ export const doGetGstCodeDetails = createAsyncThunk(
         const GstCodeDetails = await UserService.getGstCodeDetails();
         return { GstCodeDetails };
       } catch (error) {
-        const message =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
+        const message = getErrorMessage(error);
         thunkAPI.dispatch(setMessage(message));
         return thunkAPI.rejectWithValue();
       }

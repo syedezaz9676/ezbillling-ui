@@ -41,7 +41,7 @@ const EditInvoice = () => {
     };
 
     const getBnos = (bills) => {
-        return bills.map(bill => bill.bno);
+        return bills?.content ? bills.content.map(bill => bill.bno) : bills.map(bill => bill.bno);
       };
 
     const validationSchema = Yup.object().shape({

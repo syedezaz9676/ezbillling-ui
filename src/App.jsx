@@ -50,6 +50,7 @@ import ProductSaleQty from "./components/tables/ProductSaleQty";
 import ProductMonthlySalesGraph from "./components/reports/ProductMonthlySalesGraph";
 import PlaceOrder from "./components/order/PlaceOrder";
 import OrderDetails from "./components/order/OrderDetails";
+import Toast from "./components/helper/Toast";
 
 
 const App = (props) => {
@@ -86,6 +87,7 @@ const App = (props) => {
   return (
 
     <div>
+      <Toast />
       <Navbar />
       <div className='routes'>
         <Routes >       

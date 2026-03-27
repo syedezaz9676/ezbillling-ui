@@ -1,0 +1,217 @@
+/* ========================================
+    Modern Toast Notifications
+    ======================================== */
+
+.toast-container {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 1050;
+  animation: slideInRight 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  pointer-events: none;
+}
+
+.toast-container > * {
+  pointer-events: auto;
+}
+
+.toast-container.show {
+  animation: slideInRight 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.toast-content {
+  display: flex;
+  align-items: flex-start;
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  min-width: 320px;
+  max-width: 480px;
+  gap: var(--space-md);
+  border: 1px solid var(--gray-200);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.toast-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: currentColor;
+}
+
+.toast-error {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  color: #dc2626;
+  border-color: #fecaca;
+}
+
+.toast-success {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  color: #16a34a;
+  border-color: #bbf7d0;
+}
+
+.toast-warning {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  color: #d97706;
+  border-color: #fde68a;
+}
+
+.toast-info {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  color: #0284c7;
+  border-color: #bae6fd;
+}
+
+.toast-icon {
+  font-size: 1.25rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.toast-error .toast-icon {
+  background: rgba(220, 38, 38, 0.1);
+  color: #dc2626;
+}
+
+.toast-success .toast-icon {
+  background: rgba(22, 163, 74, 0.1);
+  color: #16a34a;
+}
+
+.toast-warning .toast-icon {
+  background: rgba(217, 119, 6, 0.1);
+  color: #d97706;
+}
+
+.toast-info .toast-icon {
+  background: rgba(2, 132, 199, 0.1);
+  color: #0284c7;
+}
+
+.toast-message {
+  flex: 1;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  font-weight: 500;
+  margin: 0;
+}
+
+.toast-title {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  margin-bottom: var(--space-xs);
+  display: block;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: currentColor;
+  opacity: 0.7;
+  padding: var(--space-xs);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  transition: all var(--transition);
+  margin-top: -2px;
+}
+
+.toast-close:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+/* Progress bar for auto-dismiss */
+.toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: currentColor;
+  opacity: 0.3;
+  animation: progress 5s linear forwards;
+}
+
+@keyframes progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .toast-container {
+    top: 20px;
+    right: 10px;
+    left: 10px;
+  }
+
+  .toast-content {
+    min-width: auto;
+    max-width: none;
+  }
+}
+
+/* Multiple toasts stacking */
+.toast-container:nth-child(2) {
+  top: 160px;
+}
+
+.toast-container:nth-child(3) {
+  top: 240px;
+}
+
+.toast-container:nth-child(4) {
+  top: 320px;
+}
+
+/* Dark mode support (if implemented later) */
+@media (prefers-color-scheme: dark) {
+  .toast-content {
+    border-color: var(--gray-700);
+  }
+
+  .toast-error {
+    background: linear-gradient(135deg, #451a1a 0%, #7f1d1d 100%);
+    color: #fca5a5;
+  }
+
+  .toast-success {
+    background: linear-gradient(135deg, #14532d 0%, #166534 100%);
+    color: #86efac;
+  }
+}

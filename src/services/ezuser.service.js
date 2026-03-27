@@ -269,8 +269,8 @@ const getUser = (userName) => {
   });
 };
 
-const getBillsDetails = (userID) => {
-  return axios.get(API_URL+'/getbillsamount/'+userID)
+const getBillsDetails = (userID, page = 0, size = 10) => {
+  return axios.get(`${API_URL}/getbillsamount/${userID}?page=${page}&size=${size}`)
   .then(response => {
     return response;
   });

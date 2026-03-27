@@ -79,26 +79,8 @@ const Billing = () => {
     return product ? product.pname : null;
   }
   const Loader = () => (
-    <div class="divLoader">
-      <svg class="svgLoader" viewBox="0 0 100 100" width="10em" height="10em">
-        <path
-          stroke="none"
-          d="M10 50A40 40 0 0 0 90 50A40 42 0 0 1 10 50"
-          fill="#51CACC"
-          transform="rotate(179.719 50 51)"
-        >
-          <animateTransform
-            attributeName="transform"
-            type="rotate"
-            calcMode="linear"
-            values="0 50 51;360 50 51"
-            keyTimes="0;1"
-            dur="1s"
-            begin="0s"
-            repeatCount="indefinite"
-          ></animateTransform>
-        </path>
-      </svg>
+    <div className="loading-overlay">
+      <div className="loading-spinner"></div>
     </div>
   );
   const editGstPerList = [];
@@ -157,32 +139,68 @@ const Billing = () => {
   const getProductNamesfromList = (productDetails) => {
     return productDetails.map((productDetail) => productDetail.pname);
   };
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Customer Name is required.")
-    .test('is-valid-invoice', 'Select valid customer name', function (value) {
-      return getname(customerNames).includes(value);
-  }),
-    itemList: Yup.array().of(
-      Yup.object().shape({
-        pname: Yup.string().required("Product Name is required.")
-        .test('is-valid-product', 'Select valid product name', function (value) {
-          return getProductNamesfromList(productDetails).includes(value);
-      }),
-        rate: Yup.number()
-          .typeError("Rate must be a number.")
-          .positive("Rate must be a positive number.")
-          .required("Rate is required."),
-        noofunites: Yup.number()
-          .typeError("No of Unites must be a number.")
-          .integer("No of Unites must be an integer.")
-          .min(1, "No of Unites must be at least 1.")
-          .required("No of Unites is required."),
-        disc: Yup.number()
-          .typeError("Discount must be a number.")
-          .integer("Discount must be an integer."),
-      })
-    ),
-  });
+  const validateForm = (values) => {
+    const errors = {};
+
+    // Customer name validation
+    if (!values.name) {
+      errors.name = "Customer Name is required.";
+    } else if (!getname(customerNames).includes(values.name)) {
+      errors.name = "Select valid customer name";
+    }
+
+    // Item list validation
+    if (values.itemList && values.itemList.length > 0) {
+      const itemErrors = [];
+      const productNames = [];
+
+      values.itemList.forEach((item, index) => {
+        const itemError = {};
+
+        // Product name validation
+        if (!item.pname) {
+          itemError.pname = "Product Name is required.";
+        } else if (!getProductNamesfromList(productDetails).includes(item.pname)) {
+          itemError.pname = "Select valid product name";
+        } else if (productNames.includes(item.pname)) {
+          itemError.pname = "This product is already added to the invoice";
+        } else {
+          productNames.push(item.pname);
+        }
+
+        // Rate validation
+        if (!item.rate) {
+          itemError.rate = "Rate is required.";
+        } else if (isNaN(item.rate) || item.rate <= 0) {
+          itemError.rate = "Rate must be a positive number.";
+        }
+
+        // Quantity validation
+        if (!item.noofunites) {
+          itemError.noofunites = "Quantity is required.";
+        } else if (isNaN(item.noofunites) || item.noofunites < 1 || !Number.isInteger(Number(item.noofunites))) {
+          itemError.noofunites = "Quantity must be an integer and at least 1.";
+        }
+
+        // Discount validation (optional)
+        if (item.disc !== undefined && item.disc !== null && item.disc !== "") {
+          if (isNaN(item.disc) || item.disc < 0 || !Number.isInteger(Number(item.disc))) {
+            itemError.disc = "Discount must be a non-negative integer.";
+          }
+        }
+
+        if (Object.keys(itemError).length > 0) {
+          itemErrors[index] = itemError;
+        }
+      });
+
+      if (itemErrors.length > 0) {
+        errors.itemList = itemErrors;
+      }
+    }
+
+    return errors;
+  };
 
   const handleRegister = async (formValue) => {
     formValue.userID = userID;
@@ -258,200 +276,216 @@ const Billing = () => {
   };
 
   return (
-    <div className="form-length">
-      {loading ? <Loader /> : null}
-      <div className="card card-container">
-        <h3>{isEdit ? "Edit Invoice Details" : "Generate Invoice"}</h3>
-        <Formik
-          initialValues={isEdit ? editInitialValues :isOrderBill ? orderbillItems : initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleRegister}
-          innerRef={formikRef}
-        >
-          {({ handleSubmit, setFieldValue, values,isSubmitting }) => (
-            <Form>
-              <div>
-                <div className="form-row">
-                  <div>
-                    <label htmlFor="name">Customer Name</label>
-                    <Field name="name">
-                      {({ field, form }) => (
-                        <div>
-                          <input
-                            type="text"
-                            {...field}
-                            list="selectOptions"
-                            className="form-control"
-                            placeholder="Search..."
-                            defaultValue="select"
-                          />
-                          <datalist id="selectOptions">
-                            {customerNames &&
-                              customerNames.map((customerName, index) => (
-                                <option
-                                  key={customerName.id}
-                                  value={customerName.cname}
-                                />
-                              ))}
-                          </datalist>
-                        </div>
-                      )}
-                    </Field>
-                    <ErrorMessage
-                      name="name"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="date">Date:</label>
-                    <Field name="date" className="form-control">
-                      {({ field, form }) => (
-                        <DatePicker
-                          id="selectedDate"
+    <div className="billing-container">
+      {loading && (
+        <div className="loading-overlay">
+          <div className="loading-spinner"></div>
+        </div>
+      )}
+
+      <div className="billing-header">
+        <h1 className="billing-title">
+          {isEdit ? "Edit Invoice" : "Generate New Invoice"}
+        </h1>
+        <p className="billing-subtitle">
+          {isEdit ? "Modify existing invoice details" : "Create a new invoice for your customer"}
+        </p>
+      </div>
+
+      <Formik
+        initialValues={isEdit ? editInitialValues : isOrderBill ? orderbillItems : initialValues}
+        validate={validateForm}
+        onSubmit={handleRegister}
+        innerRef={formikRef}
+        validateOnChange={true}
+        validateOnBlur={true}
+      >
+        {({ handleSubmit, setFieldValue, values, isSubmitting, validateForm }) => (
+          <Form>
+            {/* Invoice Details Section */}
+            <div className="form-section">
+              <h2 className="section-title">Invoice Details</h2>
+              <div className="form-grid">
+                <div className="form-field">
+                  <label className="field-label" htmlFor="name">Customer Name</label>
+                  <Field name="name">
+                    {({ field, form }) => (
+                      <div>
+                        <input
+                          type="text"
                           {...field}
-                          selected={field.value}
-                          dateFormat="yyyy-MM-dd"
-                          onChange={(date) =>
-                            form.setFieldValue(field.name, date)
-                          }
+                          list="customerOptions"
+                          className="field-input"
+                          placeholder="Search customer..."
                         />
-                      )}
-                    </Field>
-                    <ErrorMessage name="date" component="div" />
-                  </div>
+                        <datalist id="customerOptions">
+                          {customerNames &&
+                            customerNames.map((customerName, index) => (
+                              <option
+                                key={customerName.id}
+                                value={customerName.cname}
+                              />
+                            ))}
+                        </datalist>
+                      </div>
+                    )}
+                  </Field>
+                  <ErrorMessage
+                    name="name"
+                    component="span"
+                    className="error-message"
+                  />
                 </div>
-                <br />
+
+                <div className="form-field">
+                  <label className="field-label" htmlFor="date">Invoice Date</label>
+                  <Field name="date">
+                    {({ field, form }) => (
+                      <DatePicker
+                        id="selectedDate"
+                        {...field}
+                        selected={field.value}
+                        dateFormat="yyyy-MM-dd"
+                        className="field-input"
+                        popperPlacement="top"
+                        onChange={(date) =>
+                          form.setFieldValue(field.name, date)
+                        }
+                      />
+                    )}
+                  </Field>
+                  <ErrorMessage name="date" component="span" className="error-message" />
+                </div>
+              </div>
+            </div>
+
+            {/* Products Section */}
+            <div className="form-section">
+              <div className="items-header">
+                <h2 className="section-title">Products & Services</h2>
                 <button
-                  variant="primary"
                   type="button"
-                  onClick={() => handleAddPlayers()}
-                  className="btn btn-primary btn-block"
+                  onClick={handleAddPlayers}
+                  className="add-item-btn"
                 >
-                  Add
+                  <span>+</span>
+                  Add Product
                 </button>
-                <FieldArray
-                  name="itemList"
-                  render={(arrayHelpers) => (
-                    <>
-                      {itemList &&
-                        itemList.map((_, index) => (
-                          <div key={index} className="form-row">
-                            <div className="form-group">
-                              {index === 0 ? (
-                                <label htmlFor={`itemList.${index}.noofunites`}>
-                                  Unites
-                                </label>
-                              ) : (
-                                ""
-                              )}
-                              <Field
-                                name={`itemList.${index}.noofunites`}
-                                type="number"
-                                className="form-control"
-                              />
-                              <ErrorMessage
-                                name={`itemList.${index}.noofunites`}
-                                component="div"
-                                className="text-danger"
-                              />
-                            </div>
-                            <div className="form-group">
-                              {index === 0 ? (
-                                <label htmlFor={`itemList.${index}.pname`}>
-                                  Product Name
-                                </label>
-                              ) : (
-                                ""
-                              )}
-                              <Field name={`itemList.${index}.pname`}>
-                                {({ field, form }) => (
+              </div>
+
+              <FieldArray
+                name="itemList"
+                render={(arrayHelpers) => (
+                  <>
+                    {itemList &&
+                      itemList.map((_, index) => (
+                        <div key={index} className="item-row">
+                          <div className="item-field">
+                            {index === 0 && <label className="item-label">Quantity</label>}
+                            <Field
+                              name={`itemList.${index}.noofunites`}
+                              type="number"
+                              className="field-input"
+                              placeholder="Qty"
+                            />
+                            <ErrorMessage
+                              name={`itemList.${index}.noofunites`}
+                              component="span"
+                              className="error-message"
+                            />
+                          </div>
+
+                          <div className="item-field">
+                            {index === 0 && <label className="item-label">Product Name</label>}
+                            <Field name={`itemList.${index}.pname`}>
+                              {({ field, form }) => {
+                                // Get list of already selected products (excluding current item)
+                                const selectedProducts = values.itemList
+                                  ?.map((item, idx) => idx !== index ? item?.pname : null)
+                                  .filter(Boolean) || [];
+
+                                // Filter out already selected products
+                                const availableProducts = productDetails.filter(
+                                  product => !selectedProducts.includes(product.pname)
+                                );
+
+                                return (
                                   <div>
                                     <input
                                       type="text"
-                                      className="form-control"
+                                      className="field-input"
                                       {...field}
-                                      list="selectOptions1"
-                                      placeholder="Search..."
+                                      list={`productOptions-${index}`}
+                                      placeholder="Search product..."
                                     />
-                                    <datalist id="selectOptions1">
-                                      {productDetails &&
-                                        productDetails.map(
-                                          (productDetail, index) => (
-                                            <option
-                                              key={index}
-                                              value={productDetail.pname}
-                                            >
-                                            </option>
-                                          )
-                                        )}
+                                    <datalist id={`productOptions-${index}`}>
+                                      {availableProducts.map(
+                                        (productDetail, idx) => (
+                                          <option
+                                            key={idx}
+                                            value={productDetail.pname}
+                                          />
+                                        )
+                                      )}
                                     </datalist>
                                   </div>
-                                )}
-                              </Field>
-                              <ErrorMessage
-                                name={`itemList.${index}.pname`}
-                                component="div"
-                                className="text-danger"
-                              />
-                            </div>
-                            <div className="form-group">
-                              {index === 0 ? (
-                                <label htmlFor={`itemList.${index}.rate`}>
-                                  Rate
-                                </label>
-                              ) : (
-                                ""
-                              )}
-                              <Field
-                                name={`itemList.${index}.rate`}
-                                type="number"
-                                className="form-control"
-                              />
-                              <ErrorMessage
-                                name={`itemList.${index}.rate`}
-                                component="div"
-                                className="text-danger"
-                              />
-                            </div>
-                            <div className="form-group">
-                              {/* <div></div> */}
-                              <button
-                                className="btn btn-primary btn-block"
-                                type="button"
-                                onClick={() => {
-                                  handleRemovePlayers(index);
-                                  arrayHelpers.remove(index);
-                                }}
-                              >
-                                Remove
-                              </button>
-                            </div>
+                                );
+                              }}
+                            </Field>
+                            <ErrorMessage
+                              name={`itemList.${index}.pname`}
+                              component="span"
+                              className="error-message"
+                            />
                           </div>
-                        ))}
-                    </>
-                  )}
-                />
-                <button type="submit" className="btn btn-primary btn-block" disabled={isSubmitting}>
-                  {isSubmitting ? 'Submitting...' : 'Save Details'}
-                </button>
-              </div>
-            </Form>
-          )}
-        </Formik>
-      </div>
-      {message && (
-        <div className="form-group">
-          <div
-            className={
-              successful ? "alert alert-success" : "alert alert-danger"
-            }
-            role="alert"
-          >
-            {message}
-          </div>
-        </div>
-      )}
+
+                          <div className="item-field">
+                            {index === 0 && <label className="item-label">Rate (₹)</label>}
+                            <Field
+                              name={`itemList.${index}.rate`}
+                              type="number"
+                              className="field-input"
+                              placeholder="0.00"
+                              step="0.01"
+                            />
+                            <ErrorMessage
+                              name={`itemList.${index}.rate`}
+                              component="span"
+                              className="error-message"
+                            />
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              handleRemovePlayers(index);
+                              arrayHelpers.remove(index);
+                            }}
+                            className="remove-item-btn"
+                            title="Remove item"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                  </>
+                )}
+              />
+            </div>
+
+            {/* Form Actions */}
+            <div className="form-actions">
+              <button
+                type="submit"
+                className="submit-btn"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Saving...' : (isEdit ? 'Update Invoice' : 'Generate Invoice')}
+              </button>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };

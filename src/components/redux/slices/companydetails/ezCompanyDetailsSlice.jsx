@@ -1,21 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import UserService from "../../../../services/ezuser.service";
 import { setMessage } from "../../message";
+import { getErrorMessage, getSuccessMessage } from "../../../../common/ErrorHandler";
 
 export const saveCompanyDetails = createAsyncThunk(
   "saveCompanyDetails",
   async ({ companyrDetails }, thunkAPI) => {
     try {
       const saveCompanyDetailsStatus = await UserService.saveCompanyDetails(companyrDetails);
+      thunkAPI.dispatch(setMessage(getSuccessMessage('save')));
       return { saveCompanyDetailsStatus };
     } catch (error) {
       
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = getErrorMessage(error);
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }
@@ -29,12 +26,7 @@ export const getCompanyDetails = createAsyncThunk(
       const companyDetails = await UserService.getCompanyDetails(userID);
       return { companyDetails };
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = getErrorMessage(error);
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }
@@ -48,12 +40,7 @@ export const getCompanyNames = createAsyncThunk(
       const companyNames = await UserService.getCompanyNames(userID);
       return { companyNames };
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = getErrorMessage(error);
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }
@@ -68,12 +55,7 @@ export const getCompanyDetailsByID = createAsyncThunk(
       const companyDetailsByID = await UserService.getCompanyDetailsByID(id);
       return { companyDetailsByID };
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = getErrorMessage(error);
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }
@@ -85,14 +67,10 @@ export const deActivateCompany = createAsyncThunk(
   async ({ id }, thunkAPI) => {
     try {
       const deActivateCompanyStatus = await UserService.deActivateCompany(id);
+      thunkAPI.dispatch(setMessage(getSuccessMessage('delete')));
       return { deActivateCompanyStatus };
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = getErrorMessage(error);
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }

@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import authService from "../../services/auth.service";
 import { setMessage } from "./message";
+import { getErrorMessage } from "../../common/ErrorHandler";
 
 export const doEzLogin = createAsyncThunk(
     "ezLogin",
@@ -10,12 +11,7 @@ export const doEzLogin = createAsyncThunk(
         const UserDetails = await authService.login(username, password);
         return { UserDetails };
       } catch (error) {
-        const message =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
+        const message = getErrorMessage(error);
         thunkAPI.dispatch(setMessage(message));
         return thunkAPI.rejectWithValue();
       }

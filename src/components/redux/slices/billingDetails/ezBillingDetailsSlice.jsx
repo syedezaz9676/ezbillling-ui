@@ -1,21 +1,18 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import UserService from "../../../../services/ezuser.service";
 import { setMessage } from "../../message";
+import { getErrorMessage, getSuccessMessage } from "../../../../common/ErrorHandler";
 
 export const saveBillingDetails = createAsyncThunk(
   "saveBillingDetails",
   async ({ BillingDetails }, thunkAPI) => {
     try {
       const savedBillDetails = await UserService.saveBillDetails(BillingDetails);
+      thunkAPI.dispatch(setMessage(getSuccessMessage('save')));
       return { savedBillDetails };
     } catch (error) {
       console.log('eror',error);
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = getErrorMessage(error);
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }
@@ -29,12 +26,7 @@ export const getInvoiceDetails = createAsyncThunk(
       return { InvoiceDetailsByInvoiceNo };
     } catch (error) {
       console.log('eror',error);
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = getErrorMessage(error);
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }
@@ -48,12 +40,7 @@ export const getBillDetails = createAsyncThunk(
       return { BillDetailsByInvoiceNo };
     } catch (error) {
       console.log('eror',error);
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = getErrorMessage(error);
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }
@@ -65,15 +52,11 @@ export const updateBillingDetails = createAsyncThunk(
   async ({ BillingDetails }, thunkAPI) => {
     try {
       const updateBillDetails = await UserService.updateBillDetails(BillingDetails);
+      thunkAPI.dispatch(setMessage(getSuccessMessage('update')));
       return { updateBillDetails };
     } catch (error) {
       console.log('eror',error);
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = getErrorMessage(error);
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }
@@ -88,12 +71,7 @@ export const getGstDetailsOfCustomer = createAsyncThunk(
       return { GstDetailsOfCustomer };
     } catch (error) {
       console.log('eror',error);
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = getErrorMessage(error);
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }
@@ -108,12 +86,7 @@ export const getGstDetailsForHsnCode = createAsyncThunk(
       return { GstDetailsforHsnCode };
     } catch (error) {
       console.log('eror',error);
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = getErrorMessage(error);
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }
@@ -130,12 +103,7 @@ export const getStockDetailsById = createAsyncThunk(
       const StockDetailsById = await UserService.getStockDetailsByID(id);
       return { StockDetailsById };
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = getErrorMessage(error);
       thunkAPI.dispatch(setMessage(message));
       return thunkAPI.rejectWithValue();
     }
@@ -264,12 +232,21 @@ export const getUser = createAsyncThunk(
 
 export const getBillsDetails = createAsyncThunk(
   "getBillsDetails",
-  async ({ userID },thunkAPI) => {
+  async ({ userID, page = 0, size = 10 }, thunkAPI) => {
     try {
-      const BillsAmountDetails = await UserService.getBillsDetails(userID);
-      return { BillsAmountDetails };
+      const response = await UserService.getBillsDetails(userID, page, size);
+      const BillsAmountDetails = response.data;
+      // Handle both paginated and non-paginated responses
+      const paginationData = {
+        content: Array.isArray(BillsAmountDetails) ? BillsAmountDetails : [],
+        totalElements: BillsAmountDetails.totalElements || BillsAmountDetails.length || 0,
+        totalPages: BillsAmountDetails.totalPages || 1,
+        currentPage: page,
+        size: size
+      };
+      return { BillsAmountDetails: paginationData };
     } catch (error) {
-      console.log('eror',error);
+      console.log('error',error);
       const message =
         (error.response &&
           error.response.data &&
@@ -801,7 +778,7 @@ const ezBillingDetailsSlice = createSlice({
     });
     builder.addCase(getBillsDetails.fulfilled, (state, action) => {
       // state.isLoading = false;
-      state.BillsAmountDetails = action.payload.BillsAmountDetails.data;
+      state.BillsAmountDetails = action.payload.BillsAmountDetails;
       state.isBillsAmountDetailsPending = false;
     });
     builder.addCase(getBillsDetails.rejected, (state, action) => {
